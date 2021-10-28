@@ -52,9 +52,4 @@ def convert_result(result):
     if isinstance(result, TLObject):
         result = result.stringify()
 
-    elif isinstance(result, Iterable):
-        for i, item in enumerate(result):
-            if isinstance(item, TLObject):
-                result[i] = item.stringify()
-
     return result
