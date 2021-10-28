@@ -51,7 +51,14 @@ async def on_message_edited(message: Message) -> None:
 async def cancel(message: Message):
     prev = await message.get_reply_message()
     if not prev:
-        return
+        me = await client.get_me()
+        async for prev in client.iter_messages(message.chat_id, max_id=message.id, limit=10):
+            if prev.sender_id != me.id:
+                continue
+            if message_design.get_code(prev):
+                break
+        else:
+            return
     try:
         await prev.edit(message_design.get_code(prev))
     except Exception:
