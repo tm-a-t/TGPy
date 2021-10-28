@@ -1,12 +1,12 @@
 ![img.png](readme_assets/TGPy.png)
 
-# Run Python code right in your Telegram messages
+## Run Python code right in your Telegram messages
 
-TGPy is a tool for evaluating expressions and scripts with Telegram API.
+Made with Telethon library, TGPy is a tool for evaluating expressions and Telegram API scripts.
 
 ![img.png](readme_assets/example.gif)
 
-## Installation
+# Installation
 1. Get your Telegram API key on [my.telegram.org](https://my.telegram.org)
 2. Clone the repo
    ```shell
@@ -25,9 +25,9 @@ TGPy is a tool for evaluating expressions and scripts with Telegram API.
    ```
 5. Log in with a confirmation code from Telegram
 
-## Usage
+# Usage
 
-### Basics
+## Basics
 
 Just send Python code to any chat, and it will be executed.
 
@@ -35,7 +35,7 @@ Just send Python code to any chat, and it will be executed.
 
 Change your message to change the result.
 
-### Code detection
+## Code detection
 
 TGPy automatically detects and evaluates Python code in your messages.
 
@@ -45,35 +45,36 @@ Single constants/names are not evaluated. Instead, use `return something`.
 
 **Prevent evaluation.** Write `//` in the beginning of your message to prevent evaluation.
 
-### Interacting with chats, users, messages
+## Interacting with chats, users, messages
 
-TGPy is built on top of [Telethon](https://github.com/LonamiWebs/Telethon). Telethon documentation: [docs.telethon.dev](https://docs.telethon.dev/en/latest/).
+TGPy uses [Telethon](https://github.com/LonamiWebs/Telethon) library for Telegram API. Refer to 
+[Telethon documentation](https://docs.telethon.dev/en/latest/).
 
-In TGPy you can use some context variables:  
+In TGPy expressions you can use some context variables:  
 - `msg` - current [message](https://docs.telethon.dev/en/latest/quick-references/objects-reference.html#message)
 - `orig` - original message if your message is a reply
 - `client` - Telethon [client](https://docs.telethon.dev/en/latest/quick-references/client-reference.html)
 
 ![img.png](readme_assets/send_hello_world.png)
 
-### Returning values
+## Returning values
 
 The evaluation result is the returned value. If there is no `return`, all evaluated statements are returned.
 
 ![img.png](readme_assets/multiple_return.png)
 
-### Saving variables
+## Saving variables
 
 The locals are saved while TGPy is running. You can also use `_` variable to use the previous result.
 
 ![img_1.png](readme_assets/saving_variables.png)
 
-### Asyncio
+## Asyncio
 
 You can use `async`/`await` in your code. Also, the returned value is automatically awaited (if needed).
 
 ![img.png](readme_assets/auto_await.png)
 
-## License
+# License
 
 MIT
