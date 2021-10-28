@@ -19,7 +19,11 @@ def _handle_errors(func: Callable):
     return result
 
 
-@client.on(events.NewMessage(outgoing=True, forwards=False, func=lambda m: not m.via_bot))
+def filter(m: Message):
+    return not (m.forward or m.via_bot) and m.out
+
+
+@client.on(events.NewMessage(func=filter))
 @_handle_errors
 async def on_new_message(message: Message) -> None:
     text = message.raw_text
@@ -38,7 +42,7 @@ async def on_new_message(message: Message) -> None:
     await eval_message(text, message, uses_orig=res.uses_orig)
 
 
-@client.on(events.MessageEdited(outgoing=True, func=lambda m: not m.via_bot))
+@client.on(events.MessageEdited(func=filter))
 @_handle_errors
 async def on_message_edited(message: Message) -> None:
     code = message_design.get_code(message)
@@ -47,7 +51,7 @@ async def on_message_edited(message: Message) -> None:
     await eval_message(code, message, uses_orig=parse_code(code).uses_orig)
 
 
-@client.on(events.NewMessage(pattern='^(cancel|сфтсуд)$'))
+@client.on(events.NewMessage(pattern='^(cancel|сфтсуд)$', func=filter))
 async def cancel(message: Message):
     prev = await message.get_reply_message()
     if not prev:
