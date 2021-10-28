@@ -65,7 +65,7 @@ The evaluation result is the returned value. If there is no `return`, all evalua
 
 ## Saving variables
 
-The locals are saved while TGPy is running. You can also use `_` variable to use the previous result.
+The locals are saved while TGPy is running. You can also use `_` variable to get the previous result.
 
 ![img_1.png](readme_assets/saving_variables.png)
 
@@ -74,6 +74,11 @@ The locals are saved while TGPy is running. You can also use `_` variable to use
 You can use `async`/`await` in your code. Also, the returned value is automatically awaited (if needed).
 
 ![img.png](readme_assets/auto_await.png)
+
+# Credits
+
+- Thanks to [penn5](https://github.com/penn5) for [meval](https://github.com/penn5/meval)
+- Thanks to [Lonami](https://github.com/LonamiWebs) for [Telethon](https://github.com/LonamiWebs/Telethon)
 
 # License
 
