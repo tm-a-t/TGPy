@@ -1,0 +1,9 @@
+.idea/
+venv/
+
+**/__pycache__/
+
+*.session
+*.session-journal
+
+config.py
