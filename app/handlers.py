@@ -44,7 +44,7 @@ async def on_message_edited(message: Message) -> None:
     code = message_design.get_code(message)
     if not code:
         return
-    await eval_message(code, message)
+    await eval_message(code, message, uses_orig=parse_code(code).uses_orig)
 
 
 @client.on(events.NewMessage(pattern='^(cancel|сфтсуд)$'))
