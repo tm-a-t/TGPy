@@ -122,18 +122,14 @@ async def meval(code: str, globs: dict, saved_variables: dict, **kwargs) -> (dic
 
     for i in range(len(r)):
         if hasattr(r[i], "__await__"):
-            r[i] = await r[i]  # workaround for 3.5
-    i = 0
-    while i < len(r) - 1:
-        if r[i] is None:
-            del r[i]
-        else:
-            i += 1
+            r[i] = await r[i]
+
+    r = [el for el in r if el is not None]
+
     if len(r) == 1:
-        [r] = r
+        r = r[0]
     elif not r:
         r = None
 
     new_locs['_'] = r
     return new_locs, r
-
