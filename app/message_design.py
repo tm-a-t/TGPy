@@ -15,7 +15,11 @@ def _mono(text: str) -> str:
     return f'<code>{text}</code>'
 
 
-async def edit_message(message: Message, code: str, result: str, traceback: str = '', output: str = '') -> None:
+async def edit_message(message: Message, code: str, result, traceback: str = '', output: str = '') -> None:
+    if result is None and output:
+        result = output
+        output = ''
+
     parts = [code.strip(), f'{TITLE} {str(result).strip()}']
     parts += [part for part in (output.strip(), traceback.strip()) if part]
     text = '\n\n'.join(parts)
