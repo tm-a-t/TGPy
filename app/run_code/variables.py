@@ -1,3 +1,6 @@
+import getpass
+import socket
+
 from app.run_code.utils import Context
 
 variables = {}
@@ -6,7 +9,8 @@ ctx = Context()
 
 
 def ping():
-    return 'Pong!'
+    return f'Pong!\n' \
+           f'Running on {getpass.getuser()}@{socket.gethostname()}'
 
 
 variables['ctx'] = ctx
