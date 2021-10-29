@@ -1,6 +1,7 @@
 import sys
 import traceback
 
+from telethon.errors import MessageIdInvalidError
 from telethon.tl.custom import Message
 
 from app import client
@@ -43,4 +44,7 @@ async def eval_message(code: str, message: Message, uses_orig=False) -> None:
         result = convert_result(result)
         exc = ''
 
-    await message_design.edit_message(message, code, result, traceback=exc, output=output.text)
+    try:
+        await message_design.edit_message(message, code, result, traceback=exc, output=output.text)
+    except MessageIdInvalidError:
+        pass
