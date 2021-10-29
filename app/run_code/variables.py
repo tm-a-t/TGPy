@@ -1,3 +1,8 @@
+from app.run_code.utils import Context
+
 variables = {}
 
-# some default variables will be here
+ctx = Context()
+variables['ctx'] = ctx
+
+# other default variables might be here

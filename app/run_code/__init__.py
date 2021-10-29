@@ -1,30 +1,27 @@
 import sys
 import traceback
 
-from telethon.tl import TLObject
 from telethon.tl.custom import Message
 
 from app import client
 from app import message_design
 from app.run_code.meval import meval
-from app.run_code.variables import variables
-
-
-class _Output:
-    text = ''
-
-    def print(self, *values, sep=' ', end='\n', file=None, flush=True):
-        if file:
-            print(*values, sep=sep, end=end, file=file, flush=flush)
-        else:
-            self.text += sep.join(str(val) for val in values) + end
+from app.run_code.utils import Output, convert_result
+from app.run_code.variables import variables, ctx
 
 
 async def eval_message(code: str, message: Message, uses_orig=False) -> None:
     await message_design.edit_message(message, code, 'Running...')
 
-    output = _Output()
-    kwargs = {'orig': await message.get_reply_message()} if uses_orig else {}
+    output = Output()
+
+    ctx.msg = message
+    kwargs = {}
+    if uses_orig:
+        orig = await message.get_reply_message()
+        kwargs['orig'] = orig
+        ctx.orig = orig
+
     # noinspection PyBroadException
     try:
         new_variables, result = await meval(
@@ -33,6 +30,7 @@ async def eval_message(code: str, message: Message, uses_orig=False) -> None:
             variables,
             client=client,
             msg=message,
+            ctx=ctx,
             print=output.print,
             **kwargs,
         )
@@ -46,10 +44,3 @@ async def eval_message(code: str, message: Message, uses_orig=False) -> None:
         exc = ''
 
     await message_design.edit_message(message, code, result, traceback=exc, output=output.text)
-
-
-def convert_result(result):
-    if isinstance(result, TLObject):
-        result = result.stringify()
-
-    return result
