@@ -4,6 +4,10 @@
 
 Made with Telethon library, TGPy is a tool for evaluating expressions and Telegram API scripts.
 
+- Do Python calculations in dialogs
+- Interact with your messages and chats
+- Automate sending messages and more
+
 ![img.png](readme_assets/example.gif)
 
 # Installation
@@ -11,6 +15,7 @@ Made with Telethon library, TGPy is a tool for evaluating expressions and Telegr
 2. Clone the repo
    ```shell
    > git clone https://github.com/tm-a-t/TGPy
+   > cd TGPy
    ```
 3. Create `config.py`
    ```python
