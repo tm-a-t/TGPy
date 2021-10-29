@@ -1,7 +1,21 @@
 # forked from https://pypi.org/project/meval/
 
 import ast
-from typing import Any
+from typing import Any, Iterator
+
+from collections import deque
+
+
+def shallow_walk(node) -> Iterator:
+    # Like ast.walk, but ignoring function definitions:
+    # Recursively yield all descendant nodes except for FunctionDef in the tree starting at node
+    queue = deque([node])
+    while queue:
+        node = queue.popleft()
+        if isinstance(node, ast.FunctionDef):
+            continue
+        queue.extend(ast.iter_child_nodes(node))
+        yield node
 
 
 async def meval(code: str, globs: dict, saved_variables: dict, **kwargs) -> (dict, Any):
@@ -47,7 +61,7 @@ async def meval(code: str, globs: dict, saved_variables: dict, **kwargs) -> (dic
                                                             args=[ast.Constant(value='builtins')], keywords=[]),
                                              attr='locals', ctx=ast.Load()), args=[], keywords=[])
 
-    if not any(isinstance(node, ast.Return) for node in ast.walk(root)):
+    if not any(isinstance(node, ast.Return) for node in shallow_walk(root)):
         for i in range(len(code)):
             if isinstance(code[i], ast.Expr):
                 if i == len(code) - 1 or not isinstance(code[i].value, ast.Call):
@@ -56,7 +70,7 @@ async def meval(code: str, globs: dict, saved_variables: dict, **kwargs) -> (dic
                                                                                      attr="append", ctx=ast.Load()),
                                                                   args=[code[i].value], keywords=[])), code[-1])
     else:
-        for node in ast.walk(root):
+        for node in shallow_walk(root):
             if isinstance(node, ast.Return):
                 node.value = ast.Tuple(
                     elts=[
