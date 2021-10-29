@@ -6,7 +6,7 @@ class Context:
     msg: Message = None
     orig: Message = None
 
-    def __repr__(self):
+    def __str__(self):
         return f'<Context(msg, orig)>'
 
 
