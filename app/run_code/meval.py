@@ -75,7 +75,7 @@ async def meval(code: str, globs: dict, saved_variables: dict, **kwargs) -> (dic
                 node.value = ast.Tuple(
                     elts=[
                         get_locals,
-                        ast.List(elts=[node.value], ctx=ast.Load())
+                        ast.List(elts=[node.value or ast.Constant(value='None')], ctx=ast.Load())
                     ],
                     ctx=ast.Load()
                 )
