@@ -1,12 +1,13 @@
 from telethon.tl import TLObject
+from telethon.tl.custom import Message
 
 
 class Context:
-    msg = None
-    orig = None
+    msg: Message = None
+    orig: Message = None
 
     def __repr__(self):
-        return f'<Context>'
+        return f'<Context(msg, orig)>'
 
 
 class Output:
