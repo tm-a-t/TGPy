@@ -8,20 +8,20 @@ from app.run_code import eval_message
 
 
 async def handle_message(message: Message) -> None:
-    text = message.raw_text
+    raw_text = message.raw_text
 
-    if not text:
+    if not raw_text:
         return
 
-    if text.startswith('//'):
-        await message.edit(text[2:])
+    if message.text.startswith('//'):
+        await message.edit(message.text[2:])
         return
 
-    res = parse_code(text)
+    res = parse_code(raw_text)
     if not res.is_code:
         return
 
-    await eval_message(text, message, uses_orig=res.uses_orig)
+    await eval_message(raw_text, message, uses_orig=res.uses_orig)
 
 
 @client.on(events.NewMessage(func=outgoing_messages_filter))
