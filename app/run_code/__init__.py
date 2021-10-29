@@ -38,7 +38,8 @@ async def eval_message(code: str, message: Message, uses_orig=False) -> None:
         )
     except Exception:
         result = 'Error occurred'
-        exc = ''.join(traceback.format_exception(*sys.exc_info()))
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        exc = ''.join(traceback.format_exception(exc_type, exc_value, exc_traceback.tb_next.tb_next))
     else:
         variables.update(new_variables)
         result = convert_result(result)

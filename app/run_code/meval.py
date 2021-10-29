@@ -111,7 +111,7 @@ async def meval(code: str, globs: dict, saved_variables: dict, **kwargs) -> (dic
     mod = ast.parse("")
     mod.body = [fun]
 
-    comp = compile(mod, "<string>", "exec")
+    comp = compile(mod, "<message>", "exec")
 
     exec(comp, {}, locs)
 

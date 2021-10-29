@@ -10,7 +10,7 @@ def parse_code(text: str):
     result = _Result()
 
     try:
-        root = ast.parse(text, '<string>', 'exec')
+        root = ast.parse(text, '', 'exec')
     except (SyntaxError, ValueError):
         return result
 
