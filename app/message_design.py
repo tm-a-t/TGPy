@@ -8,7 +8,7 @@ from app import client
 
 TITLE = 'TGPy>'
 TITLE_URL = 'https://github.com/tm-a-t/TGPy'
-ERROR_TITLE = f'<b><a href="{TITLE_URL}">TGPy error&gt;</a></b>'
+ERROR_TITLE_FORMATTED = f'<b><a href="{TITLE_URL}">TGPy error&gt;</a></b>'
 
 
 def _mono(text: str) -> str:
@@ -53,4 +53,4 @@ async def send_error(chat) -> None:
     exc = ''.join(tb.format_exception(*sys.exc_info()))
     if len(exc) > 4000:
         exc = exc[:4000] + '…'
-    await client.send_message(chat, f'{ERROR_TITLE}\n\n<code>{exc}</code>')
+    await client.send_message(chat, f'{ERROR_TITLE_FORMATTED}\n\n<code>{exc}</code>')

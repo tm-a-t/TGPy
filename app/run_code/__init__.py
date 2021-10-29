@@ -1,14 +1,13 @@
 import sys
 import traceback
-from collections import Iterable
 
 from telethon.tl import TLObject
 from telethon.tl.custom import Message
 
 from app import client
 from app import message_design
-from app.meval import meval
-from app.variables import variables
+from app.run_code.meval import meval
+from app.run_code.variables import variables
 
 
 class _Output:
