@@ -33,12 +33,11 @@ jobs:
         run: |
           eval $(ssh-agent -s)
           mkdir ~/.ssh
-          echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
           echo $PRIVATE_KEY | base64 -d | ssh-add -
       - name: Deploy
         env:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_PATH: ${{ secrets.REMOTE_PATH }}
-        run: rsync -rlt --delete ./site/ $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/
+        run: rsync -e "ssh -oStrictHostKeyChecking=no" -rlt --delete ./site/ $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/
 
