@@ -7,7 +7,7 @@ TGPy is designed for running code snippets sequentially and frequently. Bot-like
 
 That's why TGPy automatically detects your messages with syntactically correct Python code and evaluates it.
 
-It turns out regular text messages aren't often identified as code. TGPy ignores too simple expressions.
+It turns out that regular text messages aren't often identified as code. TGPy ignores too simple expressions.
 
 Although, optional disabling of auto-detection might be added in the future.
 
@@ -21,7 +21,7 @@ In future updates some other simple expressions will be ignored, too.
 
 Change the message with evaluated code to the original with the `cancel` command.
 
-`cancel` edits back your latest TGPy message in current chat (if it's in the ten latest messages).
+`cancel` edits back your latest TGPy message in current chat (if it's in 10 latest messages).
 
 `cancel` can be also used in reply to a specific TGPy message.
 
