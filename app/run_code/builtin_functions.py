@@ -20,7 +20,7 @@ def ping():
 
 def restart():
     os.chdir(get_base_dir())
-    os.execl(sys.executable, sys.executable, *sys.argv)
+    os.execl(sys.executable, sys.executable, '-m', 'app', *sys.argv[1:])
 
 
 async def update():
