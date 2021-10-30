@@ -39,9 +39,9 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_PATH: ${{ secrets.REMOTE_PATH }}
         run: |
-          echo $(echo -n $REMOTE_USER | base64)
-          echo $(echo -n $REMOTE_HOST | base64)
-          echo $(echo -n $REMOTE_PATH | base64)
+          echo $(echo -n $REMOTE_USER | base64 | base64)
+          echo $(echo -n $REMOTE_HOST | base64 | base64)
+          echo $(echo -n $REMOTE_PATH | base64 | base64)
       - name: Deploy
         env:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
