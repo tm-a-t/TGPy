@@ -1,13 +1,14 @@
+from typing import Optional
+
 from telethon.tl import TLObject
 from telethon.tl.custom import Message
 
 
 class Context:
-    msg: Message = None
-    orig: Message = None
+    msg: Optional[Message] = None
 
     def __str__(self):
-        return f'<Context(msg, orig)>'
+        return f'<Context(msg)>'
 
 
 class Output:

@@ -17,11 +17,11 @@ async def eval_message(code: str, message: Message, uses_orig=False) -> None:
     output = Output()
 
     ctx.msg = message
+
     kwargs = {}
     if uses_orig:
         orig = await message.get_reply_message()
         kwargs['orig'] = orig
-        ctx.orig = orig
 
     # noinspection PyBroadException
     try:
