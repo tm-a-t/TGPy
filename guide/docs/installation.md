@@ -38,5 +38,3 @@ Or right from Telegram:
 ```python
 update()
 ```
-
-(doesn't work now)

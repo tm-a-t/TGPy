@@ -47,7 +47,7 @@ msg.reply(file=photos)
 TGPy> [...]
 ```
 
-Define a function to forward messages to Saved Messages with reply:
+Define a function which forwards messages to Saved Messages with reply:
 
 ```python
 def save():
