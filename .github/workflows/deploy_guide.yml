@@ -1,0 +1,44 @@
+name: Build & deploy guide
+
+on:
+  push:
+    paths:
+      - 'guide/**'
+      - '.github/workflows/deploy_guide.yml'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Build & deploy guide
+    runs-on: ubuntu-latest
+    container:
+      image: python:3.10
+    defaults:
+      run:
+        working-directory: guide
+
+    steps:
+      - name: Clone
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          apt update -y
+          apt install -y openssh-client rsync
+      - name: Build
+        run: mkdocs build
+      - name: Setup ssh
+        env:
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+        run: |
+          mkdir ~/.ssh
+          echo $PRIVATE_KEY | base64 -d > ~/.ssh/id_rsa
+          chmod 700 ~/.ssh
+          chmod 600 ~/.ssh/id_rsa
+      - name: Deploy
+        env:
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_PATH: ${{ secrets.REMOTE_PATH }}
+        run: rsync -e "ssh -i $HOME/.ssh/id_rsa -oStrictHostKeyChecking=no" -rlt --delete ./site/ $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/
+
