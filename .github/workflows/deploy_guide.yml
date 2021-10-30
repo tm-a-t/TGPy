@@ -34,7 +34,7 @@ jobs:
           eval $(ssh-agent -s)
           mkdir ~/.ssh
           echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-          ssh-add <(echo $PRIVATE_KEY | base64 -d)
+          echo $PRIVATE_KEY | base64 -d | ssh-add
       - name: Deploy
         env:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
