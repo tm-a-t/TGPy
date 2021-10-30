@@ -23,12 +23,12 @@ If you want to keep the original message, send `cancel` after your message.
 
 ## You can do anything
 
-All Python possibilities are available, such us importing Python modules, defining functions and classes, and others.
+All Python possibilities are available, such as importing Python modules, defining functions and classes, and others.
 
-TGPy uses [Telethon library](https://github.com/LonamiWebs/Telethon/) for interacting with Telegram. You can use 
+TGPy uses [Telethon library](https://github.com/LonamiWebs/Telethon/) to interact with Telegram. You can use 
 messages, chats and users in your code. Check out [Telethon documentation](https://docs.telethon.dev/en/latest/).
 
-For example, a way to programmatically reply to the current message:
+For example, to programmatically reply to the current message:
 
 ```python
 msg.reply('Hello!')

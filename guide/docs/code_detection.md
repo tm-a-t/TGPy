@@ -1,6 +1,6 @@
 # Code detection
 
-## Why auto-detection?
+## Why use auto-detection?
 
 TGPy is designed for running code snippets sequentially and frequently. Bot-like commands 
 (such as `/run print('Hello World')`) would break the workflow. 
@@ -19,7 +19,7 @@ In future updates some other simple expressions will be ignored, too.
 
 ## Cancel evaluation
 
-Change the message with evaluated code to the original with the `cancel` command.
+You can change the message with evaluated code to the original with the `cancel` command.
 
 `cancel` edits back your latest TGPy message in current chat (if it's in the ten latest messages).
 
@@ -27,4 +27,4 @@ Change the message with evaluated code to the original with the `cancel` command
 
 ## Prevent evaluation
 
-If you write `//` in the beginning in your message, the code will be not evaluated. The `//` prefix will be deleted.
+If you write `//` in the beginning in your message, the code won't be evaluated. The `//` prefix will be deleted.

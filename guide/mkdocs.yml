@@ -8,6 +8,8 @@ plugins:
 markdown_extensions:
   - toc:
       permalink: true
+  - pymdownx.highlight
+  - pymdownx.superfences
 nav:
   - index.md
   - installation.md
