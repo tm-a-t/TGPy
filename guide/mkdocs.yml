@@ -4,9 +4,13 @@ theme:
   features:
     - navigation.instant
 plugins:
-- search
+  - search
 markdown_extensions:
-- toc:
-    permalink: true
+  - toc:
+      permalink: true
 nav:
-- TGPy: index.md
+  - index.md
+  - installation.md
+  - basics.md
+  - variables.md
+  - code_detection.md
