@@ -21,9 +21,9 @@ Change your message to change the result.
 If you want to keep the original message, send `cancel` after your message.
 [Learn more about code detection](code_detection.md)
 
-## You can do anything
+## Do anything
 
-All Python possibilities are available, such as importing Python modules, defining functions and classes, and others.
+All Python possibilities are available, including module imports and function definitions.
 
 TGPy uses [Telethon library](https://github.com/LonamiWebs/Telethon/) to interact with Telegram. You can use 
 messages, chats and users in your code. Check out [Telethon documentation](https://docs.telethon.dev/en/latest/).
@@ -87,7 +87,7 @@ Long messages might be truncated because of Telegram limit of 4096 symbols per m
 
 ## Asyncio
 
-You can use `async`/`await` in the code. Also, the returned value if automatically awaited (if needed).
+You can use `async`/`await` in the code. Also, the returned value is automatically awaited (if needed).
 
 ```python
 import asyncio

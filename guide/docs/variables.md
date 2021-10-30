@@ -1,6 +1,6 @@
 # Default variables
 
-You can use some predefined variables.
+In TGPy you can use some predefined variables.
 
 ## Telethon objects
 
@@ -18,9 +18,9 @@ TGPy> msg.text
 ```
 
 
-## `_` variable
+## Previous result
 
-This is for the previous result.
+The `_` variable stands for the previous result.
 
 ```python
 2 + 2
