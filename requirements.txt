@@ -1,2 +1,5 @@
 Telethon~=1.23.0
+cryptg==0.2.post4
+PyYAML==6.0
+pydantic==1.8.2
 aiorun==2021.10.1
