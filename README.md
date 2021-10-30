@@ -22,14 +22,6 @@ a
 TGPy> [1, 2, 3, 4]
 ```
 
-Return the text of the current message:
-
-```python
-msg.text
-
-TGPy> msg.text
-```
-
 Delete the message in 5 seconds:
 ```python
 import asyncio
@@ -38,10 +30,10 @@ await asyncio.sleep(5)
 await msg.delete()
 ```
 
-Forward the message you replied to other chat:
+Forward the message you replied to to another chat:
 
 ```python
-orig.forward_to(<chat_title>)
+orig.forward_to('Chat title')
 
 TGPy> Message(...)
 ```
@@ -49,7 +41,8 @@ TGPy> Message(...)
 Send all chat profile photos to the same chat:
 
 ```python
-msg.reply(file=await client.get_profile_photos(msg.chat))
+photos = await client.get_profile_photos(msg.chat)
+msg.reply(file=photos)
 
 TGPy> [...]
 ```
@@ -58,8 +51,8 @@ Define a function to forward messages to Saved Messages with reply:
 
 ```python
 def save():
-    ctx_orig = await ctx.msg.get_reply_message()
-    await ctx_orig.forward_to('me')
+    message = await ctx.msg.get_reply_message()
+    await message.forward_to('me')
     return 'Saved!'
 
 TGPy> None
@@ -68,14 +61,14 @@ TGPy> None
 Define a function to delete messages you reply to with this function:
 ```python
 async def delete():
-    ctx_orig = await ctx.msg.get_reply_message()
-    await ctx_orig.delete()
+    message = await ctx.msg.get_reply_message()
+    await message.delete()
     await ctx.msg.delete()
 
 TGPy> None
 ```
 
-Check out [TGPy Guide](https://tgpy.tmat.me) for more info.
+# [TGPy Guide](https://tgpy.tmat.me)
 
 # Installation
 
@@ -100,8 +93,6 @@ Check out [TGPy Guide](https://tgpy.tmat.me) for more info.
    > pip install -r requirements.txt
    > python -m app
    ```
-   
-# [TGPy Guide](https://tgpy.tmat.me)
 
 # Credits
 
