@@ -31,9 +31,8 @@ jobs:
         env:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
         run: |
-          eval $(ssh-agent -s)
           mkdir ~/.ssh
-          echo $PRIVATE_KEY | base64 -d | ssh-add -
+          echo $PRIVATE_KEY | base64 -d > ~/.ssh/id_rsa
       - name: Deploy
         env:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
