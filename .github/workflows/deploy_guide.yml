@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'guide/**'
+  workflow_dispatch:
 
 jobs:
   deploy:
