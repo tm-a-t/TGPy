@@ -27,16 +27,18 @@ jobs:
           apt install -y openssh-client rsync
       - name: Build
         run: mkdocs build
-      - name: Deploy
+      - name: Setup ssh
         env:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_PATH: ${{ secrets.REMOTE_PATH }}
         run: |
           mkdir ~/.ssh
           echo $PRIVATE_KEY | base64 -d > ~/.ssh/id_rsa
           chmod 700 ~/.ssh
           chmod 600 ~/.ssh/id_rsa
-          rsync -e "ssh -oStrictHostKeyChecking=no" -rlt --delete ./site/ $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/
+      - name: Deploy
+        env:
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_PATH: ${{ secrets.REMOTE_PATH }}
+        run: rsync -e "ssh -i $HOME/.ssh/id_rsa -oStrictHostKeyChecking=no" -rlt --delete ./site/ $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/
 
