@@ -33,15 +33,8 @@ jobs:
         run: |
           mkdir ~/.ssh
           echo $PRIVATE_KEY | base64 -d > ~/.ssh/id_rsa
-      - name: DEBUG VIVOD
-        env:
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_PATH: ${{ secrets.REMOTE_PATH }}
-        run: |
-          echo $(echo -n $REMOTE_USER | base64 | base64)
-          echo $(echo -n $REMOTE_HOST | base64 | base64)
-          echo $(echo -n $REMOTE_PATH | base64 | base64)
+          chmod 700 .ssh
+          chmod 600 .ssh/id_rsa
       - name: Deploy
         env:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
