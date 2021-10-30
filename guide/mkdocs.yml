@@ -1,8 +1,13 @@
 site_name: TGPy Guide
+repo_url: https://github.com/tm-a-t/TGPy
+repo_name: tm-a-t/TGPy
+edit_uri: edit/master/guide/docs/
 theme:
   name: material
   features:
     - navigation.instant
+  icon:
+    repo: fontawesome/brands/github-alt
 plugins:
   - search
 markdown_extensions:
