@@ -10,6 +10,8 @@ Made with Telethon library, TGPy is a tool for evaluating expressions and Telegr
 
 ![Example](readme_assets/example.gif)
 
+Just send Python code to any chat, and it will be executed. Change your message to change the result.
+
 # Examples
 
 Do Python calculations:
@@ -28,6 +30,8 @@ import asyncio
 
 await asyncio.sleep(5)
 await msg.delete()
+
+TGPy>
 ```
 
 Forward the message you replied to to another chat:
@@ -58,7 +62,7 @@ def save():
 TGPy> None
 ``` 
 
-Define a function to delete messages you reply to with this function:
+Define a function which deletes messages with reply:
 ```python
 async def delete():
     message = await ctx.msg.get_reply_message()
@@ -68,7 +72,11 @@ async def delete():
 TGPy> None
 ```
 
-# [TGPy Guide](https://tgpy.tmat.me)
+# Guide
+
+- [Basics](https://tgpy.tmat.me/basics/)
+- [Default variables](https://tgpy.tmat.me/variables/)
+- [Code detection](https://tgpy.tmat.me/code_detection/)
 
 # Installation
 
@@ -93,6 +101,8 @@ TGPy> None
    > pip install -r requirements.txt
    > python -m app
    ```
+
+5. For the first time, you'll have to log in with a confirmation code from Telegram
 
 # Credits
 
