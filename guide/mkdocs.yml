@@ -1,0 +1,12 @@
+site_name: TGPy Guide
+theme:
+  name: material
+  features:
+    - navigation.instant
+plugins:
+- search
+markdown_extensions:
+- toc:
+    permalink: true
+nav:
+- TGPy: index.md
