@@ -1,3 +1,5 @@
+import sys
+import traceback
 from typing import Optional
 
 from telethon.tl import TLObject
@@ -26,3 +28,13 @@ def convert_result(result):
         result = result.stringify()
 
     return result
+
+
+filename_prefix = 'tgpy://'
+
+
+def format_traceback():
+    exc_type, exc_value, exc_traceback = sys.exc_info()
+    while not exc_traceback.tb_frame.f_code.co_filename.startswith(filename_prefix):
+        exc_traceback = exc_traceback.tb_next
+    return traceback.format_exception(exc_type, exc_value, exc_traceback)
