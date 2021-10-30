@@ -87,7 +87,7 @@ Long messages might be truncated because of Telegram limit of 4096 symbols per m
 
 ## Asyncio
 
-You can use `async`/`await` in the code. Also, the returned value if automatically awaited (if needed).
+You can use `async`/`await` in your code. Also, all returned values are automatically awaited (if needed).
 
 ```python
 import asyncio
