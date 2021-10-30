@@ -23,10 +23,12 @@ async def eval_message(code: str, message: Message, uses_orig=False) -> None:
         orig = await message.get_reply_message()
         kwargs['orig'] = orig
 
+    filename_prefix = 'tgpy://'
     # noinspection PyBroadException
     try:
         new_variables, result = await meval(
             code,
+            f'{filename_prefix}message/{message.chat_id}/{message.id}',
             globals(),
             variables,
             client=client,
@@ -38,7 +40,9 @@ async def eval_message(code: str, message: Message, uses_orig=False) -> None:
     except Exception:
         result = 'Error occurred'
         exc_type, exc_value, exc_traceback = sys.exc_info()
-        exc = ''.join(traceback.format_exception(exc_type, exc_value, exc_traceback.tb_next.tb_next))
+        while not exc_traceback.tb_frame.f_code.co_filename.startswith(filename_prefix):
+            exc_traceback = exc_traceback.tb_next
+        exc = ''.join(traceback.format_exception(exc_type, exc_value, exc_traceback))
     else:
         variables.update(new_variables)
         result = convert_result(result)
