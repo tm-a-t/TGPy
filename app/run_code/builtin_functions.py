@@ -23,7 +23,7 @@ def restart():
     os.execl(sys.executable, sys.executable, '-m', 'app', *sys.argv[1:])
 
 
-async def update():
+def update():
     run_cmd(['git', 'pull'])
     hook_code = dedent(f'''
         from app.message_design import edit_message, get_code
