@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'guide/**'
+      - '.github/workflows/deploy_guide.yml'
   workflow_dispatch:
 
 jobs:
@@ -31,7 +32,7 @@ jobs:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
         run: |
           eval $(ssh-agent -s)
-          mkdir .ssh
+          mkdir ~/.ssh
           echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
           ssh-add <(echo $PRIVATE_KEY | base64 -d)
       - name: Deploy
