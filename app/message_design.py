@@ -35,7 +35,7 @@ async def edit_message(message: Message, code: str, result, traceback: str = '',
 
     if len(text) > 4096:
         text = text[:4095] + '…'
-    await message.edit(text, formatting_entities=entities)
+    await message.edit(text, formatting_entities=entities, link_preview=False)
 
 
 def get_code(message: Message) -> str:
