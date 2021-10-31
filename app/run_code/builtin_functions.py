@@ -8,14 +8,15 @@ from app import client
 from app.data.hooks import Hook, HookType
 from app.run_code import variables
 from app.run_code.utils import Context, filename_prefix
-from app.utils import run_cmd, get_base_dir
+from app.utils import run_cmd, get_base_dir, get_commit
 
 ctx = Context()
 
 
 def ping():
     return f'Pong!\n' \
-           f'Running on {getpass.getuser()}@{socket.gethostname()}'
+           f'Running on {getpass.getuser()}@{socket.gethostname()}\n' \
+           f'Commit: {get_commit()}'
 
 
 def restart():
@@ -28,7 +29,7 @@ def update():
     hook_code = dedent(f'''
         from app.message_design import edit_message, get_code
         msg = await client.get_messages({ctx.msg.chat_id}, ids={ctx.msg.id})
-        await edit_message(msg, get_code(msg), 'Updated successfuly!')
+        await edit_message(msg, get_code(msg), 'Updated successfuly! Current commit: {get_commit()}')
     ''')
     hook = Hook(
         name='__post_update',

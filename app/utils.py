@@ -1,7 +1,7 @@
 import os
 import shlex
 from enum import Enum
-from subprocess import Popen
+from subprocess import Popen, PIPE
 
 from yaml.representer import SafeRepresenter
 
@@ -34,10 +34,15 @@ SafeRepresenter.add_multi_representer(Enum, _enum_presenter)
 
 
 def run_cmd(args: list[str]):
-    p = Popen(args)
-    p.wait()
+    p = Popen(args, stdout=PIPE)
+    output, _ = p.communicate()
     if p.returncode:
         raise Exception(f'Command {shlex.join(args)} exited with code {p.returncode}')
+    return output.decode('utf-8').strip()
 
 
-__all__ = ['get_base_dir', 'yaml_multiline_str', 'run_cmd']
+def get_commit():
+    return run_cmd(['git', 'rev-parse', '--short', 'HEAD'])
+
+
+__all__ = ['get_base_dir', 'yaml_multiline_str', 'run_cmd', 'get_commit']
