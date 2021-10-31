@@ -26,18 +26,18 @@ async def handle_message(message: Message) -> None:
 
 @client.on(events.NewMessage(func=outgoing_messages_filter))
 @_handle_errors
-async def on_new_message(message: Message) -> None:
-    await handle_message(message)
+async def on_new_message(event: events.NewMessage.Event) -> None:
+    await handle_message(event.message)
 
 
 @client.on(events.MessageEdited(func=outgoing_messages_filter))
 @_handle_errors
-async def on_message_edited(message: Message) -> None:
-    code = message_design.get_code(message)
+async def on_message_edited(event: events.NewMessage.Event) -> None:
+    code = message_design.get_code(event.message)
     if not code:
-        await handle_message(message)
+        await handle_message(event.message)
         return
-    await eval_message(code, message, uses_orig=parse_code(code).uses_orig)
+    await eval_message(code, event.message, uses_orig=parse_code(code).uses_orig)
 
 
 @client.on(events.NewMessage(pattern='^(cancel|сфтсуд)$', func=outgoing_messages_filter))
