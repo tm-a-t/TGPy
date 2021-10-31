@@ -4,7 +4,7 @@ from telethon import TelegramClient
 
 import config
 
-logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]', level=logging.INFO)
+logging.basicConfig(format='{levelname}:    {message}', style='{', level=logging.INFO)
 
 client = TelegramClient('TGPy', config.api_id, config.api_hash)
 client.parse_mode = 'html'
