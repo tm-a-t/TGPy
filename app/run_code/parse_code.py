@@ -14,9 +14,11 @@ def parse_code(text: str):
     except (SyntaxError, ValueError):
         return result
 
-    if len(root.body) == 1 and isinstance(root.body[0], ast.Expr) and \
-            isinstance(root.body[0].value, (ast.Constant, ast.Name)):
-        return result
+    if len(root.body) == 1 and isinstance(root.body[0], ast.Expr):
+        if isinstance(root.body[0].value, (ast.Constant, ast.Name)):
+            return result
+        if isinstance(root.body[0].value, ast.UnaryOp) and isinstance(root.body[0].value.operand, ast.Constant):
+            return result
 
     result.is_code = True
 
