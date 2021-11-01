@@ -1,3 +1,4 @@
+import getpass
 import logging
 
 from telethon import TelegramClient
@@ -14,6 +15,6 @@ from app.data.hooks import HookType, Hook
 
 
 async def main():
-    await client.start(config.phone, password=lambda: input('2FA password: '))
+    await client.start(config.phone, password=lambda: getpass.getpass('2FA password: '))
     await Hook.run_hooks(HookType.onstart)
     await client.run_until_disconnected()
