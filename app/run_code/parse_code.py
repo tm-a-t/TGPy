@@ -36,7 +36,7 @@ def parse_code(text: str):
     except (SyntaxError, ValueError):
         return result
 
-    if all(isinstance(root.body[i], ast.Expr) and _is_node_false(root.body[i].value) for i in range(len(root.body))):
+    if all(isinstance(body_item, ast.Expr) and _is_node_false(body_item.value) for body_item in root.body):
         return result
 
     result.is_code = True
