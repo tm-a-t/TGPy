@@ -6,6 +6,28 @@ class _Result:
     uses_orig = False
 
 
+FALSE_BINOP_TYPES = (ast.Constant, ast.Name, ast.Attribute)
+
+
+def _check_node_on_false_binop(node) -> bool:
+    if isinstance(node, FALSE_BINOP_TYPES):
+        return True
+    if not isinstance(node, (ast.BoolOp, ast.BinOp, ast.Compare)):
+        return False
+    if isinstance(node, ast.Compare):
+        return isinstance(node.left, FALSE_BINOP_TYPES) and all(isinstance(x, FALSE_BINOP_TYPES) for x in node.comparators)
+    return all(_check_node_on_false_binop(operand) for operand in ((node.left, node.right) if isinstance(node, ast.BinOp) else node.values))
+
+
+def _is_node_false(node: ast.AST) -> bool:
+    return (
+        isinstance(node, (ast.Constant, ast.Name))
+        or isinstance(node, ast.UnaryOp) and isinstance(node.operand, (ast.Constant, ast.Name, ast.Attribute))  # Messages like "-1", "+spam" and "not foo.bar"
+        or _check_node_on_false_binop(node)  # Messages like one-two, one is two, one >= two, one.b in two.c
+        or isinstance(node, ast.Tuple) and all(_check_node_on_false_binop(elt) for elt in node.elts)  # "(yes, understood)"
+    )
+
+
 def parse_code(text: str):
     result = _Result()
 
@@ -14,11 +36,8 @@ def parse_code(text: str):
     except (SyntaxError, ValueError):
         return result
 
-    if len(root.body) == 1 and isinstance(root.body[0], ast.Expr):
-        if isinstance(root.body[0].value, (ast.Constant, ast.Name)):
-            return result
-        if isinstance(root.body[0].value, ast.UnaryOp) and isinstance(root.body[0].value.operand, ast.Constant):
-            return result
+    if all(isinstance(root.body[i], ast.Expr) and _is_node_false(root.body[i].value) for i in range(len(root.body))):
+        return result
 
     result.is_code = True
 
