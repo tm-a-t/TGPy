@@ -39,7 +39,7 @@ async def on_message_edited(event: events.NewMessage.Event) -> None:
     if not code:
         await handle_message(event.message)
         return
-    await eval_message(code, event.message, uses_orig=parse_code(code).uses_orig)
+    await eval_message(code, event.message, uses_orig=parse_code(code, get_kwargs()).uses_orig)
 
 
 @client.on(events.NewMessage(pattern='^(cancel|сфтсуд)$', func=outgoing_messages_filter))
