@@ -27,7 +27,7 @@ def _is_node_false(node: ast.AST, locs: dict) -> bool:
         isinstance(node, ast.Constant) or _is_node_fp_word(node, locs)
         or isinstance(node, ast.UnaryOp) and isinstance(node.operand, (ast.Constant, ast.Name, ast.Attribute))  # Messages like "-1", "+spam" and "not foo.bar"
         or _check_node_on_false_binop(node, locs)  # Messages like one-two, one is two, one >= two, one.b in two.c
-        or isinstance(node, ast.Tuple) and all(_check_node_on_false_binop(elt, locs) for elt in node.elts)  # "(yes, understood)"
+        or isinstance(node, ast.Tuple) and all(_is_node_false(elt, locs) for elt in node.elts)  # "(yes, understood)"
     )
 
 
