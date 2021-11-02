@@ -7,12 +7,15 @@ class _Result:
 
 
 def _is_node_fp_word(node: ast.AST, locs: dict) -> bool:
+    """Check if AST node is a Name or Attribute not present in locals"""
     if isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name):
         return node.value.id not in locs
     return isinstance(node, ast.Name) and node.id not in locs
 
 
 def _check_node_on_false_binop(node: ast.AST, locs: dict) -> bool:
+    """Check if AST node can be an operand or binary operation (ast.BinOp, ast.Compare, ast.BoolOp)
+    with operands which do not pass _is_node_fp_word check"""
     if _is_node_fp_word(node, locs):
         return True
     if not isinstance(node, (ast.BoolOp, ast.BinOp, ast.Compare)):
@@ -23,6 +26,7 @@ def _check_node_on_false_binop(node: ast.AST, locs: dict) -> bool:
 
 
 def _is_node_false(node: ast.AST, locs: dict) -> bool:
+    """Check if AST node didn't seem to be meant to be code"""
     return (
         isinstance(node, ast.Constant) or _is_node_fp_word(node, locs)
         or isinstance(node, ast.UnaryOp) and isinstance(node.operand, (ast.Constant, ast.Name, ast.Attribute))  # Messages like "-1", "+spam" and "not foo.bar"
@@ -31,7 +35,8 @@ def _is_node_false(node: ast.AST, locs: dict) -> bool:
     )
 
 
-def parse_code(text: str, locs: dict):
+def parse_code(text: str, locs: dict) -> _Result:
+    """Parse given text and decide should it be evaluated as Python code"""
     result = _Result()
 
     try:
