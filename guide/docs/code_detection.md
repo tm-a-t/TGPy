@@ -11,11 +11,23 @@ It turns out that regular text messages aren't often identified as code. TGPy ig
 
 Although, optional disabling of auto-detection might be added in the future.
 
-## Simple expressions
+## What is ignored?
 
-Simple names and constants are ignored. If you want to get some variable value, use `return variable`.
+TL;DR: Some simple expressions, which could be email addresses, URLs or several comma- or hyphen-separated words
+(as described in [issue 4](https://github.com/tm-a-t/TGPy/issues/4))
 
-In future updates some other simple expressions will be ignored, too.
+??? note "More details"
+    In this section, an **unknown** variable is one not present in `locals` — that is, which were not saved in previous messages and which are not built in TGPy (as `ctx`, `orig`, `msg` and `print` are)
+    Unknown variables' attributes are also considered unknown
+    
+    **Ignored** expressions are expressions in the list below:
+
+    * Constants like `1` or `"abcd"` and unknown variables 
+    * Binary operations on unknown variables (recursively, i.e., `a - b -c` is also ignored in case `a`, `b`, `c` are unknown)
+    * Unary operations on constants or unknown variables
+    * Tuples of ignored expressions
+    * Multiple ignored expressions (i.e. separated by `;` or newline)****
+
 
 ## Cancel evaluation
 
