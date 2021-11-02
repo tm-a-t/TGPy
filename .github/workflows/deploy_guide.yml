@@ -5,6 +5,7 @@ on:
     paths:
       - 'guide/**'
       - '.github/workflows/deploy_guide.yml'
+    branches: ['master']
   workflow_dispatch:
 
 jobs:
