@@ -9,7 +9,7 @@ from app.run_code.variables import variables
 
 
 def get_kwargs(include_orig=True):
-    return list(variables.keys()) + ['orig'] if include_orig else []
+    return list(variables.keys()) + ['ctx', 'msg', 'print', 'client'] + ['orig'] if include_orig else []
 
 
 async def eval_message(code: str, message: Message, uses_orig=False) -> None:
