@@ -6,29 +6,32 @@ class _Result:
     uses_orig = False
 
 
-FALSE_BINOP_TYPES = (ast.Constant, ast.Name, ast.Attribute)
+def _is_node_fp_word(node: ast.AST, locs: dict) -> bool:
+    if isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name):
+        return node.value.id not in locs
+    return isinstance(node, ast.Name) and node.id not in locs
 
 
-def _check_node_on_false_binop(node) -> bool:
-    if isinstance(node, FALSE_BINOP_TYPES):
+def _check_node_on_false_binop(node: ast.AST, locs: dict) -> bool:
+    if _is_node_fp_word(node, locs):
         return True
     if not isinstance(node, (ast.BoolOp, ast.BinOp, ast.Compare)):
         return False
     if isinstance(node, ast.Compare):
-        return isinstance(node.left, FALSE_BINOP_TYPES) and all(isinstance(x, FALSE_BINOP_TYPES) for x in node.comparators)
-    return all(_check_node_on_false_binop(operand) for operand in ((node.left, node.right) if isinstance(node, ast.BinOp) else node.values))
+        return _is_node_fp_word(node.left, locs) and all(_is_node_fp_word(x, locs) for x in node.comparators)
+    return all(_check_node_on_false_binop(operand, locs) for operand in ((node.left, node.right) if isinstance(node, ast.BinOp) else node.values))
 
 
-def _is_node_false(node: ast.AST) -> bool:
+def _is_node_false(node: ast.AST, locs: dict) -> bool:
     return (
-        isinstance(node, (ast.Constant, ast.Name))
+        isinstance(node, ast.Constant) or _is_node_fp_word(node, locs)
         or isinstance(node, ast.UnaryOp) and isinstance(node.operand, (ast.Constant, ast.Name, ast.Attribute))  # Messages like "-1", "+spam" and "not foo.bar"
-        or _check_node_on_false_binop(node)  # Messages like one-two, one is two, one >= two, one.b in two.c
-        or isinstance(node, ast.Tuple) and all(_check_node_on_false_binop(elt) for elt in node.elts)  # "(yes, understood)"
+        or _check_node_on_false_binop(node, locs)  # Messages like one-two, one is two, one >= two, one.b in two.c
+        or isinstance(node, ast.Tuple) and all(_check_node_on_false_binop(elt, locs) for elt in node.elts)  # "(yes, understood)"
     )
 
 
-def parse_code(text: str):
+def parse_code(text: str, locs: dict):
     result = _Result()
 
     try:
@@ -36,7 +39,7 @@ def parse_code(text: str):
     except (SyntaxError, ValueError):
         return result
 
-    if all(isinstance(body_item, ast.Expr) and _is_node_false(body_item.value) for body_item in root.body):
+    if all(isinstance(body_item, ast.Expr) and _is_node_false(body_item.value, locs) for body_item in root.body):
         return result
 
     result.is_code = True
