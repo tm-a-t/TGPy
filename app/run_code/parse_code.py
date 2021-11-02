@@ -6,7 +6,43 @@ class _Result:
     uses_orig = False
 
 
-def parse_code(text: str):
+def _is_node_unknown_variable(node: ast.AST, locs: dict) -> bool:
+    """Check if AST node is a Name or Attribute not present in locals"""
+    if isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name):
+        return node.value.id not in locs
+    return isinstance(node, ast.Name) and node.id not in locs
+
+
+def _is_node_suspicious_binop(node: ast.AST, locs: dict) -> bool:
+    """Check if AST node can be an operand of binary operation (ast.BinOp, ast.Compare, ast.BoolOp)
+    with operands which do not pass _is_node_unknown_variable check, or is such operation"""
+    if _is_node_unknown_variable(node, locs):
+        return True
+    if not isinstance(node, (ast.BoolOp, ast.BinOp, ast.Compare)):
+        return False
+    if isinstance(node, ast.Compare):
+        return _is_node_unknown_variable(node.left, locs) and all(_is_node_unknown_variable(x, locs)
+                                                                  for x in node.comparators)
+    return all(_is_node_suspicious_binop(operand, locs)
+               for operand in ((node.left, node.right) if isinstance(node, ast.BinOp) else node.values))
+
+
+def _ignore_node(node: ast.AST, locs: dict) -> bool:
+    """Check if AST node didn't seem to be meant to be code"""
+    return (
+            # Messages like "python", "123" or "example.com"
+            isinstance(node, ast.Constant) or _is_node_unknown_variable(node, locs)
+            # Messages like "-1", "+spam" and "not foo.bar"
+            or isinstance(node, ast.UnaryOp) and isinstance(node.operand, (ast.Constant, ast.Name, ast.Attribute))
+            # Messages like one-two, one is two, one >= two, one.b in two.c
+            or _is_node_suspicious_binop(node, locs)
+            # Messages like "yes, understood"
+            or isinstance(node, ast.Tuple) and all(_ignore_node(elt, locs) for elt in node.elts)
+    )
+
+
+def parse_code(text: str, locs: dict) -> _Result:
+    """Parse given text and decide should it be evaluated as Python code"""
     result = _Result()
 
     try:
@@ -14,11 +50,8 @@ def parse_code(text: str):
     except (SyntaxError, ValueError):
         return result
 
-    if len(root.body) == 1 and isinstance(root.body[0], ast.Expr):
-        if isinstance(root.body[0].value, (ast.Constant, ast.Name)):
-            return result
-        if isinstance(root.body[0].value, ast.UnaryOp) and isinstance(root.body[0].value.operand, ast.Constant):
-            return result
+    if all(isinstance(body_item, ast.Expr) and _ignore_node(body_item.value, locs) for body_item in root.body):
+        return result
 
     result.is_code = True
 

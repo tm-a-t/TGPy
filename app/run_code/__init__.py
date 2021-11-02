@@ -8,6 +8,10 @@ from app.run_code.utils import Output, convert_result, filename_prefix, format_t
 from app.run_code.variables import variables
 
 
+def get_kwargs(include_orig=True):
+    return list(variables.keys()) + ['ctx', 'msg', 'print', 'client'] + ['orig'] if include_orig else []
+
+
 async def eval_message(code: str, message: Message, uses_orig=False) -> None:
     await message_design.edit_message(message, code, 'Running...')
 

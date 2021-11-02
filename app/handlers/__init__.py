@@ -4,7 +4,7 @@ from telethon.tl.custom import Message
 from app import client, message_design
 from app.handlers.uitls import _handle_errors, outgoing_messages_filter
 from app.run_code.parse_code import parse_code
-from app.run_code import eval_message
+from app.run_code import eval_message, get_kwargs
 
 
 async def handle_message(message: Message) -> None:
@@ -17,7 +17,9 @@ async def handle_message(message: Message) -> None:
         await message.edit(message.text[2:])
         return
 
-    res = parse_code(raw_text)
+    locals_ = get_kwargs()
+
+    res = parse_code(raw_text, locals_)
     if not res.is_code:
         return
 
