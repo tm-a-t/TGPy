@@ -14,62 +14,55 @@ Just send Python code to any chat, and it will be executed. Change your message 
 
 # Examples
 
-Do Python calculations:
+Send any of these examples to any chat to evaluate:
+
+🐍 Do Python calculations
 
 ```python
-a = [1, 2, 3]
-a.append(4)
-a
-
-TGPy> [1, 2, 3, 4]
+for i in range(5):
+    print(i)
 ```
 
-Delete the message in 5 seconds:
+⏳ Delete the current message in 5 seconds
+
 ```python
 import asyncio
 
 await asyncio.sleep(5)
 await msg.delete()
-
-TGPy>
 ```
 
-Forward the message you replied to to another chat:
+↪️ Forward the message you replied to to another chat
 
 ```python
 orig.forward_to('Chat title')
-
-TGPy> Message(...)
 ```
 
-Send all chat profile photos to the same chat:
+🖼 Send all chat profile photos to the same chat
 
 ```python
 photos = await client.get_profile_photos(msg.chat)
 msg.reply(file=photos)
-
-TGPy> [...]
 ```
 
-Define a function which forwards messages to Saved Messages with reply:
+🔖 Define a function which forwards messages to Saved Messages with reply
 
 ```python
 def save():
-    message = await ctx.msg.get_reply_message()
-    await message.forward_to('me')
+    message = ctx.msg
+    original = await message.get_reply_message()
+    await original.forward_to('me')
     return 'Saved!'
-
-TGPy> None
 ``` 
 
-Define a function which deletes messages with reply:
+🗑 Define a function which deletes messages with reply
+
 ```python
 async def delete():
-    message = await ctx.msg.get_reply_message()
+    message = ctx.msg
+    original = await message.get_reply_message()
+    await original.delete()
     await message.delete()
-    await ctx.msg.delete()
-
-TGPy> None
 ```
 
 # Guide
@@ -102,7 +95,7 @@ TGPy> None
    > python -m app
    ```
 
-5. For the first time, you'll have to log in with a confirmation code from Telegram
+5. For the first time, you'll need to log in with a confirmation code from Telegram
 
 # Credits
 
