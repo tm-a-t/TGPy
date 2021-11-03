@@ -77,11 +77,6 @@ async def meval(str_code: str, filename: str, globs: dict, saved_variables: dict
         if ok:
             break
 
-    # __import__('builtins').locals()
-    get_locals = ast.Call(func=ast.Attribute(value=ast.Call(func=ast.Name(id='__import__', ctx=ast.Load()),
-                                                            args=[ast.Constant(value='builtins')], keywords=[]),
-                                             attr='locals', ctx=ast.Load()), args=[], keywords=[])
-
     code = root.body
     if not code:
         return {}, None
@@ -115,10 +110,28 @@ async def meval(str_code: str, filename: str, globs: dict, saved_variables: dict
     ast.fix_missing_locations(ret_decl)
     code.insert(1, ret_decl)
 
+    # __import__('builtins').locals()
+    get_locals = ast.Call(
+        func=ast.Attribute(
+            value=ast.Call(
+                func=ast.Name(id='__import__', ctx=ast.Load()),
+                args=[ast.Constant(value='builtins')],
+                keywords=[]
+            ),
+            attr='locals',
+            ctx=ast.Load()
+        ),
+        args=[],
+        keywords=[]
+    )
+
     if not any(isinstance(node, ast.Return) for node in shallow_walk(root)):
         for i in range(len(code)):
-            if not isinstance(code[i], ast.Expr) or i != len(code) - 1 and isinstance(code[i].value, ast.Call):
+            if not isinstance(code[i], ast.Expr) \
+                    or i != len(code) - 1 and isinstance(code[i].value, ast.Call):
                 continue
+
+            # replace ... with _ret.append(...)
             code[i] = ast.copy_location(
                 ast.Expr(
                     ast.Call(
@@ -128,7 +141,8 @@ async def meval(str_code: str, filename: str, globs: dict, saved_variables: dict
                             ctx=ast.Load()
                         ),
                         args=[code[i].value],
-                        keywords=[])
+                        keywords=[]
+                    )
                 ),
                 code[-1]
             )
@@ -136,6 +150,8 @@ async def meval(str_code: str, filename: str, globs: dict, saved_variables: dict
         for node in shallow_walk(root):
             if not isinstance(node, ast.Return):
                 continue
+
+            # replace return ... with return (__import__('builtins').locals(), [...])
             node.value = ast.Tuple(
                 elts=[
                     get_locals,
@@ -173,9 +189,8 @@ async def meval(str_code: str, filename: str, globs: dict, saved_variables: dict
 
     # print(ast.unparse(mod))
     comp = compile(mod, filename, 'exec')
-    spec = spec_from_loader(filename, MevalLoader(str_code, comp, filename), origin=filename)
-    py_module = module_from_spec(spec)
-    loader: MevalLoader = spec.loader
+    loader = MevalLoader(str_code, comp, filename)
+    py_module = module_from_spec(spec_from_loader(filename, loader, origin=filename))
     loader.exec_module(py_module)
 
     new_locs, ret = await getattr(py_module, 'tmp')(**kwargs)
