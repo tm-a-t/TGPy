@@ -68,7 +68,7 @@ async def delete():
 # Guide
 
 - [Basics](https://tgpy.tmat.me/basics/)
-- [Default variables](https://tgpy.tmat.me/variables/)
+- [TGPy builtins](https://tgpy.tmat.me/builtins/)
 - [Code detection](https://tgpy.tmat.me/code_detection/)
 
 # Installation
@@ -95,7 +95,9 @@ async def delete():
    > python -m app
    ```
 
-5. For the first time, you'll need to log in with a confirmation code from Telegram
+5. For the first time, you'll need to log in with a confirmation code from Telegram.
+
+Send `ping()` to any chat to check if TGPy is running.
 
 # Credits
 

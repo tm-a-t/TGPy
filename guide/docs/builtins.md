@@ -1,6 +1,10 @@
-# Default variables
+# TGPy builtins
 
-In TGPy you can use some predefined variables.
+## Control functions
+
+- `ping()` - use it to check if TGPy is running
+- `restart()` - restart TGPy
+- `update()` - download the latest version from GitHub and restart TGPy
 
 ## Telethon objects
 
@@ -11,7 +15,7 @@ In TGPy you can use some predefined variables.
 
 ??? example "Example: show current message data"
 
-    ```python
+    ```python hl_lines="1"
     return msg
     
     TGPy> Message(
@@ -61,11 +65,12 @@ In TGPy you can use some predefined variables.
     )
     ```
 
-TGPy gets `orig` message only if your code uses `orig` variable (because it requires an additional request to Telegram API).
+TGPy fetches `orig` message only if your code uses `orig` variable (because it requires an additional request 
+to Telegram API).
 
 ## Previous result
 
-The `_` variable stands for the previous result.
+The `_` variable is used for the previous result.
 
 ```python
 2 + 2
@@ -79,23 +84,24 @@ _ * 100
 TGPy> 400
 ```
 
-## `ctx` variable
+## TGPy context
 
 `ctx` variable is used for current context.
 
-- `ctx.msg` - latest message
+- `ctx.msg` - latest TGPy message
 
-`ctx.orig` - message which ctx.msg was reply to. Not implemented yet. 
-Instead, use `await ctx.msg.get_reply_message()`.
+- ~~`ctx.orig` - message which latest TGPy message was reply to~~
 
-So `msg` is the message where it was used and `ctx.msg` is the message from where was this code was executed. 
-It is useful for defining functions.
+    _Not implemented yet. Instead, use_ `#!python await ctx.msg.get_reply_message()`
+
+
+This is useful for defining functions for future using without directly passing current message as argument.
 
 Example of usage:
 ```python
 async def delete():
-    ctx_orig = await ctx.msg.get_reply_message()
-    await ctx_orig.delete()
+    original_message = await ctx.msg.get_reply_message()
+    await original_message.delete()
     await ctx.msg.delete()
 
 TGPy> None
