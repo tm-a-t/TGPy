@@ -22,8 +22,9 @@ $ pip install -r requirements.txt
 $ python -m app
 ```
 
-5. For the first time, you'll have to log in with a confirmation code from Telegram
+5. For the first time, you'll have to log in with a confirmation code from Telegram.
 
+Send `ping()` to any chat to check if TGPy is running.
 
 ## Updating
 

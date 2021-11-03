@@ -27,13 +27,17 @@ markdown_extensions:
   - toc:
       permalink: true
   - admonition
+  - attr_list
   - pymdownx.highlight
+  - pymdownx.inlinehilite
   - pymdownx.superfences
   - pymdownx.details
   - pymdownx.superfences
+  - pymdownx.mark
+  - pymdownx.tilde
 nav:
   - index.md
   - installation.md
   - basics.md
-  - variables.md
+  - builtins.md
   - code_detection.md

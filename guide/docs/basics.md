@@ -34,7 +34,8 @@ For example, to programmatically reply to the current message:
 msg.reply('Hello!')
 ```
 
-You can use variables such as `msg` for current message object and `client` for Telethon client object. [Learn more about the variables](variables.md)
+You can use variables such as `msg` for current message object and `client` for Telethon client object.
+[Learn more about TGPy builtins](builtins.md)
 
 Variables defined by you are saved automatically, so you can use them in following messages.
 
