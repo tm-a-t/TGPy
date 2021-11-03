@@ -11,11 +11,11 @@ from typing import Any, Iterator
 
 def shallow_walk(node) -> Iterator:
     # Like ast.walk, but ignoring function definitions:
-    # Recursively yield all descendant nodes except for FunctionDef in the tree starting at node
+    # Recursively yield all descendant nodes except for function definitions in the tree starting at node
     queue = deque([node])
     while queue:
         node = queue.popleft()
-        if isinstance(node, ast.FunctionDef):
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
             continue
         queue.extend(ast.iter_child_nodes(node))
         yield node
