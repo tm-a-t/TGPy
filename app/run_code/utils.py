@@ -5,6 +5,8 @@ from typing import Optional
 from telethon.tl import TLObject
 from telethon.tl.custom import Message
 
+from app.run_code.variables import variables
+
 
 class Context:
     msg: Optional[Message] = None
@@ -37,3 +39,9 @@ def format_traceback():
     exc_type, exc_value, exc_traceback = sys.exc_info()
     exc_traceback = exc_traceback.tb_next.tb_next
     return traceback.format_exception(exc_type, exc_value, exc_traceback)
+
+
+def save_function_to_variables(func):
+    variables[func.__name__] = func
+    return func
+

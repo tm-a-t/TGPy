@@ -11,7 +11,7 @@ client = TelegramClient('TGPy', config.api_id, config.api_hash)
 client.parse_mode = 'html'
 
 from app import handlers
-from app.data.hooks import HookType, Hook
+from app.hooks import HookType, Hook
 
 
 async def main():

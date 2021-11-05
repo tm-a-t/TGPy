@@ -6,4 +6,6 @@ venv/
 *.session
 *.session-journal
 
+data/
+
 config.py

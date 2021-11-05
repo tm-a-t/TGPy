@@ -29,6 +29,17 @@ def get_hook_filename(name: str) -> str:
     return os.path.join(HOOKS_DIR, name)
 
 
+def delete_hook_file(name: str):
+    os.remove(get_hook_filename(name))
+
+
+def iter_hook_names():
+    for file in os.listdir(HOOKS_DIR):
+        if os.path.splitext(file)[1] not in ['.yml', '.yaml']:
+            continue
+        yield os.path.splitext(os.path.basename(file))[0]
+
+
 class Hook(BaseModel):
     name: str
     type: HookType
@@ -72,10 +83,7 @@ class Hook(BaseModel):
 
     @classmethod
     async def run_hooks(cls, type_: HookType):
-        for file in os.listdir(HOOKS_DIR):
-            if os.path.splitext(file)[1] not in ['.yml', '.yaml']:
-                continue
-            hook_name = os.path.splitext(os.path.basename(file))[0]
+        for hook_name in iter_hook_names():
             # noinspection PyBroadException
             try:
                 hook = cls.load(hook_name)

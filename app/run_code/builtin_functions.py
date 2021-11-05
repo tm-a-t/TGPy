@@ -3,27 +3,31 @@ import os
 import socket
 import sys
 from textwrap import dedent
+from typing import Optional
 
-from app import client
-from app.data.hooks import Hook, HookType
+from app.hooks import Hook, HookType, delete_hook_file, iter_hook_names
+from app.message_design import get_code
 from app.run_code import variables
-from app.run_code.utils import Context, filename_prefix
+from app.run_code.utils import Context, filename_prefix, save_function_to_variables
 from app.utils import run_cmd, get_base_dir, get_commit
 
-ctx = Context()
+variables['ctx'] = ctx = Context()
 
 
+@save_function_to_variables
 def ping():
     return f'Pong!\n' \
            f'Running on {getpass.getuser()}@{socket.gethostname()}\n' \
            f'Commit: {get_commit()}'
 
 
+@save_function_to_variables
 def restart():
     os.chdir(get_base_dir())
     os.execl(sys.executable, sys.executable, '-m', 'app', *sys.argv[1:])
 
 
+@save_function_to_variables
 def update():
     run_cmd(['git', 'pull'])
     hook_code = dedent(f'''
@@ -43,9 +47,37 @@ def update():
     restart()
 
 
-variables['ctx'] = ctx
-variables['ping'] = ping
-variables['restart'] = restart
-variables['update'] = update
+class HooksVariable:
+    async def add(self, name: str, code: Optional[str] = None) -> str:
+        if code is None:
+            original = await ctx.msg.get_reply_message()
+            if original is None:
+                return 'Use this function in reply to a message'
+            code = get_code(original)
+            origin = f'{filename_prefix}message/{original.chat_id}/{original.id}'
+        else:
+            origin = f'{filename_prefix}message/{ctx.msg.chat_id}/{ctx.msg.id}'
 
-# other default variables might be here
+        hook = Hook(
+            name=name,
+            type=HookType.onstart,
+            once=False,
+            save_locals=True,
+            code=code,
+            origin=origin
+        )
+        hook.save()
+        return f"Added hook '{name}'"
+
+    def remove(self, name) -> str:
+        delete_hook_file(name)
+        return f"Removed hook '{name}'"
+
+    def list(self) -> str:
+        lst = '\n'.join(f'{idx}. {name}' for idx, name in enumerate(iter_hook_names()))
+        if not lst:
+            return 'No hooks'
+        return 'Your hooks:\n' + lst
+
+
+variables['hooks'] = hooks = HooksVariable()
