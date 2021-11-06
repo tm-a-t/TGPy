@@ -47,7 +47,7 @@ def update():
     restart()
 
 
-class HooksVariable:
+class HooksObject:
     async def add(self, name: str, code: Optional[str] = None) -> str:
         if code is None:
             original = await ctx.msg.get_reply_message()
@@ -67,17 +67,35 @@ class HooksVariable:
             origin=origin
         )
         hook.save()
-        return f"Added hook '{name}'"
+        return dedent(f'''
+            Added hook {name!r}.
+            The hook will be executed every time TGPy starts.
+        ''')
 
     def remove(self, name) -> str:
-        delete_hook_file(name)
-        return f"Removed hook '{name}'"
+        try:
+            delete_hook_file(name)
+        except FileNotFoundError:
+            return f"No hook named {name!r}."
+        return f"Removed hook {name!r}."
 
-    def list(self) -> str:
-        lst = '\n'.join(f'{idx}. {name}' for idx, name in enumerate(iter_hook_names()))
+    def __str__(self):
+        lst = '\n'.join(f'{idx + 1}. {name}' for idx, name in enumerate(iter_hook_names()))
         if not lst:
-            return 'No hooks'
-        return 'Your hooks:\n' + lst
+            return dedent('''
+                You have no hooks.
+                Learn about hooks at https://tgpy.tmat.me/hooks.
+            ''')
+        return dedent('''
+            Your hooks:
+            {}
+            
+            Change hooks with `hooks.add(name)` and `hooks.remove(name)`.
+            Learn more at https://tgpy.tmat.me/hooks.
+        ''').format(lst)
+
+    def __iter__(self):
+        return iter_hook_names()
 
 
-variables['hooks'] = hooks = HooksVariable()
+variables['hooks'] = hooks = HooksObject()
