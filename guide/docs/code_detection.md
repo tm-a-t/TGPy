@@ -17,7 +17,7 @@ TL;DR: Some simple expressions, which could be email addresses, URLs or several 
 (as described in [issue 4](https://github.com/tm-a-t/TGPy/issues/4))
 
 ??? note "More details"
-    In this section, an **unknown** variable is one not present in `locals` — that is, which were not saved in previous messages and which are not built in TGPy (as `ctx`, `orig`, `msg` and `print` are)
+    In this section, an **unknown** variable is one not present in `locals` — that is, which were not saved in previous messages and which are not built in TGPy (as `ctx`, `orig`, `msg` and `print` are).
     Unknown variables' attributes are also considered unknown
     
     **Ignored** expressions are expressions in the list below:
