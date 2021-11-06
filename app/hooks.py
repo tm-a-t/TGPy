@@ -2,6 +2,7 @@ import logging
 import os.path
 import traceback
 from enum import Enum
+import datetime as dt
 
 import yaml
 from pydantic import BaseModel
@@ -33,11 +34,26 @@ def delete_hook_file(name: str):
     os.remove(get_hook_filename(name))
 
 
-def iter_hook_names():
+def get_sorted_hooks(type_=None):
+    hooks = []
+
     for file in os.listdir(HOOKS_DIR):
         if os.path.splitext(file)[1] not in ['.yml', '.yaml']:
             continue
-        yield os.path.splitext(os.path.basename(file))[0]
+        hook_name = os.path.splitext(os.path.basename(file))[0]
+
+        # noinspection PyBroadException
+        try:
+            hook = Hook.load(hook_name)
+        except Exception:
+            logger.error(f'Error during loading hook {hook_name!r}')
+            logger.error(traceback.format_exc())
+            continue
+        if type_ is None or hook.type == type_:
+            hooks.append(hook)
+
+    hooks.sort(key=lambda hook: hook.datetime)
+    return hooks
 
 
 class Hook(BaseModel):
@@ -47,6 +63,7 @@ class Hook(BaseModel):
     save_locals: bool = True
     code: str
     origin: str
+    datetime: dt.datetime
 
     @classmethod
     def load(cls, hook_name: str) -> 'Hook':
@@ -83,20 +100,11 @@ class Hook(BaseModel):
 
     @classmethod
     async def run_hooks(cls, type_: HookType):
-        for hook_name in iter_hook_names():
-            # noinspection PyBroadException
-            try:
-                hook = cls.load(hook_name)
-            except Exception:
-                logger.error(f'Error during loading hook {hook_name}')
-                logger.error(traceback.format_exc())
-                continue
-            if hook.type != type_:
-                continue
+        for hook in get_sorted_hooks(type_):
             # noinspection PyBroadException
             try:
                 await hook.run()
             except Exception:
-                logger.error(f'Error during running hook {hook_name}')
+                logger.error(f'Error during running hook {hook.name!r}')
                 logger.error(''.join(format_traceback()))
                 continue

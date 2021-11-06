@@ -5,7 +5,9 @@ import sys
 from textwrap import dedent
 from typing import Optional
 
-from app.hooks import Hook, HookType, delete_hook_file, iter_hook_names
+import datetime as dt
+
+from app.hooks import Hook, HookType, delete_hook_file, get_sorted_hooks
 from app.message_design import get_code
 from app.run_code import variables
 from app.run_code.utils import Context, filename_prefix, save_function_to_variables
@@ -41,7 +43,8 @@ def update():
         once=True,
         save_locals=False,
         code=hook_code,
-        origin=f'{filename_prefix}post_update'
+        origin=f'{filename_prefix}post_update',
+        datetime=dt.datetime.fromtimestamp(0),
     )
     hook.save()
     restart()
@@ -64,7 +67,8 @@ class HooksObject:
             once=False,
             save_locals=True,
             code=code,
-            origin=origin
+            origin=origin,
+            datetime=dt.datetime.now(),
         )
         hook.save()
         return dedent(f'''
@@ -80,7 +84,7 @@ class HooksObject:
         return f"Removed hook {name!r}."
 
     def __str__(self):
-        lst = '\n'.join(f'{idx + 1}. {name}' for idx, name in enumerate(iter_hook_names()))
+        lst = '\n'.join(f'{idx + 1}. {hook.name}' for idx, hook in enumerate(get_sorted_hooks()))
         if not lst:
             return dedent('''
                 You have no hooks.
@@ -95,7 +99,7 @@ class HooksObject:
         ''').format(lst)
 
     def __iter__(self):
-        return iter_hook_names()
+        return (hook.name for hook in get_sorted_hooks())
 
 
 variables['hooks'] = hooks = HooksObject()
