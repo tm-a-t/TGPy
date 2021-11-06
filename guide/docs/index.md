@@ -1,4 +1,4 @@
-# Home
+# TGPy
 
 ### Run Python code right in your Telegram messages
 

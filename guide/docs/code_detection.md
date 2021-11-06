@@ -3,9 +3,7 @@
 ## Why use auto-detection?
 
 TGPy is designed for running code snippets sequentially and frequently. Bot-like commands 
-(such as `/run print('Hello World')`) would break the workflow. 
-
-That's why TGPy automatically detects your messages with syntactically correct Python code and evaluates it.
+(such as `/run print('Hello World')`) would break the workflow. That's why TGPy automatically detects your messages with syntactically correct Python code and evaluates it.
 
 It turns out that regular text messages aren't often identified as code. TGPy ignores too simple expressions.
 

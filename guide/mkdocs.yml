@@ -6,6 +6,7 @@ theme:
   name: material
   features:
     - navigation.instant
+    - navigation.sections
   icon:
     repo: fontawesome/brands/github
     admonition:
@@ -36,8 +37,11 @@ markdown_extensions:
   - pymdownx.mark
   - pymdownx.tilde
 nav:
-  - index.md
+  - Home: index.md
   - installation.md
   - basics.md
   - builtins.md
   - code_detection.md
+  - Advanced:
+    - hooks.md
+    - context.md

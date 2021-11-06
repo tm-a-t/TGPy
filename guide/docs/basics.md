@@ -21,6 +21,10 @@ Change your message to change the result.
 If you want to keep the original message, send `cancel` after your message.
 [Learn more about code detection](code_detection.md)
 
+!!! tip
+    
+    You can experiment with TGPy in Saved Messages. Nobody else will see your messages.
+
 ## Do anything
 
 All Python possibilities are available, including module imports and function definitions.
@@ -70,6 +74,22 @@ x + 2
 
 TGPy> [100, 4]
 ```
+
+!!! tip
+
+    Use `_` variable for the previous result:
+
+    ```python
+    2 + 2
+    
+    TGPy> 4
+    ```
+    
+    ```python
+    _ * 100
+    
+    TGPy> 400
+    ```
 
 You can also print values. `print` function is redefined, so the output is added to messages.
 
