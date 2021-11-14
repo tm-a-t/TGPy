@@ -7,7 +7,7 @@ import datetime as dt
 import yaml
 from pydantic import BaseModel
 
-from app import client
+from app import app
 from app.run_code import meval
 from app.run_code.variables import variables
 from app.run_code.utils import format_traceback
@@ -88,7 +88,7 @@ class Hook(BaseModel):
             self.origin,
             globals(),
             variables,
-            client=client,
+            client=app.client,
             msg=None,
             ctx=variables['ctx'],
             print=lambda *args, **kwargs: None,

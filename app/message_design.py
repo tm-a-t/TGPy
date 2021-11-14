@@ -4,7 +4,7 @@ import traceback as tb
 from telethon.tl.custom import Message
 from telethon.tl.types import MessageEntityTextUrl, MessageEntityCode, MessageEntityBold
 
-from app import client
+from app import app
 
 TITLE = 'TGPy>'
 TITLE_URL = 'https://github.com/tm-a-t/TGPy'
@@ -49,4 +49,4 @@ async def send_error(chat) -> None:
     exc = ''.join(tb.format_exception(*sys.exc_info()))
     if len(exc) > 4000:
         exc = exc[:4000] + '…'
-    await client.send_message(chat, f'{ERROR_TITLE_FORMATTED}\n\n<code>{exc}</code>', link_preview=False)
+    await app.client.send_message(chat, f'{ERROR_TITLE_FORMATTED}\n\n<code>{exc}</code>', link_preview=False)
