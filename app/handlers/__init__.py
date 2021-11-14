@@ -2,7 +2,7 @@ from telethon import events
 from telethon.tl.custom import Message
 
 from app import client, message_design
-from app.handlers.uitls import _handle_errors, outgoing_messages_filter
+from app.handlers.utils import _handle_errors, outgoing_messages_filter
 from app.run_code.parse_code import parse_code
 from app.run_code import eval_message, get_kwargs
 

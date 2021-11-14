@@ -18,4 +18,3 @@ def _handle_errors(func: Callable):
 
 def outgoing_messages_filter(m: Message):
     return m.out and not m.forward and not m.via_bot
-
