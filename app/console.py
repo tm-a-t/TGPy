@@ -1,3 +1,4 @@
-from rich.console import Console
+from rich.console import Console, Theme
 
-console = Console()
+theme = Theme(inherit=False)
+console = Console(theme=theme)

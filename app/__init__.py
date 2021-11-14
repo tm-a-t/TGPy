@@ -1,12 +1,15 @@
-import getpass
 import logging
 
 import aiorun
 from telethon import TelegramClient
 
 from app.app_config import load_config
+from app.console import console
+from rich.logging import RichHandler
 
-logging.basicConfig(format='{levelname}:    {message}', style='{', level=logging.INFO)
+
+logging.basicConfig(level=logging.INFO, format='%(message)s', datefmt="[%X]", handlers=[RichHandler()])
+log = logging.getLogger('rich')
 
 
 class App:
@@ -21,7 +24,9 @@ from app.hooks import HookType, Hook
 
 
 async def run_client():
-    await app.client.start(app.config.phone, password=lambda: getpass.getpass('2FA password: '))
+    log.info('Starting TGPy...')
+    await app.client.start(app.config.phone, password=lambda: console.input('2FA password: ', password=True))
+    log.info('[bold]TGPy is running!', extra={'markup': True})
     await Hook.run_hooks(HookType.onstart)
     await app.client.run_until_disconnected()
 
