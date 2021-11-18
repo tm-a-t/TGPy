@@ -8,8 +8,8 @@ class _Result:
 
 def _is_node_unknown_variable(node: ast.AST, locs: dict) -> bool:
     """Check if AST node is a Name or Attribute not present in locals"""
-    if isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name):
-        return node.value.id not in locs
+    if isinstance(node, ast.Attribute):
+        return _is_node_unknown_variable(node.value, locs)
     return isinstance(node, ast.Name) and node.id not in locs
 
 
