@@ -13,7 +13,7 @@ async def handle_message(message: Message) -> None:
     if not raw_text:
         return
 
-    if message.text.startswith('//'):
+    if message.text.startswith('//') and message.text[2:].strip():
         await message.edit(message.text[2:])
         return
 
