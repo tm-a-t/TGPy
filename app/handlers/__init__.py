@@ -42,7 +42,7 @@ async def on_message_edited(event: events.NewMessage.Event) -> None:
     await eval_message(code, event.message, uses_orig=parse_code(code, get_kwargs()).uses_orig)
 
 
-@client.on(events.NewMessage(pattern='^(cancel|сфтсуд)$', func=outgoing_messages_filter))
+@client.on(events.NewMessage(pattern='(?i)^(cancel|сфтсуд)$', func=outgoing_messages_filter))
 async def cancel(message: Message):
     prev = await message.get_reply_message()
     if not prev:
