@@ -1,3 +1,4 @@
+import importlib.metadata
 import os
 import shlex
 from enum import Enum
@@ -33,16 +34,32 @@ SafeRepresenter.add_representer(yaml_multiline_str, _multiline_presenter)
 SafeRepresenter.add_multi_representer(Enum, _enum_presenter)
 
 
+class RunCmdException(Exception):
+    def __init__(self, process: Popen):
+        self.process = process
+
+    def __str__(self):
+        return f'Command {shlex.join(self.process.args)} exited with code {self.process.returncode}'
+
+
 def run_cmd(args: list[str]):
-    p = Popen(args, stdout=PIPE)
-    output, _ = p.communicate()
-    if p.returncode:
-        raise Exception(f'Command {shlex.join(args)} exited with code {p.returncode}')
+    proc = Popen(args, stdout=PIPE)
+    output, _ = proc.communicate()
+    if proc.returncode:
+        raise RunCmdException(proc)
     return output.decode('utf-8').strip()
 
 
-def get_commit():
-    return run_cmd(['git', 'rev-parse', '--short', 'HEAD'])
+def get_version():
+    try:
+        return importlib.metadata.version('tgpy')
+    except importlib.metadata.PackageNotFoundError:
+        pass
+    try:
+        return 'git@' + run_cmd(['git', 'rev-parse', '--short', 'HEAD'])
+    except RunCmdException:
+        pass
+    return 'unknown'
 
 
-__all__ = ['get_base_dir', 'yaml_multiline_str', 'run_cmd', 'get_commit']
+__all__ = ['get_base_dir', 'yaml_multiline_str', 'run_cmd', 'get_version']

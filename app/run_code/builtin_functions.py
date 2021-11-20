@@ -11,7 +11,7 @@ from app.hooks import Hook, HookType, delete_hook_file, get_sorted_hooks
 from app.message_design import get_code
 from app.run_code import variables
 from app.run_code.utils import Context, filename_prefix, save_function_to_variables
-from app.utils import run_cmd, get_base_dir, get_commit
+from app.utils import run_cmd, get_base_dir, get_version
 
 variables['ctx'] = ctx = Context()
 
@@ -20,7 +20,7 @@ variables['ctx'] = ctx = Context()
 def ping():
     return f'Pong!\n' \
            f'Running on {getpass.getuser()}@{socket.gethostname()}\n' \
-           f'Commit: {get_commit()}'
+           f'Version: {get_version()}'
 
 
 @save_function_to_variables
