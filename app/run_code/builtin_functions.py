@@ -24,7 +24,22 @@ def ping():
 
 
 @save_function_to_variables
-def restart():
+def restart(msg: Optional[str] = 'Restarted successfully'):
+    hook_code = dedent(f'''
+        from app.message_design import edit_message, get_code
+        msg = await client.get_messages({ctx.msg.chat_id}, ids={ctx.msg.id})
+        await edit_message(msg, get_code(msg), '{msg}')
+    ''')
+    hook = Hook(
+        name='__restart_message',
+        type=HookType.onstart,
+        once=True,
+        save_locals=False,
+        code=hook_code,
+        origin=f'{filename_prefix}restart_message',
+        datetime=dt.datetime.fromtimestamp(0),
+    )
+    hook.save()
     os.chdir(get_base_dir())
     os.execl(sys.executable, sys.executable, '-m', 'app', *sys.argv[1:])
 
@@ -32,22 +47,7 @@ def restart():
 @save_function_to_variables
 def update():
     run_cmd(['git', 'pull'])
-    hook_code = dedent(f'''
-        from app.message_design import edit_message, get_code
-        msg = await client.get_messages({ctx.msg.chat_id}, ids={ctx.msg.id})
-        await edit_message(msg, get_code(msg), 'Updated successfuly! Current commit: {get_commit()}')
-    ''')
-    hook = Hook(
-        name='__post_update',
-        type=HookType.onstart,
-        once=True,
-        save_locals=False,
-        code=hook_code,
-        origin=f'{filename_prefix}post_update',
-        datetime=dt.datetime.fromtimestamp(0),
-    )
-    hook.save()
-    restart()
+    restart(f'Updated successfuly! Current version: {get_version()}')
 
 
 class HooksObject:
