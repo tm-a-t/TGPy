@@ -11,7 +11,7 @@ from app.hooks import Hook, HookType, delete_hook_file, get_sorted_hooks
 from app.message_design import get_code
 from app.run_code import variables
 from app.run_code.utils import Context, filename_prefix, save_function_to_variables
-from app.utils import run_cmd, get_base_dir, get_version
+from app.utils import run_cmd, get_version, BASE_DIR
 
 variables['ctx'] = ctx = Context()
 
@@ -40,7 +40,7 @@ def restart(msg: Optional[str] = 'Restarted successfully'):
         datetime=dt.datetime.fromtimestamp(0),
     )
     hook.save()
-    os.chdir(get_base_dir())
+    os.chdir(BASE_DIR)
     os.execl(sys.executable, sys.executable, '-m', 'app', *sys.argv[1:])
 
 
@@ -80,8 +80,8 @@ class HooksObject:
         try:
             delete_hook_file(name)
         except FileNotFoundError:
-            return f"No hook named {name!r}."
-        return f"Removed hook {name!r}."
+            return f'No hook named {name!r}.'
+        return f'Removed hook {name!r}.'
 
     def __str__(self):
         lst = '\n'.join(f'{idx + 1}. {hook.name}' for idx, hook in enumerate(get_sorted_hooks()))

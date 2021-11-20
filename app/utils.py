@@ -1,14 +1,18 @@
 import importlib.metadata
-import os
 import shlex
 from enum import Enum
+from pathlib import Path
 from subprocess import Popen, PIPE
 
 from yaml.representer import SafeRepresenter
 
-
-def get_base_dir():
-    return os.path.dirname(os.path.dirname(__file__))
+BASE_DIR = Path(__file__).parent.parent
+DATA_DIR = BASE_DIR / 'data'
+DATA_DIR.mkdir(exist_ok=True)
+HOOKS_DIR = DATA_DIR / 'hooks'
+HOOKS_DIR.mkdir(exist_ok=True)
+WORKDIR = DATA_DIR / 'workdir'
+WORKDIR.mkdir(exist_ok=True)
 
 
 def _multiline_presenter(dumper, data):
@@ -62,4 +66,4 @@ def get_version():
     return 'unknown'
 
 
-__all__ = ['get_base_dir', 'yaml_multiline_str', 'run_cmd', 'get_version']
+__all__ = ['BASE_DIR', 'DATA_DIR', 'HOOKS_DIR', 'WORKDIR', 'yaml_multiline_str', 'run_cmd', 'get_version']
