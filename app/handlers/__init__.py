@@ -1,5 +1,6 @@
 from telethon import events
 from telethon.tl.custom import Message
+from telethon.tl.types import Channel
 
 from app import client, message_design
 from app.handlers.uitls import _handle_errors, outgoing_messages_filter
@@ -35,6 +36,8 @@ async def on_new_message(event: events.NewMessage.Event) -> None:
 @client.on(events.MessageEdited(func=outgoing_messages_filter))
 @_handle_errors
 async def on_message_edited(event: events.NewMessage.Event) -> None:
+    if isinstance(event.message.chat, Channel) and event.message.chat.broadcast:
+        return
     code = message_design.get_code(event.message)
     if not code:
         await handle_message(event.message)
