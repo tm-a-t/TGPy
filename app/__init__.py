@@ -1,12 +1,12 @@
 import logging
 
 import aiorun
+from rich.logging import RichHandler
 from telethon import TelegramClient
 
 from app.app_config import load_config
 from app.console import console
-from rich.logging import RichHandler
-
+from app.utils import DATA_DIR, migrate_from_old_versions
 
 logging.basicConfig(level=logging.INFO, format='%(message)s', datefmt="[%X]", handlers=[RichHandler()])
 log = logging.getLogger('rich')
@@ -32,9 +32,11 @@ async def run_client():
 
 
 def main():
+    migrate_from_old_versions()
+
     app.config = load_config()
 
-    app.client = TelegramClient('TGPy', app.config.api_id, app.config.api_hash)
+    app.client = TelegramClient(str(DATA_DIR / 'TGPy'), app.config.api_id, app.config.api_hash)
     app.client.parse_mode = 'html'
 
     set_handlers()

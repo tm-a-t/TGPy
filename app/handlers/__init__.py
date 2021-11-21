@@ -1,5 +1,6 @@
 from telethon import events
 from telethon.tl.custom import Message
+from telethon.tl.types import Channel
 
 from app import app, message_design
 from app.handlers.utils import _handle_errors, outgoing_messages_filter
@@ -13,7 +14,7 @@ async def handle_message(message: Message) -> None:
     if not raw_text:
         return
 
-    if message.text.startswith('//'):
+    if message.text.startswith('//') and message.text[2:].strip():
         await message.edit(message.text[2:])
         return
 
@@ -35,13 +36,15 @@ def set_handlers():
     @app.client.on(events.MessageEdited(func=outgoing_messages_filter))
     @_handle_errors
     async def on_message_edited(event: events.NewMessage.Event) -> None:
+        if isinstance(event.message.chat, Channel) and event.message.chat.broadcast:
+            return
         code = message_design.get_code(event.message)
         if not code:
             await handle_message(event.message)
             return
         await eval_message(code, event.message, uses_orig=parse_code(code, get_kwargs()).uses_orig)
 
-    @app.client.on(events.NewMessage(pattern='^(cancel|сфтсуд)$', func=outgoing_messages_filter))
+    @app.client.on(events.NewMessage(pattern='(?i)^(cancel|сфтсуд)$', func=outgoing_messages_filter))
     async def cancel(message: Message):
         prev = await message.get_reply_message()
         if not prev:

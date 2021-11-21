@@ -1,13 +1,11 @@
-import logging
 import os
 from typing import Optional
 
 import yaml
+from pydantic import BaseModel, ValidationError
 
 from app.console import console
-from app.utils import get_base_dir
-
-from pydantic import BaseModel, ValidationError
+from app.utils import BASE_DIR
 
 
 class Config(BaseModel):
@@ -17,7 +15,7 @@ class Config(BaseModel):
 
 
 def load_config():
-    config_filename = os.path.join(get_base_dir(), 'config.yaml')
+    config_filename = os.path.join(BASE_DIR, 'config.yaml')
     try:
         with open(config_filename) as file:
             config_dict = yaml.safe_load(file)

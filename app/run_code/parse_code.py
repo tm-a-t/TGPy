@@ -8,8 +8,8 @@ class _Result:
 
 def _is_node_unknown_variable(node: ast.AST, locs: dict) -> bool:
     """Check if AST node is a Name or Attribute not present in locals"""
-    if isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name):
-        return node.value.id not in locs
+    if isinstance(node, ast.Attribute):
+        return _is_node_unknown_variable(node.value, locs)
     return isinstance(node, ast.Name) and node.id not in locs
 
 
@@ -30,14 +30,17 @@ def _is_node_suspicious_binop(node: ast.AST, locs: dict) -> bool:
 def _ignore_node(node: ast.AST, locs: dict) -> bool:
     """Check if AST node didn't seem to be meant to be code"""
     return (
-            # Messages like "python", "123" or "example.com"
-            isinstance(node, ast.Constant) or _is_node_unknown_variable(node, locs)
-            # Messages like "-1", "+spam" and "not foo.bar"
-            or isinstance(node, ast.UnaryOp) and isinstance(node.operand, (ast.Constant, ast.Name, ast.Attribute))
-            # Messages like one-two, one is two, one >= two, one.b in two.c
-            or _is_node_suspicious_binop(node, locs)
-            # Messages like "yes, understood"
-            or isinstance(node, ast.Tuple) and all(_ignore_node(elt, locs) for elt in node.elts)
+        # Messages like "python", "123" or "example.com"
+        isinstance(node, ast.Constant) or _is_node_unknown_variable(node, locs)
+        # Messages like "-1", "+spam" and "not foo.bar"
+        # `getattr(..., None) or node.value` is used here to avoid AttributeError and because in UnaryOp and Starred
+        # operands are stored in different attributes ("operand" and "value" respectively)
+        or isinstance(node, (ast.Starred, ast.UnaryOp)) and isinstance(getattr(node, 'operand', None) or node.value,
+                                                                       (ast.Constant, ast.Name, ast.Attribute))
+        # Messages like one-two, one is two, one >= two, one.b in two.c
+        or _is_node_suspicious_binop(node, locs)
+        # Messages like "yes, understood"
+        or isinstance(node, ast.Tuple) and all(_ignore_node(elt, locs) for elt in node.elts)
     )
 
 

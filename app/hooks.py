@@ -1,21 +1,18 @@
+import datetime as dt
 import logging
-import os.path
 import traceback
 from enum import Enum
-import datetime as dt
+from pathlib import Path
+from typing import Union
 
 import yaml
 from pydantic import BaseModel
 
 from app import app
 from app.run_code import meval
-from app.run_code.variables import variables
 from app.run_code.utils import format_traceback
-from app.utils import get_base_dir, yaml_multiline_str
-
-DATA_DIR = os.path.join(get_base_dir(), 'data')
-HOOKS_DIR = os.path.join(DATA_DIR, 'hooks')
-os.makedirs(HOOKS_DIR, exist_ok=True)
+from app.run_code.variables import variables
+from app.utils import yaml_multiline_str, HOOKS_DIR
 
 logger = logging.getLogger(__name__)
 
@@ -24,23 +21,24 @@ class HookType(str, Enum):
     onstart = 'onstart'
 
 
-def get_hook_filename(name: str) -> str:
-    if os.path.splitext(name)[1] not in ['.yml', '.yaml']:
-        name += '.yml'
-    return os.path.join(HOOKS_DIR, name)
+def get_hook_filename(name: Union[str, Path]) -> Path:
+    name = Path(name)
+    if name.suffix not in ['.yml', '.yaml']:
+        name = name.with_suffix('.yml')
+    return HOOKS_DIR / name
 
 
-def delete_hook_file(name: str):
-    os.remove(get_hook_filename(name))
+def delete_hook_file(name: Union[str, Path]):
+    get_hook_filename(name).unlink()
 
 
 def get_sorted_hooks(type_=None):
     hooks = []
 
-    for file in os.listdir(HOOKS_DIR):
-        if os.path.splitext(file)[1] not in ['.yml', '.yaml']:
+    for file in HOOKS_DIR.iterdir():
+        if file.suffix not in ['.yml', '.yaml']:
             continue
-        hook_name = os.path.splitext(os.path.basename(file))[0]
+        hook_name = file.stem
 
         # noinspection PyBroadException
         try:
@@ -96,7 +94,7 @@ class Hook(BaseModel):
         if self.save_locals:
             variables.update(new_variables)
         if self.once:
-            os.remove(get_hook_filename(self.name))
+            delete_hook_file(self.name)
 
     @classmethod
     async def run_hooks(cls, type_: HookType):

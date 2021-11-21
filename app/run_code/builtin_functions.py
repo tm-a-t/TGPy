@@ -11,7 +11,7 @@ from app.hooks import Hook, HookType, delete_hook_file, get_sorted_hooks
 from app.message_design import get_code
 from app.run_code import variables
 from app.run_code.utils import Context, filename_prefix, save_function_to_variables
-from app.utils import run_cmd, get_base_dir, get_commit
+from app.utils import run_cmd, get_version, BASE_DIR
 
 variables['ctx'] = ctx = Context()
 
@@ -20,34 +20,34 @@ variables['ctx'] = ctx = Context()
 def ping():
     return f'Pong!\n' \
            f'Running on {getpass.getuser()}@{socket.gethostname()}\n' \
-           f'Commit: {get_commit()}'
+           f'Version: {get_version()}'
 
 
 @save_function_to_variables
-def restart():
-    os.chdir(get_base_dir())
+def restart(msg: Optional[str] = 'Restarted successfully'):
+    hook_code = dedent(f'''
+        from app.message_design import edit_message, get_code
+        msg = await client.get_messages({ctx.msg.chat_id}, ids={ctx.msg.id})
+        await edit_message(msg, get_code(msg), '{msg}')
+    ''')
+    hook = Hook(
+        name='__restart_message',
+        type=HookType.onstart,
+        once=True,
+        save_locals=False,
+        code=hook_code,
+        origin=f'{filename_prefix}restart_message',
+        datetime=dt.datetime.fromtimestamp(0),
+    )
+    hook.save()
+    os.chdir(BASE_DIR)
     os.execl(sys.executable, sys.executable, '-m', 'app', *sys.argv[1:])
 
 
 @save_function_to_variables
 def update():
     run_cmd(['git', 'pull'])
-    hook_code = dedent(f'''
-        from app.message_design import edit_message, get_code
-        msg = await client.get_messages({ctx.msg.chat_id}, ids={ctx.msg.id})
-        await edit_message(msg, get_code(msg), 'Updated successfuly! Current commit: {get_commit()}')
-    ''')
-    hook = Hook(
-        name='__post_update',
-        type=HookType.onstart,
-        once=True,
-        save_locals=False,
-        code=hook_code,
-        origin=f'{filename_prefix}post_update',
-        datetime=dt.datetime.fromtimestamp(0),
-    )
-    hook.save()
-    restart()
+    restart(f'Updated successfuly! Current version: {get_version()}')
 
 
 class HooksObject:
@@ -80,8 +80,8 @@ class HooksObject:
         try:
             delete_hook_file(name)
         except FileNotFoundError:
-            return f"No hook named {name!r}."
-        return f"Removed hook {name!r}."
+            return f'No hook named {name!r}.'
+        return f'Removed hook {name!r}.'
 
     def __str__(self):
         lst = '\n'.join(f'{idx + 1}. {hook.name}' for idx, hook in enumerate(get_sorted_hooks()))
