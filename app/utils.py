@@ -15,6 +15,12 @@ WORKDIR = DATA_DIR / 'workdir'
 WORKDIR.mkdir(exist_ok=True)
 
 
+def migrate_from_old_versions():
+    old_session_file = BASE_DIR / 'TGPy.session'
+    if old_session_file.exists():
+        old_session_file.rename(DATA_DIR / 'TGPy.session')
+
+
 def _multiline_presenter(dumper, data):
     return dumper.represent_scalar('tag:yaml.org,2002:str', data, style='|')
 
@@ -66,4 +72,5 @@ def get_version():
     return 'unknown'
 
 
-__all__ = ['BASE_DIR', 'DATA_DIR', 'HOOKS_DIR', 'WORKDIR', 'yaml_multiline_str', 'run_cmd', 'get_version']
+__all__ = ['BASE_DIR', 'DATA_DIR', 'HOOKS_DIR', 'WORKDIR', 'yaml_multiline_str', 'run_cmd', 'get_version',
+           'migrate_from_old_versions']

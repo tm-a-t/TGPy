@@ -4,11 +4,12 @@ import logging
 from telethon import TelegramClient
 
 import config
+from app.utils import DATA_DIR, migrate_from_old_versions
 
 logging.basicConfig(format='{levelname}:    {message}', style='{', level=logging.INFO)
 
-client = TelegramClient('TGPy', config.api_id, config.api_hash)
-client.parse_mode = 'html'
+migrate_from_old_versions()
+client = TelegramClient(str(DATA_DIR / 'TGPy'), config.api_id, config.api_hash)
 
 from app import handlers
 from app.hooks import HookType, Hook
