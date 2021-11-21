@@ -1,11 +1,10 @@
-import os
 from typing import Optional
 
 import yaml
 from pydantic import BaseModel, ValidationError
 
 from app.console import console
-from app.utils import BASE_DIR
+from app.utils import CONFIG_FILENAME
 
 
 class Config(BaseModel):
@@ -15,9 +14,8 @@ class Config(BaseModel):
 
 
 def load_config():
-    config_filename = os.path.join(BASE_DIR, 'config.yaml')
     try:
-        with open(config_filename) as file:
+        with open(CONFIG_FILENAME) as file:
             config_dict = yaml.safe_load(file)
     except FileNotFoundError:
         config_dict = {}
@@ -48,7 +46,7 @@ def load_config():
         config.phone = console.input('│ Please enter your phone: ')
         console.print()
 
-        with open(config_filename, 'w') as file:
+        with open(CONFIG_FILENAME, 'w') as file:
             yaml.safe_dump(config.dict(), file)
 
     return config
