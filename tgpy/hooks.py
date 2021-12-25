@@ -8,11 +8,11 @@ from typing import Union
 import yaml
 from pydantic import BaseModel
 
-from app import client
-from app.run_code import meval
-from app.run_code.utils import format_traceback
-from app.run_code.variables import variables
-from app.utils import yaml_multiline_str, HOOKS_DIR
+from tgpy import app
+from tgpy.run_code import meval
+from tgpy.run_code.utils import format_traceback
+from tgpy.run_code.variables import variables
+from tgpy.utils import yaml_multiline_str, HOOKS_DIR
 
 logger = logging.getLogger(__name__)
 
@@ -86,7 +86,7 @@ class Hook(BaseModel):
             self.origin,
             globals(),
             variables,
-            client=client,
+            client=app.client,
             msg=None,
             ctx=variables['ctx'],
             print=lambda *args, **kwargs: None,

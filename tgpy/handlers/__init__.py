@@ -2,10 +2,10 @@ from telethon import events
 from telethon.tl.custom import Message
 from telethon.tl.types import Channel
 
-from app import client, message_design
-from app.handlers.uitls import _handle_errors, outgoing_messages_filter
-from app.run_code.parse_code import parse_code
-from app.run_code import eval_message, get_kwargs
+from tgpy import app, message_design
+from tgpy.handlers.utils import _handle_errors, outgoing_messages_filter
+from tgpy.run_code import eval_message, get_kwargs
+from tgpy.run_code.parse_code import parse_code
 
 
 async def handle_message(message: Message) -> None:
@@ -27,13 +27,13 @@ async def handle_message(message: Message) -> None:
     await eval_message(raw_text, message, uses_orig=res.uses_orig)
 
 
-@client.on(events.NewMessage(func=outgoing_messages_filter))
+@events.register(events.NewMessage(func=outgoing_messages_filter))
 @_handle_errors
 async def on_new_message(event: events.NewMessage.Event) -> None:
     await handle_message(event.message)
 
 
-@client.on(events.MessageEdited(func=outgoing_messages_filter))
+@events.register(events.MessageEdited(func=outgoing_messages_filter))
 @_handle_errors
 async def on_message_edited(event: events.NewMessage.Event) -> None:
     if isinstance(event.message.chat, Channel) and event.message.chat.broadcast:
@@ -45,11 +45,11 @@ async def on_message_edited(event: events.NewMessage.Event) -> None:
     await eval_message(code, event.message, uses_orig=parse_code(code, get_kwargs()).uses_orig)
 
 
-@client.on(events.NewMessage(pattern='(?i)^(cancel|сфтсуд)$', func=outgoing_messages_filter))
+@events.register(events.NewMessage(pattern='(?i)^(cancel|сфтсуд)$', func=outgoing_messages_filter))
 async def cancel(message: Message):
     prev = await message.get_reply_message()
     if not prev:
-        async for msg in client.iter_messages(message.chat_id, max_id=message.id, limit=10):
+        async for msg in app.client.iter_messages(message.chat_id, max_id=message.id, limit=10):
             if msg.out and message_design.get_code(msg):
                 prev = msg
                 break
@@ -62,3 +62,9 @@ async def cancel(message: Message):
         pass
     else:
         await message.delete()
+
+
+def add_handlers():
+    app.client.add_event_handler(on_new_message)
+    app.client.add_event_handler(on_message_edited)
+    app.client.add_event_handler(cancel)

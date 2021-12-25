@@ -1,0 +1,43 @@
+[tool.poetry]
+name = "tgpy"
+version = "0.1.0"
+description = "Run Python code right in your Telegram messages"
+authors = ["tmat <a@tmat.me>", "vanutp <hello@vanutp.dev>", "ntonee <a12286@yandex.com>"]
+license = "MIT"
+documentation = "https://tgpy.tmat.me/"
+repository = "https://github.com/tm-a-t/TGPy/"
+readme = "README.md"
+classifiers = [
+    "Operating System :: OS Independent"
+]
+
+[tool.poetry.scripts]
+tgpy = 'tgpy.main:main'
+
+[tool.semantic_release]
+version_variable = [
+    "tgpy/__init__.py:__version__",
+    "pyproject.toml:version"
+]
+branch = "master"
+upload_to_pypi = true
+upload_to_release = true
+build_command = "poetry build"
+commit_subject = 'chore(release): v{version} [skip ci]'
+commit_message = ''
+
+[tool.poetry.dependencies]
+python = "^3.9"
+Telethon = "^1.24.0"
+cryptg = "^0.2.post4"
+PyYAML = "^6.0"
+pydantic = "^1.8.2"
+aiorun = "^2021.10.1"
+rich = "^10.16.1"
+
+[tool.poetry.dev-dependencies]
+python-semantic-release = "^7.23.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

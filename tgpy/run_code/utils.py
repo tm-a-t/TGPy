@@ -5,7 +5,7 @@ from typing import Optional
 from telethon.tl import TLObject
 from telethon.tl.custom import Message
 
-from app.run_code.variables import variables
+from tgpy.run_code.variables import variables
 
 
 class Context:

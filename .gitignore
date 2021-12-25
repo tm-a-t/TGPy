@@ -3,9 +3,11 @@ venv/
 
 **/__pycache__/
 
+dist/
+*.egg-info
+
 *.session
 *.session-journal
-
 data/
-
 config.py
+config.yaml

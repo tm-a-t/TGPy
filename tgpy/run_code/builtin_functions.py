@@ -7,11 +7,11 @@ from typing import Optional
 
 import datetime as dt
 
-from app.hooks import Hook, HookType, delete_hook_file, get_sorted_hooks
-from app.message_design import get_code
-from app.run_code import variables
-from app.run_code.utils import Context, filename_prefix, save_function_to_variables
-from app.utils import run_cmd, get_version, BASE_DIR
+from tgpy.hooks import Hook, HookType, delete_hook_file, get_sorted_hooks
+from tgpy.message_design import get_code
+from tgpy.run_code import variables
+from tgpy.run_code.utils import Context, filename_prefix, save_function_to_variables
+from tgpy.utils import run_cmd, get_version, BASE_DIR
 
 variables['ctx'] = ctx = Context()
 
@@ -26,7 +26,7 @@ def ping():
 @save_function_to_variables
 def restart(msg: Optional[str] = 'Restarted successfully'):
     hook_code = dedent(f'''
-        from app.message_design import edit_message, get_code
+        from tgpy.message_design import edit_message, get_code
         msg = await client.get_messages({ctx.msg.chat_id}, ids={ctx.msg.id})
         await edit_message(msg, get_code(msg), '{msg}')
     ''')
@@ -41,7 +41,7 @@ def restart(msg: Optional[str] = 'Restarted successfully'):
     )
     hook.save()
     os.chdir(BASE_DIR)
-    os.execl(sys.executable, sys.executable, '-m', 'app', *sys.argv[1:])
+    os.execl(sys.executable, sys.executable, '-m', 'tgpy', *sys.argv[1:])
 
 
 @save_function_to_variables

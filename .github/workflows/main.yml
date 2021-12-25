@@ -1,0 +1,65 @@
+name: Lint & release project
+on: [ push, pull_request ]
+
+jobs:
+  Lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+      - name: Install poetry
+        shell: bash
+        run: |
+          pip install poetry
+          poetry config virtualenvs.in-project true
+
+      - name: Load dependency cache
+        id: load-cache
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+      - name: Install dependencies
+        run: poetry install
+        if: steps.load-cache.outputs.cache-hit != 'true'
+
+  Release:
+    concurrency: release
+    needs: Lint
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+      - name: Install poetry
+        shell: bash
+        run: |
+          pip install poetry
+          poetry config virtualenvs.in-project true
+
+      - name: Load dependency cache
+        id: load-cache
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Release
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+        run: |
+          source .venv/bin/activate
+          git config --global user.name "github-actions"
+          git config --global user.email "action@github.com"
+          export GH_TOKEN="${GITHUB_TOKEN}"
+          export REPOSITORY_USERNAME="__token__"
+          export REPOSITORY_PASSWORD="${PYPI_TOKEN}"
+          python -m semantic_release publish
