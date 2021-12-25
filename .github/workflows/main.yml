@@ -1,5 +1,13 @@
 name: Lint & release project
-on: [ push, pull_request ]
+on:
+  push:
+    paths:
+      - 'tgpy/**'
+      - '.github/**'
+  pull_request:
+    paths:
+      - 'tgpy/**'
+      - '.github/**'
 
 jobs:
   Lint:
@@ -28,7 +36,7 @@ jobs:
   Release:
     concurrency: release
     needs: Lint
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master' && !contains(github.event.head_commit.message, '[skip release]')
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
