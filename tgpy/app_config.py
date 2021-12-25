@@ -3,7 +3,7 @@ from typing import Optional
 import yaml
 from pydantic import BaseModel, ValidationError
 
-from app.utils import CONFIG_FILENAME
+from tgpy.utils import CONFIG_FILENAME
 
 
 class Config(BaseModel):

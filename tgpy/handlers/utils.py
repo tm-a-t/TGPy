@@ -2,7 +2,7 @@ from typing import Callable
 
 from telethon.tl.custom import Message
 
-from app import message_design
+from tgpy import message_design
 
 
 def _handle_errors(func: Callable):

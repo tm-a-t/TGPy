@@ -1,13 +1,12 @@
-import logging
-
 import aiorun
+import logging
 from telethon import TelegramClient, errors
 
-from app import app, Config
-from app.console import console
-from app.handlers import add_handlers
-from app.hooks import HookType, Hook
-from app.utils import migrate_from_old_versions, SESSION_FILENAME
+from tgpy import app, Config
+from tgpy.console import console
+from tgpy.handlers import add_handlers
+from tgpy.hooks import HookType, Hook
+from tgpy.utils import migrate_from_old_versions, SESSION_FILENAME
 
 log = logging.getLogger(__name__)
 
@@ -68,7 +67,7 @@ async def run_client():
     await app.client.run_until_disconnected()
 
 
-async def main():
+async def _main():
     migrate_from_old_versions()
 
     app.config = Config.load()
@@ -81,4 +80,5 @@ async def main():
     await run_client()
 
 
-aiorun.run(main(), stop_on_unhandled_errors=True)
+def main():
+    aiorun.run(_main(), stop_on_unhandled_errors=True)

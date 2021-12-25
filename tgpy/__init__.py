@@ -3,8 +3,11 @@ import logging
 from rich.logging import RichHandler
 from telethon import TelegramClient
 
-from app.app_config import Config
-from app.console import console
+from tgpy.app_config import Config
+from tgpy.console import console
+
+
+__version__ = "0.1.0.post2"
 
 logging.basicConfig(level=logging.INFO, format='%(message)s', datefmt="[%X]", handlers=[RichHandler()])
 

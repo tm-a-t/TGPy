@@ -2,10 +2,10 @@ from telethon import events
 from telethon.tl.custom import Message
 from telethon.tl.types import Channel
 
-from app import app, message_design
-from app.handlers.utils import _handle_errors, outgoing_messages_filter
-from app.run_code import eval_message, get_kwargs
-from app.run_code.parse_code import parse_code
+from tgpy import app, message_design
+from tgpy.handlers.utils import _handle_errors, outgoing_messages_filter
+from tgpy.run_code import eval_message, get_kwargs
+from tgpy.run_code.parse_code import parse_code
 
 
 async def handle_message(message: Message) -> None:

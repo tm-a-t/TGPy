@@ -19,7 +19,7 @@ phone = ...
 4. Install the requirements and run TGPy:
 ```shell
 $ pip install -r requirements.txt
-$ python -m app
+$ python -m tgpy
 ```
 
 5. For the first time, you'll have to log in with a confirmation code from Telegram.

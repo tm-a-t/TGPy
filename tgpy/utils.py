@@ -20,7 +20,7 @@ SESSION_FILENAME = DATA_DIR / 'TGPy.session'
 
 
 def migrate_from_old_versions():
-    from app.app_config import Config
+    from tgpy.app_config import Config
 
     old_session_file = BASE_DIR / 'TGPy.session'
     if old_session_file.exists() and not SESSION_FILENAME.exists():

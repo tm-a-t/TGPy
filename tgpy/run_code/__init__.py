@@ -1,11 +1,11 @@
 from telethon.errors import MessageIdInvalidError
 from telethon.tl.custom import Message
 
-from app import app
-from app import message_design
-from app.run_code.meval import meval
-from app.run_code.utils import Output, convert_result, filename_prefix, format_traceback
-from app.run_code.variables import variables
+from tgpy import app
+from tgpy import message_design
+from tgpy.run_code.meval import meval
+from tgpy.run_code.utils import Output, convert_result, filename_prefix, format_traceback
+from tgpy.run_code.variables import variables
 
 
 def get_kwargs(include_orig=True):
@@ -51,4 +51,4 @@ async def eval_message(code: str, message: Message, uses_orig=False) -> None:
         pass
 
 
-from app.run_code import builtin_functions
+from tgpy.run_code import builtin_functions

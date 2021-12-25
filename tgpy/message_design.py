@@ -4,7 +4,7 @@ import traceback as tb
 from telethon.tl.custom import Message
 from telethon.tl.types import MessageEntityTextUrl, MessageEntityCode, MessageEntityBold
 
-from app import app
+from tgpy import app
 
 TITLE = 'TGPy>'
 TITLE_URL = 'https://github.com/tm-a-t/TGPy'
