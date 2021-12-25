@@ -20,7 +20,7 @@ version_variable = [
     "pyproject.toml:version"
 ]
 branch = "master"
-upload_to_pypi = true
+upload_to_repository = true
 upload_to_release = true
 build_command = "poetry build"
 commit_subject = 'chore(release): v{version} [skip ci]'
