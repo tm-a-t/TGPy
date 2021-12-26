@@ -46,7 +46,7 @@ def restart(msg: Optional[str] = 'Restarted successfully'):
 @save_function_to_variables
 def update():
     if installed_as_package():
-        run_cmd([sys.executable, '-m', 'pip', 'install', '-U', 'tgpy'])
+        run_cmd([sys.executable, '-m', 'pip', 'install', '--user', '-U', 'tgpy'])
     else:
         run_cmd(['git', 'pull'])
     restart(f'Updated successfully! Current version: {get_version()}')
