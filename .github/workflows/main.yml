@@ -33,6 +33,25 @@ jobs:
         run: poetry install
         if: steps.load-cache.outputs.cache-hit != 'true'
 
+      - name: Check with black
+        if: github.event_name != 'push'
+        run: poetry run black -S --check --diff tgpy
+      - name: Reformat with black
+        if: github.event_name == 'push'
+        run: poetry run black -S tgpy
+      - name: Commit chanes
+        if: github.event_name == 'push'
+        shell: bash
+        run: |
+          if [ ! -n "$(git status --porcelain)" ]; then
+            exit
+          fi
+          git add -A
+          git config user.name "github-actions"
+          git config user.email "action@github.com"
+          git commit -m "style: reformat [skip ci]"
+          git push
+
   Release:
     concurrency: release
     needs: Lint
