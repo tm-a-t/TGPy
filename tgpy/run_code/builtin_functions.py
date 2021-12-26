@@ -11,7 +11,7 @@ from tgpy.hooks import Hook, HookType, delete_hook_file, get_sorted_hooks
 from tgpy.message_design import get_code
 from tgpy.run_code import variables
 from tgpy.run_code.utils import Context, filename_prefix, save_function_to_variables
-from tgpy.utils import run_cmd, get_version, BASE_DIR
+from tgpy.utils import run_cmd, get_version
 
 variables['ctx'] = ctx = Context()
 
@@ -40,7 +40,6 @@ def restart(msg: Optional[str] = 'Restarted successfully'):
         datetime=dt.datetime.fromtimestamp(0),
     )
     hook.save()
-    os.chdir(BASE_DIR)
     os.execl(sys.executable, sys.executable, '-m', 'tgpy', *sys.argv[1:])
 
 

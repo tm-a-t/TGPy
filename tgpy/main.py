@@ -6,7 +6,7 @@ from tgpy import app, Config
 from tgpy.console import console
 from tgpy.handlers import add_handlers
 from tgpy.hooks import HookType, Hook
-from tgpy.utils import migrate_from_old_versions, SESSION_FILENAME
+from tgpy.utils import migrate_config, SESSION_FILENAME, create_config_dirs
 
 log = logging.getLogger(__name__)
 
@@ -68,7 +68,8 @@ async def run_client():
 
 
 async def _main():
-    migrate_from_old_versions()
+    migrate_config()
+    create_config_dirs()
 
     app.config = Config.load()
     if not (app.config.api_id and app.config.api_hash):

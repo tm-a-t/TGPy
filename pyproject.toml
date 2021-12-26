@@ -34,6 +34,7 @@ PyYAML = "^6.0"
 pydantic = "^1.8.2"
 aiorun = "^2021.10.1"
 rich = "^10.16.1"
+appdirs = "^1.4.4"
 
 [tool.poetry.dev-dependencies]
 python-semantic-release = "^7.23.0"

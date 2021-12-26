@@ -4,37 +4,54 @@ from enum import Enum
 from pathlib import Path
 from subprocess import Popen, PIPE
 
+import appdirs
 import yaml
 from pydantic import ValidationError
 from yaml.representer import SafeRepresenter
 
-BASE_DIR = Path(__file__).parent.parent
-DATA_DIR = BASE_DIR / 'data'
-DATA_DIR.mkdir(exist_ok=True)
+DATA_DIR = Path(appdirs.user_config_dir('tgpy'))
 HOOKS_DIR = DATA_DIR / 'hooks'
-HOOKS_DIR.mkdir(exist_ok=True)
 WORKDIR = DATA_DIR / 'workdir'
-WORKDIR.mkdir(exist_ok=True)
 CONFIG_FILENAME = DATA_DIR / 'config.yml'
 SESSION_FILENAME = DATA_DIR / 'TGPy.session'
 
 
-def migrate_from_old_versions():
-    from tgpy.app_config import Config
+def create_config_dirs():
+    DATA_DIR.mkdir(exist_ok=True)
+    HOOKS_DIR.mkdir(exist_ok=True)
+    WORKDIR.mkdir(exist_ok=True)
 
-    old_session_file = BASE_DIR / 'TGPy.session'
-    if old_session_file.exists() and not SESSION_FILENAME.exists():
-        old_session_file.rename(SESSION_FILENAME)
-    old_config_file = BASE_DIR / 'config.py'
-    if old_config_file.exists() and not CONFIG_FILENAME.exists():
+
+def migrate_config():
+    from tgpy.app_config import Config
+    old_base_dir = Path(__file__).parent.parent
+
+    old_data_dir = old_base_dir / 'data'
+    old_session_file = old_base_dir / 'TGPy.session'
+    new_session_file = old_data_dir / SESSION_FILENAME.name
+    if not old_session_file.exists() or DATA_DIR.exists():
+        # old config file doesn't exist or new config file already exists
+        return
+    # ensure old_data_dir exists (it should, because old_session_file does)
+    old_data_dir.mkdir(exist_ok=True)
+    # migrate old session file
+    old_session_file.rename(new_session_file)
+
+    # migrate old config file
+    old_config_file = old_base_dir / 'config.py'
+    new_config_file = old_data_dir / CONFIG_FILENAME.name
+    if old_config_file.exists():
         try:
             config_mod = importlib.import_module('config')
             config = Config(api_id=config_mod.api_id, api_hash=config_mod.api_hash)
-            with open(CONFIG_FILENAME, 'w') as file:
+            with open(new_config_file, 'w') as file:
                 yaml.safe_dump(config.dict(), file)
         except (ValidationError, AttributeError, ImportError):
             pass
         old_config_file.unlink()
+
+    # finally, move data dir to new location
+    old_data_dir.rename(DATA_DIR)
 
 
 def _multiline_presenter(dumper, data):
@@ -88,5 +105,5 @@ def get_version():
     return 'unknown'
 
 
-__all__ = ['BASE_DIR', 'DATA_DIR', 'HOOKS_DIR', 'WORKDIR', 'CONFIG_FILENAME', 'SESSION_FILENAME',
-           'yaml_multiline_str', 'run_cmd', 'get_version', 'migrate_from_old_versions']
+__all__ = ['DATA_DIR', 'HOOKS_DIR', 'WORKDIR', 'CONFIG_FILENAME', 'SESSION_FILENAME',
+           'yaml_multiline_str', 'run_cmd', 'get_version', 'migrate_config', 'create_config_dirs']
