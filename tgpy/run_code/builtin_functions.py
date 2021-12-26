@@ -18,18 +18,22 @@ variables['ctx'] = ctx = Context()
 
 @save_function_to_variables
 def ping():
-    return f'Pong!\n' \
-           f'Running on {getpass.getuser()}@{socket.gethostname()}\n' \
-           f'Version: {get_version()}'
+    return (
+        f'Pong!\n'
+        f'Running on {getpass.getuser()}@{socket.gethostname()}\n'
+        f'Version: {get_version()}'
+    )
 
 
 @save_function_to_variables
 def restart(msg: Optional[str] = 'Restarted successfully'):
-    hook_code = dedent(f'''
+    hook_code = dedent(
+        f'''
         from tgpy.message_design import edit_message, get_code
         msg = await client.get_messages({ctx.msg.chat_id}, ids={ctx.msg.id})
         await edit_message(msg, get_code(msg), '{msg}')
-    ''')
+    '''
+    )
     hook = Hook(
         name='__restart_message',
         type=HookType.onstart,
@@ -82,10 +86,12 @@ class HooksObject:
             datetime=dt.datetime.now(),
         )
         hook.save()
-        return dedent(f'''
+        return dedent(
+            f'''
             Added hook {name!r}.
             The hook will be executed every time TGPy starts.
-        ''')
+        '''
+        )
 
     def remove(self, name) -> str:
         try:
@@ -95,19 +101,25 @@ class HooksObject:
         return f'Removed hook {name!r}.'
 
     def __str__(self):
-        lst = '\n'.join(f'{idx + 1}. {hook.name}' for idx, hook in enumerate(get_sorted_hooks()))
+        lst = '\n'.join(
+            f'{idx + 1}. {hook.name}' for idx, hook in enumerate(get_sorted_hooks())
+        )
         if not lst:
-            return dedent('''
+            return dedent(
+                '''
                 You have no hooks.
                 Learn about hooks at https://tgpy.tmat.me/hooks.
-            ''')
-        return dedent('''
+            '''
+            )
+        return dedent(
+            '''
             Your hooks:
             {}
             
             Change hooks with `hooks.add(name)` and `hooks.remove(name)`.
             Learn more at https://tgpy.tmat.me/hooks.
-        ''').format(lst)
+        '''
+        ).format(lst)
 
     def __iter__(self):
         return (hook.name for hook in get_sorted_hooks())

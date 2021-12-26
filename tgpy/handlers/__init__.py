@@ -42,14 +42,20 @@ async def on_message_edited(event: events.NewMessage.Event) -> None:
     if not code:
         await handle_message(event.message)
         return
-    await eval_message(code, event.message, uses_orig=parse_code(code, get_kwargs()).uses_orig)
+    await eval_message(
+        code, event.message, uses_orig=parse_code(code, get_kwargs()).uses_orig
+    )
 
 
-@events.register(events.NewMessage(pattern='(?i)^(cancel|сфтсуд)$', func=outgoing_messages_filter))
+@events.register(
+    events.NewMessage(pattern='(?i)^(cancel|сфтсуд)$', func=outgoing_messages_filter)
+)
 async def cancel(message: Message):
     prev = await message.get_reply_message()
     if not prev:
-        async for msg in app.client.iter_messages(message.chat_id, max_id=message.id, limit=10):
+        async for msg in app.client.iter_messages(
+            message.chat_id, max_id=message.id, limit=10
+        ):
             if msg.out and message_design.get_code(msg):
                 prev = msg
                 break

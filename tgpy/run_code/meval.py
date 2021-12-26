@@ -44,7 +44,9 @@ class MevalLoader(SourceLoader):
         return self.code
 
 
-async def meval(str_code: str, filename: str, globs: dict, saved_variables: dict, **kwargs) -> (dict, Any):
+async def meval(
+    str_code: str, filename: str, globs: dict, saved_variables: dict, **kwargs
+) -> (dict, Any):
     kwargs.update(saved_variables)
 
     # Restore globals later
@@ -86,17 +88,15 @@ async def meval(str_code: str, filename: str, globs: dict, saved_variables: dict
         ast.Call(
             func=ast.Attribute(
                 value=ast.Call(
-                    func=ast.Name(id='globals', ctx=ast.Load()),
-                    args=[],
-                    keywords=[]
+                    func=ast.Name(id='globals', ctx=ast.Load()), args=[], keywords=[]
                 ),
                 attr='update',
-                ctx=ast.Load()
+                ctx=ast.Load(),
             ),
             args=[],
             keywords=[
                 ast.keyword(arg=None, value=ast.Name(id=global_args, ctx=ast.Load()))
-            ]
+            ],
         )
     )
     ast.fix_missing_locations(glob_copy)
@@ -105,7 +105,7 @@ async def meval(str_code: str, filename: str, globs: dict, saved_variables: dict
     # _ret = []
     ret_decl = ast.Assign(
         targets=[ast.Name(id=ret_name, ctx=ast.Store())],
-        value=ast.List(elts=[], ctx=ast.Load())
+        value=ast.List(elts=[], ctx=ast.Load()),
     )
     ast.fix_missing_locations(ret_decl)
     code.insert(1, ret_decl)
@@ -116,19 +116,22 @@ async def meval(str_code: str, filename: str, globs: dict, saved_variables: dict
             value=ast.Call(
                 func=ast.Name(id='__import__', ctx=ast.Load()),
                 args=[ast.Constant(value='builtins')],
-                keywords=[]
+                keywords=[],
             ),
             attr='locals',
-            ctx=ast.Load()
+            ctx=ast.Load(),
         ),
         args=[],
-        keywords=[]
+        keywords=[],
     )
 
     if not any(isinstance(node, ast.Return) for node in shallow_walk(root)):
         for i in range(len(code)):
-            if not isinstance(code[i], ast.Expr) \
-                    or i != len(code) - 1 and isinstance(code[i].value, ast.Call):
+            if (
+                not isinstance(code[i], ast.Expr)
+                or i != len(code) - 1
+                and isinstance(code[i].value, ast.Call)
+            ):
                 continue
 
             # replace ... with _ret.append(...)
@@ -138,13 +141,13 @@ async def meval(str_code: str, filename: str, globs: dict, saved_variables: dict
                         func=ast.Attribute(
                             value=ast.Name(id=ret_name, ctx=ast.Load()),
                             attr='append',
-                            ctx=ast.Load()
+                            ctx=ast.Load(),
                         ),
                         args=[code[i].value],
-                        keywords=[]
+                        keywords=[],
                     )
                 ),
-                code[-1]
+                code[-1],
             )
     else:
         for node in shallow_walk(root):
@@ -155,9 +158,11 @@ async def meval(str_code: str, filename: str, globs: dict, saved_variables: dict
             node.value = ast.Tuple(
                 elts=[
                     get_locals,
-                    ast.List(elts=[node.value or ast.Constant(value='None')], ctx=ast.Load())
+                    ast.List(
+                        elts=[node.value or ast.Constant(value='None')], ctx=ast.Load()
+                    ),
                 ],
-                ctx=ast.Load()
+                ctx=ast.Load(),
             )
 
     # return (__import__('builtins').locals(), _ret)
@@ -165,14 +170,11 @@ async def meval(str_code: str, filename: str, globs: dict, saved_variables: dict
         ast.copy_location(
             ast.Return(
                 value=ast.Tuple(
-                    elts=[
-                        get_locals,
-                        ast.Name(id=ret_name, ctx=ast.Load())
-                    ],
-                    ctx=ast.Load()
+                    elts=[get_locals, ast.Name(id=ret_name, ctx=ast.Load())],
+                    ctx=ast.Load(),
                 )
             ),
-            code[-1]
+            code[-1],
         )
     )
 
@@ -180,10 +182,18 @@ async def meval(str_code: str, filename: str, globs: dict, saved_variables: dict
     for a in list(map(lambda x: ast.arg(x, None), kwargs.keys())):
         ast.fix_missing_locations(a)
         args += [a]
-    args = ast.arguments(args=[], vararg=None, kwonlyargs=args, kwarg=None, defaults=[],
-                         kw_defaults=[None for i in range(len(args))])
+    args = ast.arguments(
+        args=[],
+        vararg=None,
+        kwonlyargs=args,
+        kwarg=None,
+        defaults=[],
+        kw_defaults=[None for i in range(len(args))],
+    )
     args.posonlyargs = []
-    fun = ast.AsyncFunctionDef(name='tmp', args=args, body=code, decorator_list=[], returns=None)
+    fun = ast.AsyncFunctionDef(
+        name='tmp', args=args, body=code, decorator_list=[], returns=None
+    )
     ast.fix_missing_locations(fun)
     mod = ast.Module(body=[fun], type_ignores=[])
 
@@ -195,7 +205,9 @@ async def meval(str_code: str, filename: str, globs: dict, saved_variables: dict
 
     new_locs, ret = await getattr(py_module, 'tmp')(**kwargs)
     for loc in list(new_locs):
-        if (loc in globs or loc in kwargs or loc == ret_name) and loc not in saved_variables:
+        if (
+            loc in globs or loc in kwargs or loc == ret_name
+        ) and loc not in saved_variables:
             new_locs.pop(loc)
 
     ret = [await el if inspect.isawaitable(el) else el for el in ret]

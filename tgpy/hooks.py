@@ -69,7 +69,9 @@ class Hook(BaseModel):
         with open(filename) as f:
             hook = Hook.parse_obj(yaml.safe_load(f))
         if hook.name != hook_name:
-            raise ValueError(f'Invalid hook name. Expected: {hook_name!r}, found: {hook.name}')
+            raise ValueError(
+                f'Invalid hook name. Expected: {hook_name!r}, found: {hook.name}'
+            )
         return hook
 
     def save(self):

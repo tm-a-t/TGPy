@@ -44,4 +44,3 @@ def format_traceback():
 def save_function_to_variables(func):
     variables[func.__name__] = func
     return func
-

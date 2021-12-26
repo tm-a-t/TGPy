@@ -81,6 +81,15 @@ def get_version():
     return 'unknown'
 
 
-__all__ = ['DATA_DIR', 'HOOKS_DIR', 'WORKDIR', 'CONFIG_FILENAME', 'SESSION_FILENAME',
-           'yaml_multiline_str', 'run_cmd', 'get_version', 'create_config_dirs',
-           'installed_as_package']
+__all__ = [
+    'DATA_DIR',
+    'HOOKS_DIR',
+    'WORKDIR',
+    'CONFIG_FILENAME',
+    'SESSION_FILENAME',
+    'yaml_multiline_str',
+    'run_cmd',
+    'get_version',
+    'create_config_dirs',
+    'installed_as_package',
+]

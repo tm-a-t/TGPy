@@ -4,12 +4,21 @@ from telethon.tl.custom import Message
 from tgpy import app
 from tgpy import message_design
 from tgpy.run_code.meval import meval
-from tgpy.run_code.utils import Output, convert_result, filename_prefix, format_traceback
+from tgpy.run_code.utils import (
+    Output,
+    convert_result,
+    filename_prefix,
+    format_traceback,
+)
 from tgpy.run_code.variables import variables
 
 
 def get_kwargs(include_orig=True):
-    return list(variables.keys()) + ['ctx', 'msg', 'print', 'client'] + ['orig'] if include_orig else []
+    return (
+        list(variables.keys()) + ['ctx', 'msg', 'print', 'client'] + ['orig']
+        if include_orig
+        else []
+    )
 
 
 async def eval_message(code: str, message: Message, uses_orig=False) -> None:
@@ -46,7 +55,9 @@ async def eval_message(code: str, message: Message, uses_orig=False) -> None:
         exc = ''
 
     try:
-        await message_design.edit_message(message, code, result, traceback=exc, output=output.text)
+        await message_design.edit_message(
+            message, code, result, traceback=exc, output=output.text
+        )
     except MessageIdInvalidError:
         pass
 

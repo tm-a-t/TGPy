@@ -9,7 +9,9 @@ from tgpy.console import console
 
 __version__ = "0.3.0"
 
-logging.basicConfig(level=logging.INFO, format='%(message)s', datefmt="[%X]", handlers=[RichHandler()])
+logging.basicConfig(
+    level=logging.INFO, format='%(message)s', datefmt="[%X]", handlers=[RichHandler()]
+)
 
 
 class App:

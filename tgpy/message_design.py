@@ -11,7 +11,9 @@ TITLE_URL = 'https://github.com/tm-a-t/TGPy'
 ERROR_TITLE_FORMATTED = f'<b><a href="{TITLE_URL}">TGPy error&gt;</a></b>'
 
 
-async def edit_message(message: Message, code: str, result, traceback: str = '', output: str = '') -> None:
+async def edit_message(
+    message: Message, code: str, result, traceback: str = '', output: str = ''
+) -> None:
     if result is None and output:
         result = output
         output = ''
@@ -41,7 +43,7 @@ async def edit_message(message: Message, code: str, result, traceback: str = '',
 def get_code(message: Message) -> str:
     for e in message.entities or []:
         if isinstance(e, MessageEntityTextUrl) and e.url == TITLE_URL:
-            return message.raw_text[:e.offset].strip()
+            return message.raw_text[: e.offset].strip()
     return ''
 
 
@@ -49,4 +51,6 @@ async def send_error(chat) -> None:
     exc = ''.join(tb.format_exception(*sys.exc_info()))
     if len(exc) > 4000:
         exc = exc[:4000] + '…'
-    await app.client.send_message(chat, f'{ERROR_TITLE_FORMATTED}\n\n<code>{exc}</code>', link_preview=False)
+    await app.client.send_message(
+        chat, f'{ERROR_TITLE_FORMATTED}\n\n<code>{exc}</code>', link_preview=False
+    )

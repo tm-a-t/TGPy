@@ -12,7 +12,9 @@ log = logging.getLogger(__name__)
 
 
 def create_client():
-    client = TelegramClient(str(SESSION_FILENAME), app.config.api_id, app.config.api_hash)
+    client = TelegramClient(
+        str(SESSION_FILENAME), app.config.api_id, app.config.api_hash
+    )
     client.parse_mode = 'html'
     return client
 
@@ -21,7 +23,9 @@ async def start_client():
     await app.client.start(
         phone=lambda: console.input('| Please enter your phone number: '),
         code_callback=lambda: console.input('| Please enter the code you received: '),
-        password=lambda: console.input('| Please enter your 2FA password: ', password=True),
+        password=lambda: console.input(
+            '| Please enter your 2FA password: ', password=True
+        ),
     )
 
 
