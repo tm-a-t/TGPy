@@ -45,6 +45,7 @@ def restart(msg: Optional[str] = 'Restarted successfully'):
 
 @save_function_to_variables
 def update():
+    old_version = get_version()
     if installed_as_package():
         update_args = [sys.executable, '-m', 'pip', 'install', '-U', 'tgpy']
         try:
@@ -53,7 +54,11 @@ def update():
             run_cmd(update_args + ['--user'])
     else:
         run_cmd(['git', 'pull'])
-    restart(f'Updated successfully! Current version: {get_version()}')
+    new_version = get_version()
+    if old_version == new_version:
+        return 'Already up to date'
+    else:
+        restart(f'Updated successfully! Current version: {new_version}')
 
 
 class HooksObject:
