@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.3.0 (2021-12-26)
+### Feature
+* **update:** Show when no updates are available ([`62145ff`](https://github.com/tm-a-t/TGPy/commit/62145ff10215e25793e49d7a83d350d665946fce))
+
 ## v0.2.3 (2021-12-26)
 ### Fix
 * **update:** Try both regular installation and --user installation ([`50ffbe9`](https://github.com/tm-a-t/TGPy/commit/50ffbe94da5f8e061326be492f064c891bb63817))
