@@ -11,7 +11,7 @@ from tgpy.hooks import Hook, HookType, delete_hook_file, get_sorted_hooks
 from tgpy.message_design import get_code
 from tgpy.run_code import variables
 from tgpy.run_code.utils import Context, filename_prefix, save_function_to_variables
-from tgpy.utils import run_cmd, get_version
+from tgpy.utils import run_cmd, get_version, installed_as_package
 
 variables['ctx'] = ctx = Context()
 
@@ -45,8 +45,11 @@ def restart(msg: Optional[str] = 'Restarted successfully'):
 
 @save_function_to_variables
 def update():
-    run_cmd(['git', 'pull'])
-    restart(f'Updated successfuly! Current version: {get_version()}')
+    if installed_as_package():
+        run_cmd([sys.executable, '-m', 'pip', 'install', '-U', 'tgpy'])
+    else:
+        run_cmd(['git', 'pull'])
+    restart(f'Updated successfully! Current version: {get_version()}')
 
 
 class HooksObject:

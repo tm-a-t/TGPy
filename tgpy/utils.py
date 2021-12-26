@@ -93,17 +93,26 @@ def run_cmd(args: list[str]):
     return output.decode('utf-8').strip()
 
 
-def get_version():
+def installed_as_package():
     try:
-        return importlib.metadata.version('tgpy')
+        importlib.metadata.version('tgpy')
+        return True
     except importlib.metadata.PackageNotFoundError:
-        pass
+        return False
+
+
+def get_version():
+    if installed_as_package():
+        return importlib.metadata.version('tgpy')
+
     try:
         return 'git@' + run_cmd(['git', 'rev-parse', '--short', 'HEAD'])
     except RunCmdException:
         pass
+
     return 'unknown'
 
 
 __all__ = ['DATA_DIR', 'HOOKS_DIR', 'WORKDIR', 'CONFIG_FILENAME', 'SESSION_FILENAME',
-           'yaml_multiline_str', 'run_cmd', 'get_version', 'migrate_config', 'create_config_dirs']
+           'yaml_multiline_str', 'run_cmd', 'get_version', 'migrate_config', 'create_config_dirs',
+           'installed_as_package']
