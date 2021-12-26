@@ -6,7 +6,7 @@ from tgpy import app, Config
 from tgpy.console import console
 from tgpy.handlers import add_handlers
 from tgpy.hooks import HookType, Hook
-from tgpy.utils import migrate_config, SESSION_FILENAME, create_config_dirs
+from tgpy.utils import SESSION_FILENAME, create_config_dirs
 
 log = logging.getLogger(__name__)
 
@@ -68,7 +68,6 @@ async def run_client():
 
 
 async def _main():
-    migrate_config()
     create_config_dirs()
 
     app.config = Config.load()

@@ -22,38 +22,6 @@ def create_config_dirs():
     WORKDIR.mkdir(exist_ok=True)
 
 
-def migrate_config():
-    from tgpy.app_config import Config
-    old_base_dir = Path(__file__).parent.parent
-
-    old_data_dir = old_base_dir / 'data'
-    old_session_file = old_base_dir / 'TGPy.session'
-    new_session_file = old_data_dir / SESSION_FILENAME.name
-    if not old_session_file.exists() or DATA_DIR.exists():
-        # old config file doesn't exist or new config file already exists
-        return
-    # ensure old_data_dir exists (it should, because old_session_file does)
-    old_data_dir.mkdir(exist_ok=True)
-    # migrate old session file
-    old_session_file.rename(new_session_file)
-
-    # migrate old config file
-    old_config_file = old_base_dir / 'config.py'
-    new_config_file = old_data_dir / CONFIG_FILENAME.name
-    if old_config_file.exists():
-        try:
-            config_mod = importlib.import_module('config')
-            config = Config(api_id=config_mod.api_id, api_hash=config_mod.api_hash)
-            with open(new_config_file, 'w') as file:
-                yaml.safe_dump(config.dict(), file)
-        except (ValidationError, AttributeError, ImportError):
-            pass
-        old_config_file.unlink()
-
-    # finally, move data dir to new location
-    old_data_dir.rename(DATA_DIR)
-
-
 def _multiline_presenter(dumper, data):
     return dumper.represent_scalar('tag:yaml.org,2002:str', data, style='|')
 
@@ -114,5 +82,5 @@ def get_version():
 
 
 __all__ = ['DATA_DIR', 'HOOKS_DIR', 'WORKDIR', 'CONFIG_FILENAME', 'SESSION_FILENAME',
-           'yaml_multiline_str', 'run_cmd', 'get_version', 'migrate_config', 'create_config_dirs',
+           'yaml_multiline_str', 'run_cmd', 'get_version', 'create_config_dirs',
            'installed_as_package']
