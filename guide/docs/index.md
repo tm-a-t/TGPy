@@ -8,9 +8,22 @@ Made with Telethon library, TGPy is a tool for evaluating expressions and Telegr
 - Interact with your messages and chats
 - Automate sending messages and more
 
-![Example](assets/example.gif)
+## Installation
+
+Python 3.9+ is required.
+
+```shell
+> pip install tgpy
+> tgpy
+```
+
+## Getting started
 
 Just send Python code to any chat, and it will be executed. Change your message to change the result.
+
+[📒 TGPy Basics](https://tgpy.tmat.me/basics/)
+
+![Example](assets/example.gif)
 
 ## Examples
 
@@ -64,16 +77,6 @@ async def delete():
     await original.delete()
     await message.delete()
 ```
-
-## Guide
-
-- [Basics](basics)
-- [TGPy builtins](builtins)
-- [Code detection](code_detection)
-
-## Installation
-
-[Go to Installation](installation){ .md-button }
 
 ## Credits
 

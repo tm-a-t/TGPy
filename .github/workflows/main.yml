@@ -3,11 +3,11 @@ on:
   push:
     paths:
       - 'tgpy/**'
-      - '.github/**'
+      - '.github/workflows/main.yml'
   pull_request:
     paths:
       - 'tgpy/**'
-      - '.github/**'
+      - '.github/workflows/main.yml'
 
 jobs:
   Lint:
@@ -56,7 +56,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+          key: app-${{ runner.os }}-python-${{ env.pythonLocation }}-${{ hashFiles('poetry.lock') }}
 
       - name: Release
         shell: bash
