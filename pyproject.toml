@@ -26,6 +26,10 @@ build_command = "poetry build"
 commit_subject = 'chore(release): v{version} [skip ci]'
 commit_message = ''
 
+[tool.black]
+skip-string-normalization = true
+include = '/tgpy/.*\.pyi?$'
+
 [tool.poetry.dependencies]
 python = "^3.9"
 Telethon = "^1.24.0"

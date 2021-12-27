@@ -35,10 +35,10 @@ jobs:
 
       - name: Check with black
         if: github.event_name != 'push'
-        run: poetry run black -S --check --diff tgpy
+        run: poetry run black --check --diff .
       - name: Reformat with black
         if: github.event_name == 'push'
-        run: poetry run black -S tgpy
+        run: poetry run black .
       - name: Commit chanes
         if: github.event_name == 'push'
         shell: bash
