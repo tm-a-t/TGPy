@@ -33,12 +33,16 @@ jobs:
         run: poetry install
         if: steps.load-cache.outputs.cache-hit != 'true'
 
-      - name: Check with black
+      - name: Check code style
         if: github.event_name != 'push'
-        run: poetry run black --check --diff .
-      - name: Reformat with black
+        run: |
+          poetry run black --check --diff .
+          poetry run isort --check --diff .
+      - name: Reformat code
         if: github.event_name == 'push'
-        run: poetry run black .
+        run: |
+          poetry run black .
+          poetry run isort .
       - name: Commit chanes
         if: github.event_name == 'push'
         shell: bash
