@@ -1,48 +1,32 @@
 import importlib.metadata
 import shlex
-from enum import Enum
 from pathlib import Path
-from subprocess import Popen, PIPE
+from subprocess import PIPE, Popen
+from typing import Optional
 
 import appdirs
-import yaml
-from pydantic import ValidationError
-from yaml.representer import SafeRepresenter
+from telethon.tl.custom import Message
 
 DATA_DIR = Path(appdirs.user_config_dir('tgpy'))
-HOOKS_DIR = DATA_DIR / 'hooks'
+MODULES_DIR = DATA_DIR / 'modules'
 WORKDIR = DATA_DIR / 'workdir'
 CONFIG_FILENAME = DATA_DIR / 'config.yml'
 SESSION_FILENAME = DATA_DIR / 'TGPy.session'
 
+filename_prefix = 'tgpy://'
+
+
+class Context:
+    msg: Optional[Message] = None
+
+    def __str__(self):
+        return f'<Context(msg)>'
+
 
 def create_config_dirs():
     DATA_DIR.mkdir(exist_ok=True)
-    HOOKS_DIR.mkdir(exist_ok=True)
+    MODULES_DIR.mkdir(exist_ok=True)
     WORKDIR.mkdir(exist_ok=True)
-
-
-def _multiline_presenter(dumper, data):
-    return dumper.represent_scalar('tag:yaml.org,2002:str', data, style='|')
-
-
-def _enum_presenter(dumper, data):
-    value = data.value
-    if isinstance(value, str):
-        return dumper.represent_str(value)
-    if isinstance(value, int):
-        return dumper.represent_int(value)
-    if isinstance(value, bool):
-        return dumper.represent_bool(value)
-    raise ValueError
-
-
-class yaml_multiline_str(str):
-    pass
-
-
-SafeRepresenter.add_representer(yaml_multiline_str, _multiline_presenter)
-SafeRepresenter.add_multi_representer(Enum, _enum_presenter)
 
 
 class RunCmdException(Exception):
@@ -83,13 +67,15 @@ def get_version():
 
 __all__ = [
     'DATA_DIR',
-    'HOOKS_DIR',
+    'MODULES_DIR',
     'WORKDIR',
     'CONFIG_FILENAME',
     'SESSION_FILENAME',
-    'yaml_multiline_str',
     'run_cmd',
     'get_version',
     'create_config_dirs',
     'installed_as_package',
+    'RunCmdException',
+    'Context',
+    'filename_prefix',
 ]

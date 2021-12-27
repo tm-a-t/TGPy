@@ -1,24 +1,20 @@
 from telethon.errors import MessageIdInvalidError
 from telethon.tl.custom import Message
 
-from tgpy import app
-from tgpy import message_design
+from tgpy import app, message_design
 from tgpy.run_code.meval import meval
-from tgpy.run_code.utils import (
-    Output,
-    convert_result,
-    filename_prefix,
-    format_traceback,
-)
-from tgpy.run_code.variables import variables
+from tgpy.run_code.parse_code import parse_code
+from tgpy.run_code.utils import Output, convert_result, format_traceback
+from tgpy.utils import filename_prefix
 
 
-def get_kwargs(include_orig=True):
+def get_variable_names(include_orig=True):
+    # fmt: off
     return (
-        list(variables.keys()) + ['ctx', 'msg', 'print', 'client'] + ['orig']
-        if include_orig
-        else []
+        list(app.api.variables.keys()) + list(app.api.constants.keys()) + ['msg', 'print']
+        + ['orig'] if include_orig else []
     )
+    # fmt: on
 
 
 async def eval_message(code: str, message: Message, uses_orig=False) -> None:
@@ -26,12 +22,12 @@ async def eval_message(code: str, message: Message, uses_orig=False) -> None:
 
     output = Output()
 
-    variables['ctx'].msg = message
+    app.ctx.msg = message
 
-    kwargs = {}
+    orig_kwarg = {}
     if uses_orig:
         orig = await message.get_reply_message()
-        kwargs['orig'] = orig
+        orig_kwarg['orig'] = orig
 
     # noinspection PyBroadException
     try:
@@ -39,18 +35,17 @@ async def eval_message(code: str, message: Message, uses_orig=False) -> None:
             code,
             f'{filename_prefix}message/{message.chat_id}/{message.id}',
             globals(),
-            variables,
-            client=app.client,
+            app.api.variables,
             msg=message,
-            ctx=variables['ctx'],
             print=output.print,
-            **kwargs,
+            **app.api.constants,
+            **orig_kwarg,
         )
     except Exception:
         result = 'Error occurred'
         exc = ''.join(format_traceback())
     else:
-        variables.update(new_variables)
+        app.api.variables.update(new_variables)
         result = convert_result(result)
         exc = ''
 
@@ -60,6 +55,3 @@ async def eval_message(code: str, message: Message, uses_orig=False) -> None:
         )
     except MessageIdInvalidError:
         pass
-
-
-from tgpy.run_code import builtin_functions

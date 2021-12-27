@@ -1,5 +1,7 @@
 import ast
 
+from tgpy import app
+
 
 class _Result:
     is_code = False
@@ -57,6 +59,9 @@ def _ignore_node(node: ast.AST, locs: dict) -> bool:
 def parse_code(text: str, locs: dict) -> _Result:
     """Parse given text and decide should it be evaluated as Python code"""
     result = _Result()
+
+    # noinspection PyProtectedMember
+    text = app.api._apply_code_transformers(text)
 
     try:
         root = ast.parse(text, '', 'exec')

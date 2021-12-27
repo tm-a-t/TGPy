@@ -2,13 +2,13 @@ import sys
 import traceback as tb
 
 from telethon.tl.custom import Message
-from telethon.tl.types import MessageEntityTextUrl, MessageEntityCode, MessageEntityBold
+from telethon.tl.types import MessageEntityBold, MessageEntityCode, MessageEntityTextUrl
 
 from tgpy import app
 
 TITLE = 'TGPy>'
 TITLE_URL = 'https://github.com/tm-a-t/TGPy'
-ERROR_TITLE_FORMATTED = f'<b><a href="{TITLE_URL}">TGPy error&gt;</a></b>'
+FORMATTED_ERROR_HEADER = f'<b><a href="{TITLE_URL}">TGPy error&gt;</a></b>'
 
 
 async def edit_message(
@@ -52,5 +52,5 @@ async def send_error(chat) -> None:
     if len(exc) > 4000:
         exc = exc[:4000] + '…'
     await app.client.send_message(
-        chat, f'{ERROR_TITLE_FORMATTED}\n\n<code>{exc}</code>', link_preview=False
+        chat, f'{FORMATTED_ERROR_HEADER}\n\n<code>{exc}</code>', link_preview=False
     )

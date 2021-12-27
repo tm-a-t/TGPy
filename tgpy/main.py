@@ -1,12 +1,17 @@
-import aiorun
 import logging
-from telethon import TelegramClient, errors
 
-from tgpy import app, Config
+import aiorun
+import yaml
+from pydantic import ValidationError
+from telethon import TelegramClient, errors
+from yaml import YAMLError
+
+from tgpy import Config, app
+from tgpy.builtin_functions import add_builtin_functions
 from tgpy.console import console
 from tgpy.handlers import add_handlers
-from tgpy.hooks import HookType, Hook
-from tgpy.utils import SESSION_FILENAME, create_config_dirs
+from tgpy.modules import run_modules, serialize_module
+from tgpy.utils import DATA_DIR, MODULES_DIR, SESSION_FILENAME, create_config_dirs
 
 log = logging.getLogger(__name__)
 
@@ -59,29 +64,60 @@ async def initial_setup():
         finally:
             if app.client:
                 await app.client.disconnect()
+                del app.client
     console.print('│ Login successful!')
     app.config.save()
 
 
-async def run_client():
-    log.info('Starting TGPy...')
-    await start_client()
-    log.info('[bold]TGPy is running!', extra={'markup': True})
-    await Hook.run_hooks(HookType.onstart)
-    await app.client.run_until_disconnected()
+def migrate_hooks_to_modules():
+    old_modules_dir = DATA_DIR / 'hooks'
+    if not old_modules_dir.exists():
+        return
+    for mod_file in old_modules_dir.iterdir():
+        # noinspection PyBroadException
+        try:
+            if mod_file.suffix not in ['.yml', '.yaml']:
+                continue
+            try:
+                with open(mod_file) as f:
+                    module = yaml.safe_load(f)
+
+                if 'type' in module:
+                    del module['type']
+                if 'datetime' in module:
+                    module['priority'] = int(module['datetime'].timestamp())
+                    del module['datetime']
+
+                new_mod_file = mod_file.with_suffix('.py')
+                with open(new_mod_file, 'w') as f:
+                    f.write(serialize_module(module))
+                mod_file.unlink()
+                mod_file = new_mod_file
+            except (YAMLError, ValidationError):
+                continue
+        except Exception:
+            pass
+        finally:
+            mod_file.rename(MODULES_DIR / mod_file.name)
+    old_modules_dir.rmdir()
 
 
 async def _main():
     create_config_dirs()
+    migrate_hooks_to_modules()
 
     app.config = Config.load()
     if not (app.config.api_id and app.config.api_hash):
         await initial_setup()
-    else:
-        app.client = create_client()
 
+    log.info('Starting TGPy...')
+    app.client = create_client()
     add_handlers()
-    await run_client()
+    add_builtin_functions()
+    await start_client()
+    log.info('[bold]TGPy is running!', extra={'markup': True})
+    await run_modules()
+    await app.client.run_until_disconnected()
 
 
 def main():

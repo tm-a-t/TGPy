@@ -4,8 +4,7 @@ from telethon.tl.types import Channel
 
 from tgpy import app, message_design
 from tgpy.handlers.utils import _handle_errors, outgoing_messages_filter
-from tgpy.run_code import eval_message, get_kwargs
-from tgpy.run_code.parse_code import parse_code
+from tgpy.run_code import eval_message, get_variable_names, parse_code
 
 
 async def handle_message(message: Message) -> None:
@@ -18,7 +17,7 @@ async def handle_message(message: Message) -> None:
         await message.edit(message.text[2:])
         return
 
-    locals_ = get_kwargs()
+    locals_ = get_variable_names()
 
     res = parse_code(raw_text, locals_)
     if not res.is_code:
@@ -43,7 +42,7 @@ async def on_message_edited(event: events.NewMessage.Event) -> None:
         await handle_message(event.message)
         return
     await eval_message(
-        code, event.message, uses_orig=parse_code(code, get_kwargs()).uses_orig
+        code, event.message, uses_orig=parse_code(code, get_variable_names()).uses_orig
     )
 
 

@@ -4,9 +4,11 @@ import ast
 import inspect
 from collections import deque
 from importlib.abc import SourceLoader
-from importlib.util import spec_from_loader, module_from_spec
+from importlib.util import module_from_spec, spec_from_loader
 from types import CodeType
 from typing import Any, Iterator
+
+from tgpy import app
 
 
 def shallow_walk(node) -> Iterator:
@@ -63,7 +65,9 @@ async def meval(
         # Copy data to args we are sending
         kwargs[global_args][glob] = globs[glob]
 
-    root = ast.parse(str_code, 'exec')
+    # noinspection PyProtectedMember
+    str_code = app.api._apply_code_transformers(str_code)
+    root = ast.parse(str_code, '', 'exec')
 
     ret_name = '_ret'
     ok = False
