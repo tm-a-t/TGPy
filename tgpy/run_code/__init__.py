@@ -4,7 +4,7 @@ from telethon.tl.custom import Message
 from tgpy import app, message_design
 from tgpy.run_code.meval import meval
 from tgpy.run_code.parse_code import parse_code
-from tgpy.run_code.utils import Output, convert_result, format_traceback
+from tgpy.run_code.utils import convert_result, format_traceback
 from tgpy.utils import filename_prefix
 
 
@@ -20,8 +20,6 @@ def get_variable_names(include_orig=True):
 async def eval_message(code: str, message: Message, uses_orig=False) -> None:
     await message_design.edit_message(message, code, 'Running...')
 
-    output = Output()
-
     app.ctx.msg = message
 
     orig_kwarg = {}
@@ -31,13 +29,14 @@ async def eval_message(code: str, message: Message, uses_orig=False) -> None:
 
     # noinspection PyBroadException
     try:
+        # noinspection PyProtectedMember
         new_variables, result = await meval(
             code,
             f'{filename_prefix}message/{message.chat_id}/{message.id}',
             globals(),
             app.api.variables,
             msg=message,
-            print=output.print,
+            print=app.ctx._print,
             **app.api.constants,
             **orig_kwarg,
         )
@@ -50,8 +49,9 @@ async def eval_message(code: str, message: Message, uses_orig=False) -> None:
         exc = ''
 
     try:
+        # noinspection PyProtectedMember
         await message_design.edit_message(
-            message, code, result, traceback=exc, output=output.text
+            message, code, result, traceback=exc, output=app.ctx._print_output
         )
     except MessageIdInvalidError:
         pass

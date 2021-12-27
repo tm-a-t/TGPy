@@ -6,10 +6,9 @@ from telethon import TelegramClient
 from tgpy.api import API
 from tgpy.app_config import Config
 from tgpy.console import console
+from tgpy.context import Context
 
 __version__ = "0.3.0"
-
-from tgpy.utils import Context
 
 logging.basicConfig(
     level=logging.INFO, format='%(message)s', datefmt="[%X]", handlers=[RichHandler()]

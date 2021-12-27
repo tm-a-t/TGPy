@@ -1,12 +1,9 @@
 import importlib.metadata
 import shlex
-from contextvars import ContextVar
 from pathlib import Path
 from subprocess import PIPE, Popen
-from typing import Optional
 
 import appdirs
-from telethon.tl.custom import Message
 
 DATA_DIR = Path(appdirs.user_config_dir('tgpy'))
 MODULES_DIR = DATA_DIR / 'modules'
@@ -15,24 +12,6 @@ CONFIG_FILENAME = DATA_DIR / 'config.yml'
 SESSION_FILENAME = DATA_DIR / 'TGPy.session'
 
 filename_prefix = 'tgpy://'
-
-
-class Context:
-    __msg: ContextVar[Optional[Message]]
-
-    def __init__(self):
-        self.__msg = ContextVar('msg')
-
-    @property
-    def msg(self):
-        return self.__msg.get(None)
-
-    @msg.setter
-    def msg(self, msg: Message):
-        self.__msg.set(msg)
-
-    def __str__(self):
-        return f'<Context(msg)>'
 
 
 def create_config_dirs():
