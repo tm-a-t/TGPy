@@ -1,5 +1,6 @@
 import importlib.metadata
 import shlex
+from contextvars import ContextVar
 from pathlib import Path
 from subprocess import PIPE, Popen
 from typing import Optional
@@ -17,7 +18,18 @@ filename_prefix = 'tgpy://'
 
 
 class Context:
-    msg: Optional[Message] = None
+    __msg: ContextVar[Optional[Message]]
+
+    def __init__(self):
+        self.__msg = ContextVar('msg')
+
+    @property
+    def msg(self):
+        return self.__msg.get(None)
+
+    @msg.setter
+    def msg(self, msg: Message):
+        self.__msg.set(msg)
 
     def __str__(self):
         return f'<Context(msg)>'
