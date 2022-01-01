@@ -5,7 +5,8 @@ from subprocess import PIPE, Popen
 
 import appdirs
 
-DATA_DIR = Path(appdirs.user_config_dir('tgpy'))
+# noinspection PyTypeChecker
+DATA_DIR = Path(appdirs.user_config_dir('tgpy', appauthor=False))
 MODULES_DIR = DATA_DIR / 'modules'
 WORKDIR = DATA_DIR / 'workdir'
 CONFIG_FILENAME = DATA_DIR / 'config.yml'
