@@ -70,5 +70,9 @@ to Telegram API).
 
 ## TGPy objects
 
-- [`hooks`](hooks.md)
+- [`modules`](modules.md)
 - [`ctx`](context.md)
+
+## TGPy API object
+
+- [`tgpy`](api.md)

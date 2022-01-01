@@ -43,5 +43,6 @@ nav:
   - builtins.md
   - code_detection.md
   - Advanced:
-    - hooks.md
+    - modules.md
     - context.md
+  - api.md

@@ -78,6 +78,8 @@ async def delete():
     await message.delete()
 ```
 
+## [TGPy Guide](https://tgpy.tmat.me/)
+
 ## Credits
 
 - Thanks to [penn5](https://github.com/penn5) for [meval](https://github.com/penn5/meval)
