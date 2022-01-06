@@ -34,12 +34,19 @@ def _is_node_suspicious_binop(node: ast.AST, locs: dict) -> bool:
     )
 
 
-def _ignore_node(node: ast.AST, locs: dict) -> bool:
-    """Check if AST node didn't seem to be meant to be code"""
+def _ignore_node_simple(node: ast.AST, locs: dict) -> bool:
+    """Check if message is constant or unknown variable"""
     return (
         # Messages like "python", "123" or "example.com"
         isinstance(node, ast.Constant)
         or _is_node_unknown_variable(node, locs)
+    )
+
+
+def _ignore_node(node: ast.AST, locs: dict) -> bool:
+    """Check if AST node didn't seem to be meant to be code"""
+    return (
+        _ignore_node_simple(node, locs)
         # Messages like "-1", "+spam" and "not foo.bar"
         # `getattr(..., None) or node.value` is used here to avoid AttributeError and because in UnaryOp and Starred
         # operands are stored in different attributes ("operand" and "value" respectively)
@@ -52,7 +59,16 @@ def _ignore_node(node: ast.AST, locs: dict) -> bool:
         or _is_node_suspicious_binop(node, locs)
         # Messages like "yes, understood"
         or isinstance(node, ast.Tuple)
-        and all(_ignore_node(elt, locs) for elt in node.elts)
+        and all(_ignore_node_simple(elt, locs) for elt in node.elts)
+        # Messages like "cat (no)"
+        or isinstance(node, ast.Call)
+        and _ignore_node_simple(node.func, locs)
+        and all(_ignore_node_simple(arg, locs) for arg in node.args)
+        # Messages like "fix: fix"
+        or isinstance(node, ast.AnnAssign)
+        and node.value is None
+        and _ignore_node_simple(node.target, locs)
+        and _ignore_node_simple(node.annotation, locs)
     )
 
 

@@ -68,6 +68,5 @@ __all__ = [
     'create_config_dirs',
     'installed_as_package',
     'RunCmdException',
-    'Context',
     'filename_prefix',
 ]
