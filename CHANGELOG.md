@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.4.1 (2022-01-10)
+### Fix
+* **code detection:** Ignore messages like "fix: fix" ([`1b73815`](https://github.com/tm-a-t/TGPy/commit/1b73815928fdbdae3eae1202c01b4b53b9906ba4))
+
 ## v0.4.0 (2022-01-10)
 ### Feature
 * Multiple improvements ([`6b9cbda`](https://github.com/tm-a-t/TGPy/commit/6b9cbdaf79b11cd1e5922999f96e9321a2df4051))
