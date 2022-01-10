@@ -8,7 +8,7 @@ from tgpy.app_config import Config
 from tgpy.console import console
 from tgpy.context import Context
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
 logging.basicConfig(
     level=logging.INFO, format='%(message)s', datefmt="[%X]", handlers=[RichHandler()]
