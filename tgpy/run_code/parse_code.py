@@ -45,6 +45,8 @@ def _ignore_node_simple(node: ast.AST, locs: dict) -> bool:
 
 def _ignore_node(node: ast.AST, locs: dict) -> bool:
     """Check if AST node didn't seem to be meant to be code"""
+    if isinstance(node, ast.Expr):
+        return _ignore_node(node.value, locs)
     return (
         _ignore_node_simple(node, locs)
         # Messages like "-1", "+spam" and "not foo.bar"
@@ -84,10 +86,7 @@ def parse_code(text: str, locs: dict) -> _Result:
     except (SyntaxError, ValueError):
         return result
 
-    if all(
-        isinstance(body_item, ast.Expr) and _ignore_node(body_item.value, locs)
-        for body_item in root.body
-    ):
+    if all(_ignore_node(body_item, locs) for body_item in root.body):
         return result
 
     result.is_code = True
