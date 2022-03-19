@@ -128,9 +128,7 @@ async def meval(
 
     new_locs, ret = await getattr(py_module, 'tmp')(**kwargs)
     for loc in list(new_locs):
-        if (
-            loc in globs or loc in kwargs
-        ) and loc not in saved_variables:
+        if (loc in globs or loc in kwargs) and loc not in saved_variables:
             new_locs.pop(loc)
 
     new_locs['_'] = ret
