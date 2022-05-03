@@ -1,12 +1,17 @@
 import importlib.metadata
+import os
 import shlex
 from pathlib import Path
 from subprocess import PIPE, Popen
 
 import appdirs
 
-# noinspection PyTypeChecker
-DATA_DIR = Path(appdirs.user_config_dir('tgpy', appauthor=False))
+ENV_TGPY_DATA = os.getenv('TGPY_DATA')
+if ENV_TGPY_DATA:
+    DATA_DIR = Path(os.getenv('TGPY_DATA'))
+else:
+    # noinspection PyTypeChecker
+    DATA_DIR = Path(appdirs.user_config_dir('tgpy', appauthor=False))
 MODULES_DIR = DATA_DIR / 'modules'
 WORKDIR = DATA_DIR / 'workdir'
 CONFIG_FILENAME = DATA_DIR / 'config.yml'
