@@ -15,16 +15,16 @@ from tgpy.modules import (
     get_sorted_modules,
 )
 from tgpy.utils import (
+    REPO_ROOT,
     RunCmdException,
+    execute_in_repo_root,
     filename_prefix,
+    get_hostname,
+    get_user,
     get_version,
     installed_as_package,
     run_cmd,
-    REPO_ROOT,
-    execute_in_repo_root,
-    get_user,
     running_in_docker,
-    get_hostname,
 )
 
 
