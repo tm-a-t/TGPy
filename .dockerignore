@@ -1,3 +1,2 @@
-.git/
-__pycache__
+**/__pycache__/
 guide/site
