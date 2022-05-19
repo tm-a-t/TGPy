@@ -66,7 +66,7 @@ async def run_modules():
             continue
 
 
-DOCSTRING_RGX = re.compile(r'^\s*(?:\'\'\'(.*)\'\'\'|"""(.*)""")', re.DOTALL)
+DOCSTRING_RGX = re.compile(r'^\s*(?:\'\'\'(.*?)\'\'\'|"""(.*?)""")', re.DOTALL)
 MODULE_TEMPLATE = '''
 """
 {metadata}

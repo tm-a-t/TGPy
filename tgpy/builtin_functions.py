@@ -1,6 +1,4 @@
-import getpass
 import os
-import socket
 import sys
 from datetime import datetime
 from textwrap import dedent
@@ -17,11 +15,16 @@ from tgpy.modules import (
     get_sorted_modules,
 )
 from tgpy.utils import (
+    REPO_ROOT,
     RunCmdException,
+    execute_in_repo_root,
     filename_prefix,
+    get_hostname,
+    get_user,
     get_version,
     installed_as_package,
     run_cmd,
+    running_in_docker,
 )
 
 
@@ -29,7 +32,7 @@ def ping():
     return dedent(
         f'''
         Pong!
-        Running on {getpass.getuser()}@{socket.gethostname()}
+        Running on {get_user()}@{get_hostname()}
         Version: {get_version()}
         '''
     )
@@ -57,14 +60,25 @@ def restart(msg: Optional[str] = 'Restarted successfully'):
 
 def update():
     old_version = get_version()
+
+    if running_in_docker():
+        return 'Can\'t update a docker container'
+
     if installed_as_package():
         update_args = [sys.executable, '-m', 'pip', 'install', '-U', 'tgpy']
         try:
             run_cmd(update_args)
         except RunCmdException:
             run_cmd(update_args + ['--user'])
+    elif REPO_ROOT:
+        with execute_in_repo_root():
+            try:
+                run_cmd(['git', 'pull'])
+            except FileNotFoundError:
+                return 'Git is not installed'
     else:
-        run_cmd(['git', 'pull'])
+        return 'Could not find suitable update method'
+
     new_version = get_version()
     if old_version == new_version:
         return 'Already up to date'

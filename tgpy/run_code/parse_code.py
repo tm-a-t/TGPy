@@ -23,10 +23,10 @@ def _is_node_suspicious_binop(node: ast.AST, locs: dict) -> bool:
     if not isinstance(node, (ast.BoolOp, ast.BinOp, ast.Compare)):
         return False
     if isinstance(node, ast.Compare):
-        return _is_node_unknown_variable(node.left, locs) and all(
+        return _is_node_unknown_variable(node.left, locs) or any(
             _is_node_unknown_variable(x, locs) for x in node.comparators
         )
-    return all(
+    return any(
         _is_node_suspicious_binop(operand, locs)
         for operand in (
             (node.left, node.right) if isinstance(node, ast.BinOp) else node.values
@@ -61,16 +61,16 @@ def _ignore_node(node: ast.AST, locs: dict) -> bool:
         or _is_node_suspicious_binop(node, locs)
         # Messages like "yes, understood"
         or isinstance(node, ast.Tuple)
-        and all(_ignore_node_simple(elt, locs) for elt in node.elts)
+        and any(_ignore_node(elt, locs) for elt in node.elts)
         # Messages like "cat (no)"
         or isinstance(node, ast.Call)
-        and _ignore_node_simple(node.func, locs)
-        and all(_ignore_node_simple(arg, locs) for arg in node.args)
+        and _ignore_node(node.func, locs)
+        and any(_ignore_node(arg, locs) for arg in node.args)
         # Messages like "fix: fix"
         or isinstance(node, ast.AnnAssign)
         and node.value is None
-        and _ignore_node_simple(node.target, locs)
-        and _ignore_node_simple(node.annotation, locs)
+        and _ignore_node(node.target, locs)
+        and _ignore_node(node.annotation, locs)
     )
 
 
