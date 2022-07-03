@@ -19,7 +19,7 @@ Python 3.9+ required. Host TGPy and connect it to your Telegram account:
 
 You’re ready now. Send Python code to any chat, and it will run. Change your message to change the result.
 
-[Learn basics](/basics/code){ .md-button }
+[Learn basics](/basics/code){ .md-button .md-button--primary }
 
 <img alt="" src="https://raw.githubusercontent.com/tm-a-t/TGPy/master/readme_assets/example.gif" width="540">
 

@@ -1,4 +1,4 @@
-# Code running
+# Code run
 
 Just send any Python code to any chat — and it will run.
 ```python
