@@ -1,12 +1,10 @@
-# API
+# API (TODO)
 
 ## Code transformers
 
 `tgpy.add_code_transformer`
 
 `code_transformers`
-
-TODO
 
 ## Available variables
 

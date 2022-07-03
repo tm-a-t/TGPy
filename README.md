@@ -2,88 +2,45 @@
 
 ### Run Python code right in your Telegram messages
 
-Made with Telethon library, TGPy is a tool for evaluating expressions and Telegram API scripts.
+TGPy is a tool for evaluating expressions and Telegram API scripts, built on top of [Telethon](https://github.com/LonamiWebs/Telethon).
 
 - Do Python calculations in dialogs
 - Interact with your messages and chats
 - Automate sending messages and more
 
-## Installation
+## Getting started
 
-Python 3.9+ is required.
+Python 3.9+ required. Host TGPy and connect it to your Telegram account:
 
 ```shell
 > pip install tgpy
 > tgpy
 ```
 
-## Getting started
+You’re ready now. Send Python code to any chat, and it will run. Change your message to change the result.
 
-Just send Python code to any chat, and it will be executed. Change your message to change the result.
+**Learn basics:** https://tgpy.tmat.me/basics/
 
-[📒 TGPy Basics](https://tgpy.tmat.me/basics/)
+<img alt="" src="https://raw.githubusercontent.com/tm-a-t/TGPy/master/readme_assets/example.gif" width="540">
 
-![Example](https://raw.githubusercontent.com/tm-a-t/TGPy/master/readme_assets/example.gif)
+## Userbot convenience
 
-## Examples
+Since TGPy is a program to interact with your user account, it is called a _userbot_.
 
-Send any of these examples to any chat to evaluate:
+Unlike other userbots for evaluating code in messages, TGPy is designed for sequent and frequent using. That’s why it provides special features such as:
 
-🐍 Do Python calculations
+- Run every Python code without a command.
+- Re-run a code message after editing.
+- Auto-save variables for using in following messages. 
+- Automatically return values and await functions.
+- Save code as modules to run it every time TGPy starts.
 
-```python
-for i in range(5):
-    print(i)
-```
-
-⏳ Delete the current message in 5 seconds
-
-```python
-import asyncio
-
-await asyncio.sleep(5)
-await msg.delete()
-```
-
-↪️ Forward the message you replied to to another chat
-
-```python
-orig.forward_to('Chat title')
-```
-
-🖼 Send all chat profile photos to the same chat
-
-```python
-photos = await client.get_profile_photos(msg.chat)
-msg.reply(file=photos)
-```
-
-🔖 Define a function which forwards messages to Saved Messages with reply
-
-```python
-def save():
-    message = ctx.msg
-    original = await message.get_reply_message()
-    await original.forward_to('me')
-    return 'Saved!'
-``` 
-
-🗑 Define a function which deletes messages with reply
-
-```python
-async def delete():
-    message = ctx.msg
-    original = await message.get_reply_message()
-    await original.delete()
-    await message.delete()
-```
-
-## [TGPy Guide](https://tgpy.tmat.me/)
+TODO: links
 
 ## Credits
 
-- Thanks to [penn5](https://github.com/penn5) for [meval](https://github.com/penn5/meval)
-- Thanks to [Lonami](https://github.com/LonamiWebs) for [Telethon](https://github.com/LonamiWebs/Telethon)
+- Basic TGPy code transformation (such as values auto-return) is based on [meval](https://github.com/penn5/meval).
+- TGPy is built on [Telethon](https://github.com/LonamiWebs/Telethon), which allows to integrate Telegram features in Python code. 
 
 ## License
 

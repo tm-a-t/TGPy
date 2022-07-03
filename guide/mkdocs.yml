@@ -39,10 +39,14 @@ markdown_extensions:
 nav:
   - Home: index.md
   - installation.md
-  - basics.md
-  - builtins.md
-  - code_detection.md
-  - Advanced:
-    - modules.md
+  - Basics:
+    - basics/code.md
+    - basics/asyncio.md
+  - Using context data:
     - context.md
-  - api.md
+  - Using modules:
+    - modules.md
+  - Reference:
+    - builtins.md
+    - code_detection.md
+    - api.md

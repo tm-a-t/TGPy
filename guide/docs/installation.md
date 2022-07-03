@@ -1,6 +1,6 @@
 # Installation
 
-Python 3.9+ is required.
+Python 3.9+ required. Host TGPy and connect it to your Telegram account:
 
 ```shell
 > pip install tgpy
