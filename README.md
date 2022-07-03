@@ -2,28 +2,27 @@
 
 ### Run Python code right in your Telegram messages
 
-Made with Telethon library, TGPy is a tool for evaluating expressions and Telegram API scripts.
+TGPy is a tool for evaluating expressions and Telegram API scripts, built on top of [Telethon](https://github.com/LonamiWebs/Telethon).
 
 - Do Python calculations in dialogs
 - Interact with your messages and chats
 - Automate sending messages and more
 
-## Installation
+**Learn basics:** https://tgpy.tmat.me/basics/
 
-Python 3.9+ is required.
+
+## Getting started
+
+Python 3.9+ required. Host TGPy and connect it to your Telegram account:
 
 ```shell
 > pip install tgpy
 > tgpy
 ```
 
-## Getting started
+You’re ready now. Send Python code to any chat to run it. Change your message to change the result.
 
-Just send Python code to any chat, and it will be executed. Change your message to change the result.
-
-[📒 TGPy Basics](https://tgpy.tmat.me/basics/)
-
-![Example](https://raw.githubusercontent.com/tm-a-t/TGPy/master/readme_assets/example.gif)
+<img alt="" src="https://raw.githubusercontent.com/tm-a-t/TGPy/master/readme_assets/example.gif" width="540">
 
 ## Examples
 
