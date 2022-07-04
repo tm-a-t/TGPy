@@ -70,8 +70,8 @@ to Telegram API).
 
 ## TGPy objects
 
-- [`modules`](modules.md)
-- [`ctx`](context.md)
+- [`modules`](extensibility/modules.md)
+- [`ctx`](extensibility/context.md)
 
 ## TGPy API object
 

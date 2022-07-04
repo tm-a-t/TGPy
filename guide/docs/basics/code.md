@@ -1,6 +1,7 @@
 # Code run
 
-Just send any Python code to any chat — and it will run.
+Open any chat, type some Python code and send it. It’s that simple.
+
 ```python
 2 + 2
 
@@ -27,19 +28,17 @@ If you want to keep the original message instead, send `cancel` after your messa
 
 ## Power of Python
 
-All Python possibilities are available, including module imports and function definitions.
-
-Moreover, you can use most Telegram features in your code. Try this:
+All Python possibilities are available, including **module imports** and **function definitions**. Moreover, you can use most of Telegram features inside your code. Try this:
 
 ```python
 msg.reply('Hello!')
 ```
 
-This will reply to the current message with „Hello!“
+This will force your user to reply to the current message with „Hello!“
 
-## Variables
+### Variables
 
-Since defined variables are saved automatically, you can use them in following messages:
+Since defined variables are saved automatically, you can use the variables from previous messages:
 
 ```python
 phrase = 'TGPy is awesome'
@@ -53,7 +52,7 @@ phrase.upper()
 TGPy> 'TGPY IS AWESOME'
 ```
 
-## Code result
+### Code result
 
 You can explicitly return values in messages:
 ```python
@@ -72,7 +71,7 @@ x + 20
 TGPy> [70, 30]
 ```
 
-??? tip "Tip: How to get the previous calculation result"
+!!! tip "Tip: How to get the previous calculation result"
 
     There’s the `_` variable for that:
 

@@ -1,4 +1,4 @@
-# Modules
+# Using modules
 
 Modules are executed when TGPy starts. For example, with modules you can define shortcut functions for future using.
 

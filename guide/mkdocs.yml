@@ -5,6 +5,7 @@ edit_uri: edit/master/guide/docs/
 theme:
   name: material
   features:
+    - content.code.annotate
     - navigation.instant
     - navigation.sections
   icon:
@@ -22,6 +23,9 @@ theme:
       bug: octicons/bug-16
       example: octicons/beaker-16
       quote: octicons/quote-16
+  font:
+    text: Noto Sans
+    code: Fira Mono
   palette:
     - media: "(prefers-color-scheme)"
       primary: teal
@@ -60,11 +64,16 @@ nav:
   - Basics:
     - basics/code.md
     - basics/asyncio.md
-  - Using context data:
-    - context.md
-  - Using modules:
-    - modules.md
+    - basics/messages.md
+    - basics/examples.md
+  - Extensibility:
+    - extensibility/context.md
+    - extensibility/modules.md
+    - extensibility/module_examples.md
+    - extensibility/module_settings.md
+    - extensibility/code_transformers.md
   - Reference:
     - builtins.md
-    - code_detection.md
     - api.md
+    - code_detection.md
+    - how.md

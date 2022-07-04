@@ -6,21 +6,21 @@ If you don’t know how to work with Python `async`/`await` keywords, check out 
 
 ## Asyncio in TGPy
 
-You can use `async`/`await` in the code:
+You can use top-level `async`/`await` in the code:
 
 ```python
 import asyncio
-await asyncio.sleep(30)
 
-TGPy> Running...
+await asyncio.sleep(10)
+print('Done!')
 ```
 
 
-In addition, TGPy automatically awaits all returned values (if needed). Therefore, this will also work:
+In addition, TGPy automatically awaits all returned values (if needed). Therefore, this will work as well:
 
 ```python
 import asyncio
-asyncio.sleep(30)
 
-TGPy> Running...
+asyncio.sleep(10)
+print('Done!')
 ```
