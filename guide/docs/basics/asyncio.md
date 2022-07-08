@@ -2,11 +2,11 @@
 
 ## Not familiar with asyncio?
 
-If you don’t know how to work with Python `async`/`await` keywords, check out the [official guide](https://docs.python.org/3/library/asyncio-task.html) first. You’ll need this to use TGPy functions.
+If you’re not familiar with Python `async`/`await` keywords, check out the [official guide](https://docs.python.org/3/library/asyncio-task.html) first. You’ll need this to use TGPy functions.
 
 ## Asyncio in TGPy
 
-You can use top-level `async`/`await` in the code:
+TGPy allows using top-level `async`/`await` in the code:
 
 ```python
 import asyncio

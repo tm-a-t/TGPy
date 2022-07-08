@@ -1,5 +1,7 @@
 # Code run
 
+## How to use TGPy
+
 Open any chat, type some Python code and send it. It’s that simple.
 
 ```python
@@ -19,24 +21,19 @@ TGPy> 4950
 
 Change your message to change the result.
 
-If you want to keep the original message instead, send `cancel` after your message.
+If you want to keep the original message rather than run the code, send `cancel` after your message.
 
 !!! tip
     
     You can experiment with TGPy in [Saved Messages](tg://resolve?domain=TelegramTips&post=242). Nobody else will see that ;)
 
-
 ## Power of Python
 
-All Python possibilities are available, including **module imports** and **function definitions**. Moreover, you can use most of Telegram features inside your code. Try this:
+All Python possibilities are available, including **module imports** and **function definitions**. Moreover, you can use most of Telegram features, such as sending messages. You’ll learn more about them later in the guide.
 
-```python
-msg.reply('Hello!')
-```
+TGPy provides extra features for convenient programming.
 
-This will force your user to reply to the current message with „Hello!“
-
-### Variables
+### Reuse variables
 
 Since defined variables are saved automatically, you can use the variables from previous messages:
 
@@ -87,7 +84,7 @@ TGPy> [70, 30]
     TGPy> 400
     ```
 
-You can also print values. `print` function is redefined, thus the output is added to messages.
+You can also print values. The `print` function is redefined, so that the output is added to messages.
 
 ```python
 print('Hello World!')

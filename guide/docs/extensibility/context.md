@@ -9,9 +9,8 @@ The function must use the current chat. Instead of passing arguments, you can us
 `ctx.msg` always contains your latest TGPy message. With it you can define `cat()` function as following:
 
 ```python
-cat_url = 'https://cataas.com/cat'  # URL for a random cat image
-
 async def cat():
+    cat_url = 'https://cataas.com/cat'  # URL for a random cat image
     await ctx.msg.respond(file=cat_url)
 
 TGPy> None

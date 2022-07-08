@@ -66,6 +66,7 @@ nav:
     - basics/asyncio.md
     - basics/messages.md
     - basics/examples.md
+    - basics/tips.md
   - Extensibility:
     - extensibility/context.md
     - extensibility/modules.md

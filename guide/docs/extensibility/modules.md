@@ -4,7 +4,7 @@ Modules are executed when TGPy starts. For example, with modules you can define 
 
 ## Add modules
 
-Add one of previous TGPy messages to modules by replying with `modules.add` function.
+Add one of previous TGPy messages to modules by replying with the `modules.add` function.
 
 ```python
 modules.add(module_name)
@@ -12,7 +12,8 @@ modules.add(module_name)
 
 You can also use `#!python modules.add(module_name, code)` to add any other code.
 
-If the module with this name already exists, its code will be replaced.
+!!! Info 
+    If a module with this name already exists, its code will be replaced.
 
 !!! example
 
@@ -44,14 +45,12 @@ modules.remove(module_name)
 
 ## Manage your modules
 
-Use the string value of `modules` to list all of your modules:
+List all your modules with the string value of `modules`:
 
 ```python
 modules
 ```
 
-Modules are executed when TGPy starts. By default, modules are executed in order of addition. 
-
 Modules are stored as separate Python files in `data/modules` directory. You can safely edit them manually.
 
-TODO: metadata explanation
+Modules run each time TGPy starts. By default, they run in order of addition. [Read about module settings](/extensibility/module_settings)
