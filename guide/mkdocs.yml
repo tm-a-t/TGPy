@@ -24,26 +24,19 @@ theme:
       example: octicons/beaker-16
       quote: octicons/quote-16
   font:
-    text: Noto Sans
-    code: Fira Mono
+    text: Albert Sans
+    code: Source Code Pro
   palette:
-    - media: "(prefers-color-scheme)"
-      primary: teal
+    - scheme: default
+      primary: cyan
       toggle:
-        icon: material/brightness-auto
-        name: Switch to light mode
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: teal
-      toggle:
-        icon: material/brightness-7
+        icon: material/weather-sunny
         name: Switch to dark mode
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      primary: teal
+    - scheme: slate
+      primary: cyan
       toggle:
-        icon: material/brightness-4
-        name: Switch to system preference
+        icon: material/weather-night
+        name: Switch to light mode
 plugins:
   - search
 markdown_extensions:
