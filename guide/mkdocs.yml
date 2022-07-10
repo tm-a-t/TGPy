@@ -50,6 +50,8 @@ markdown_extensions:
   - pymdownx.details
   - pymdownx.superfences
   - pymdownx.mark
+  - pymdownx.tabbed:
+      alternate_style: true
   - pymdownx.tilde
 nav:
   - Home: index.md
@@ -64,10 +66,10 @@ nav:
     - extensibility/context.md
     - extensibility/modules.md
     - extensibility/module_examples.md
-    - extensibility/module_settings.md
     - extensibility/code_transformers.md
   - Reference:
-    - builtins.md
-    - api.md
+    - reference/builtins.md
+    - reference/module_metadata.md
     - code_detection.md
-    - how.md
+  - Explanation:
+    - explanation/how.md

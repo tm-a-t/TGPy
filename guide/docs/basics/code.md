@@ -10,6 +10,7 @@ Open any chat, type some Python code and send it. It’s that simple.
 TGPy> 4
 ```
 
+
 ```python
 s = 0
 for i in range(100):
@@ -31,7 +32,7 @@ If you want to keep the original message rather than run the code, send `cancel`
 
 All Python possibilities are available, including **module imports** and **function definitions**. Moreover, you can use most of Telegram features, such as sending messages. You’ll learn more about them later in the guide.
 
-TGPy provides extra features for convenient programming.
+Besides, TGPy provides additional features for simplifying your code.
 
 ### Reuse variables
 

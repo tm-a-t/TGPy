@@ -1,19 +1,22 @@
 # Using modules
 
-Modules are executed when TGPy starts. For example, with modules you can define shortcut functions for future using.
+All variables from your messages will be lost when TGPy stops. Yet, you can use modules to define some variables every
+time TGPy starts.
 
-## Add modules
+Modules are code snippets executed every time TGPy starts. For example, with modules you can define some shortcut
+functions, classes or constants for future using.
 
-Add one of previous TGPy messages to modules by replying with the `modules.add` function.
+## Add a module
+
+After running a code snippet with TGPy, you can add it to modules by replying with the `modules.add` function:
 
 ```python
 modules.add(module_name)
 ```
 
-You can also use `#!python modules.add(module_name, code)` to add any other code.
+You can add a module from a code string instead using `#!python modules.add(module_name, code)`.
 
-!!! Info 
-    If a module with this name already exists, its code will be replaced.
+!!! Info If a module with this name already exists, its code will be replaced.
 
 !!! example
 
@@ -36,9 +39,10 @@ You can also use `#!python modules.add(module_name, code)` to add any other code
         The module will be executed every time TGPy starts.
         ```
 
-## Remove modules
+## Remove a module
 
 Remove a module by name:
+
 ```python
 modules.remove(module_name)
 ```
@@ -53,4 +57,9 @@ modules
 
 Modules are stored as separate Python files in `data/modules` directory. You can safely edit them manually.
 
-Modules run each time TGPy starts. By default, they run in order of addition. [Read about module settings](/extensibility/module_settings)
+Modules run each time TGPy starts. By default, they run in order of addition.
+
+## Module settings
+
+Module metadata is stored as a comment in the module file. You can edit it
+manually. [Module metadata reference](/reference/module_metadata)

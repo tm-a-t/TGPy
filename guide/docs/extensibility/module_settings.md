@@ -1,3 +1,0 @@
-# Module settings
-
-TODO
