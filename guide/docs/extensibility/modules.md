@@ -16,7 +16,9 @@ modules.add(module_name)
 
 You can add a module from a code string instead using `#!python modules.add(module_name, code)`.
 
-!!! Info If a module with this name already exists, its code will be replaced.
+!!! Info
+
+    If a module with this name already exists, its code will be replaced.
 
 !!! example
 
@@ -24,7 +26,7 @@ You can add a module from a code string instead using `#!python modules.add(modu
 
         ```python
         def square(x):
-         return x * x
+           return x * x
         
         TGPy> None
         ```
@@ -49,7 +51,7 @@ modules.remove(module_name)
 
 ## Manage your modules
 
-List all your modules with the string value of `modules`:
+Use the string value of `modules` to list all of your modules:
 
 ```python
 modules

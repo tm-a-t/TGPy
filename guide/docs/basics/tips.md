@@ -1,3 +1,0 @@
-# Extra tips
-
-TODO

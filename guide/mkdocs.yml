@@ -8,13 +8,16 @@ theme:
     - content.code.annotate
     - navigation.instant
     - navigation.sections
+    - search.suggest
+    - search.highlight
+    - search.share
   icon:
     repo: fontawesome/brands/github
     admonition:
-      note: octicons/tag-16
+      note: octicons/pin-16
       abstract: octicons/checklist-16
       info: octicons/info-16
-      tip: octicons/squirrel-16
+      tip: octicons/flame-16
       success: octicons/check-16
       question: octicons/question-16
       warning: octicons/alert-16
@@ -39,6 +42,9 @@ theme:
         name: Switch to light mode
 plugins:
   - search
+  - git-revision-date-localized:
+        type: timeago
+        enable_creation_date: true
 markdown_extensions:
   - toc:
       permalink: true
@@ -61,7 +67,6 @@ nav:
     - basics/asyncio.md
     - basics/messages.md
     - basics/examples.md
-    - basics/tips.md
   - Extensibility:
     - extensibility/context.md
     - extensibility/modules.md
@@ -71,5 +76,5 @@ nav:
     - reference/builtins.md
     - reference/module_metadata.md
     - code_detection.md
-  - Explanation:
-    - explanation/how.md
+#  - Explanation:
+#    - explanation/how.md

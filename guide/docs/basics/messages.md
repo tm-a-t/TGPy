@@ -4,22 +4,36 @@
 
 TGPy is based on **Telethon**, Telegram API client library. You can
 use [Telethon objects and methods](https://docs.telethon.dev/en/stable/quick-references/objects-reference.html)
-for messages, users and chats.
+for messages, users and chats. This page explains basic actions with messages, such as sending and editing.
+
+??? tldr "Already familiar with Telethon?"
+
+    Already familiar with Telethon?
+
+    All you need to know is that in TGPy you can use the following objects:
+
+    - `client` for Telethon client
+    - `msg` for the current message
+    - `orig` for the message you’re replying to
+
+    See the [Builtin reference](/reference/builtins/#telethon-objects) for details.
+
+    Now you can skip the rest of the page :)
 
 TGPy provides some builtin Telegram objects. The `client` object is useful for general functions such as sending
 messages, listing chats and so on. The `msg` object always refers to the current message.
 
 ## Sending a message
 
-The most basic Telegram task is sending a message. There is a method for that:
+The simplest Telegram action is sending a message. There is a method for that:
 
 ```python
 await client.send_message(chat, text)
 ```
 
-As the `chat` you can use whether chat name, username or ID.
+As the `chat` you can use either a chat name, a username or an ID.
 
-Therefore, to send a «Hello World» to the current chat you might use:
+Therefore, to send a «Hello World» to the current chat you may use:
 
 ```python
 await client.send_message(msg.chat_id, "Hello World")
@@ -49,7 +63,7 @@ await hello.edit("Hiiiiiiiiii")
 
 You can use message properties such as `message.text`, `message.chat`, `message.user` and others.
 
-There are also message methods such as `message.edit()`, `message.delete()`, `message.forward_to()`, `message.pin()`.
+There are also message methods for common actions, such as `message.edit()`, `message.delete()`, `message.forward_to()`, `message.pin()`.
 
 Have fun :)
 

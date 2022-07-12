@@ -16,9 +16,9 @@ print('Done!')
 ```
 
 
-In addition, TGPy automatically awaits all returned values (if needed). Therefore, this will work as well:
+In addition, TGPy automatically awaits all returned values (if needed). Therefore, you may omit top-level `await`:
 
-```python
+```python hl_lines="3"
 import asyncio
 
 asyncio.sleep(10)
