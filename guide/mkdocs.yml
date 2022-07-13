@@ -1,4 +1,6 @@
 site_name: TGPy Guide
+site_description: 'TGPy: Run Python code right in your Telegram messages'
+site_url: https://tgpy.tmat.me/
 repo_url: https://github.com/tm-a-t/TGPy
 repo_name: tm-a-t/TGPy
 edit_uri: edit/master/guide/docs/
@@ -32,11 +34,13 @@ theme:
   palette:
     - scheme: default
       primary: cyan
+      accent: cyan
       toggle:
         icon: material/weather-sunny
         name: Switch to dark mode
     - scheme: slate
       primary: cyan
+      accent: cyan
       toggle:
         icon: material/weather-night
         name: Switch to light mode
@@ -50,6 +54,7 @@ markdown_extensions:
       permalink: true
   - admonition
   - attr_list
+  - tables
   - pymdownx.highlight
   - pymdownx.inlinehilite
   - pymdownx.superfences
@@ -59,8 +64,13 @@ markdown_extensions:
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.tilde
+extra:
+  social:
+    - icon: material/youtube
+      link: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+      name: TGPy on YouTube
 nav:
-  - Home: index.md
+  - index.md
   - installation.md
   - Basics:
     - basics/code.md
@@ -75,6 +85,6 @@ nav:
   - Reference:
     - reference/builtins.md
     - reference/module_metadata.md
-    - code_detection.md
+    - reference/code_detection.md
 #  - Explanation:
 #    - explanation/how.md

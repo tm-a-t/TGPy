@@ -12,13 +12,13 @@ for messages, users and chats. This page explains basic actions with messages, s
 
     All you need to know is that in TGPy you can use the following objects:
 
-    - `client` for Telethon client
+    - `client` for the Telethon client
     - `msg` for the current message
     - `orig` for the message you’re replying to
 
     See the [Builtin reference](/reference/builtins/#telethon-objects) for details.
 
-    Now you can skip the rest of the page :)
+    Now you can skip the rest of the page and go to the [examples](/basics/examples) :)
 
 TGPy provides some builtin Telegram objects. The `client` object is useful for general functions such as sending
 messages, listing chats and so on. The `msg` object always refers to the current message.
@@ -68,6 +68,8 @@ There are also message methods for common actions, such as `message.edit()`, `me
 Have fun :)
 
 [Telethon reference for Message attributes](https://docs.telethon.dev/en/stable/quick-references/objects-reference.html#message)
+
+[Telethon reference for client attributes](https://docs.telethon.dev/en/stable/quick-references/client-reference.html)
 
 ??? example "Example: show full message data"
 

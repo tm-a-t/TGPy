@@ -19,13 +19,21 @@ pip install tgpy
 
 And start it:
 
-```shell
-tgpy
-```
+=== "With simple command"
+
+    ```shell
+    tgpy
+    ```
+
+=== "If simple command doesn’t work"
+
+    ```shell
+    python -m tgpy
+    ```
 
 Follow the instructions to connect your Telegram account for the first time.
 
-Send `ping()` to any chat to check if TGPy is running.
+When it’s ready, try sending `ping()` to any chat to check if TGPy is running.
 
 ## Updating
 
@@ -37,7 +45,7 @@ Update to the latest version:
     update()
     ```
 
-=== "Using pip"
+=== "From shell"
 
     ```shell
     pip install -U tgpy

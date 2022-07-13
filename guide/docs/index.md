@@ -1,4 +1,4 @@
-# TGPy Guide
+# Introduction
 
 ## What is TGPy?
 
