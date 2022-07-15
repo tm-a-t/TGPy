@@ -48,6 +48,7 @@ await orig.download_media('example.jpg')
 
 ```python
 await msg.respond(file='example.jpg')  # You can also use URL here
+return
 ```
 
 ## Delete recent messages from the chat

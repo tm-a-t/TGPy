@@ -69,6 +69,8 @@ extra:
     - icon: material/youtube
       link: https://www.youtube.com/watch?v=dQw4w9WgXcQ
       name: TGPy on YouTube
+extra_css:
+  - stylesheets/extra.css
 nav:
   - index.md
   - installation.md

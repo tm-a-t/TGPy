@@ -47,22 +47,28 @@ await msg.respond("Hello World")
 
 You can also use `msg.reply` instead of `msg.respond` to send the message as a reply.
 
-!!! Note
+!!! note
 
-    Remember you can omit the `await` keyword in simple scripts.
+    The code above returns the new message. For now, TGPy shows the full info for the returned message, which may be 
+    very long to display. You can add a `#!python return` to suppress it:
+
+    ```python
+    await msg.respond("Hello World")
+    return
+    ``` 
+
+## Reusing messages
 
 The new message object can be used later:
 
 ```python
-hello = await msg.respond("Hello")
-# `hello` is now the new message object.
-# Let's edit it!
+hello = await msg.respond("Hello")  # (1)
 await hello.edit("Hiiiiiiiiii")
 ```
 
-## Message attributes
+1. `hello` is now the new message object
 
-You can use message properties such as `message.text`, `message.chat`, `message.user` and others.
+You can use message properties such as `message.text`, `message.chat`, `message.sender` and others.
 
 There are also message methods for common actions, such as `message.edit()`, `message.delete()`, `message.forward_to()`
 , `message.pin()` and so on.

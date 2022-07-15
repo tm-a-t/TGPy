@@ -13,9 +13,6 @@ function. Instead, we will use `ctx.msg` variable.
 async def cat():
     cat_url = 'https://cataas.com/cat'  # URL for a cat image
     await ctx.msg.respond(file=cat_url)
-
-
-TGPy> None
 ```
 
 ## Getting the original message
