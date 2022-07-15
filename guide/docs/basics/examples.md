@@ -16,7 +16,7 @@ await msg.respond(text)
 
 ### Countdown
 
-Send numbers from 10 to 1, once per second:
+Send numbers from 10 to 1, at a one second interval:
 
 ```python
 import asyncio
@@ -54,7 +54,7 @@ return 'Sent the message'
 
 ### Download a picture or file
 
-Download a picture from a message to the TGPy directory. Use in reply to the message:
+Download a picture from a message to the TGPy directory. Reply to the message with the following:
 
 ```python
 await orig.download_media('example.jpg')
