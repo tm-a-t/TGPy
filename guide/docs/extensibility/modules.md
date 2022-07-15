@@ -3,7 +3,7 @@
 All variables from your messages will be lost when TGPy stops. Yet, you can use modules to define some variables every
 time TGPy starts.
 
-Modules are code snippets executed every time at every startup. For example, modules can help you define some shortcut
+Modules are code snippets executed at every startup. For example, modules can help you define some shortcut
 functions, classes, or constants for future use.
 
 ## Add a module
