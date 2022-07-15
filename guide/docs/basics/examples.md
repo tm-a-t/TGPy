@@ -1,6 +1,20 @@
 # Examples
 
-## Countdown
+## Sending messages
+
+### Auto-laugh
+
+```python
+text = 'ha' * 20
+await msg.respond(text)
+```
+
+!!! Tip
+
+    If you want to delete the code snippet message in advance, start your message with 
+    `#!python await msg.delete()`
+
+### Countdown
 
 Send numbers from 10 to 1, once per second:
 
@@ -12,31 +26,33 @@ for i in range(10):
     await asyncio.sleep(1)
 ```
 
-!!! Tip
+### Message typing animation
 
-    If you want to delete the code snippet message in advance, start your message with 
-    `#!python await msg.delete()`
-
-
-## Unpin all messages in the chat
+Send a message and edit it several times, adding letters one by one:
 
 ```python
-await client.unpin_message(msg.chat)
+import asyncio
+
+text = 'Hello World'
+message = await msg.respond('...')
+for i in range(len(text)):
+    await message.edit(text[:i+1] + '|')
+    await asyncio.sleep(0.5)
 ```
 
-## Kick a user from the chat
+### Send a copy
 
-This works only if you’re a chat admin. Ban a user and remove them from the blacklist, so that they can join the chat
-again:
+Send a copy of the message to another chat:
 
 ```python
-await client.kick_participant(msg.chat, 'John Doe')
-return 'Bye!'
+message = orig
+await client.send_message('Example Chat', message)
+return 'Sent the message'
 ```
 
-Use `#!python 'me'` instead of the name to leave.
+## Other Telegram features
 
-## Download a picture or file
+### Download a picture or file
 
 Download a picture from a message to the TGPy directory. Use in reply to the message:
 
@@ -44,14 +60,14 @@ Download a picture from a message to the TGPy directory. Use in reply to the mes
 await orig.download_media('example.jpg')
 ```
 
-## Send a picture or file
+### Send a picture or file
 
 ```python
-await msg.respond(file='example.jpg')  # You can also use URL here
+await msg.respond(file='example.jpg')  # You can also pass URL here
 return
 ```
 
-## Delete recent messages from the chat
+### Delete recent messages from the chat
 
 Delete all messages starting with the message you‘re replying to and ending with the current message:
 
@@ -82,15 +98,7 @@ Delete all messages starting with the message you‘re replying to and ending wi
 
     TGPy can only delete messages if you have rights for that, for instance if you’re a group admin.
 
-## Send a copy of the message to another chat
-
-```python
-message = orig
-await client.send_message('Example Chat', message)
-return 'Sent the message'
-```
-
-## List your drafts
+### List your drafts
 
 Print all chats where you have any drafts:
 
@@ -101,7 +109,21 @@ async for draft in client.iter_drafts():
     print(name or title)
 ```
 
-## Run shell commands on the host
+### Kick a user from the chat
+
+This works only if you’re a chat admin. Ban a user and remove them from the blacklist, so that they can join the chat
+again:
+
+```python
+await client.kick_participant(msg.chat, 'John Doe')
+return 'Bye!'
+```
+
+Use `#!python 'me'` instead of the name to leave.
+
+## Integrations
+
+### Run shell commands on the host
 
 ```python
 import subprocess
@@ -112,7 +134,7 @@ print(process.stdout.decode())
 print(process.stderr.decode())
 ```
 
-## Send a plot rendered by matplotlib
+### Send a plot rendered by matplotlib
 
 [Example taken from matplotlib docs](https://matplotlib.org/stable/gallery/lines_bars_and_markers/simple_plot.html)
 
