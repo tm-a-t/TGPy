@@ -48,6 +48,7 @@ await msg.respond("Hello World")
 You can also use `msg.reply` instead of `msg.respond` to send the message as a reply.
 
 !!! Note
+
     Remember you can omit the `await` keyword in simple scripts.
 
 The new message object can be used later:
@@ -55,7 +56,7 @@ The new message object can be used later:
 ```python
 hello = await msg.respond("Hello")
 # `hello` is now the new message object.
-# Let's edit that message!
+# Let's edit it!
 await hello.edit("Hiiiiiiiiii")
 ```
 
@@ -63,9 +64,10 @@ await hello.edit("Hiiiiiiiiii")
 
 You can use message properties such as `message.text`, `message.chat`, `message.user` and others.
 
-There are also message methods for common actions, such as `message.edit()`, `message.delete()`, `message.forward_to()`, `message.pin()`.
+There are also message methods for common actions, such as `message.edit()`, `message.delete()`, `message.forward_to()`
+, `message.pin()` and so on.
 
-Have fun :)
+Well, have fun :)
 
 [Telethon reference for Message attributes](https://docs.telethon.dev/en/stable/quick-references/objects-reference.html#message)
 

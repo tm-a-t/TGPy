@@ -72,7 +72,7 @@ Delete all messages starting with the message you‘re replying to and ending wi
         msg.chat,
         min_id=orig.id - 1,
         max_id=msg.id,
-        from_user='name or username'
+        from_user='John Doe'
     )
     await client.delete_messages(msg.chat, messages)
     ```
@@ -85,13 +85,13 @@ Delete all messages starting with the message you‘re replying to and ending wi
 
 ```python
 message = orig
-await client.send_message('My Chat', message)
+await client.send_message('Example Chat', message)
 return 'Sent the message'
 ```
 
 ## List your drafts
 
-Print all chats where you have drafts:
+Print all chats where you have any drafts:
 
 ```python
 async for draft in client.iter_drafts():
