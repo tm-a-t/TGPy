@@ -2,9 +2,9 @@
 
 ## Telegram objects
 
-TGPy is based on **Telethon**, Telegram API client library. You can
+TGPy is based on **Telethon**, a Telegram API client library. You can
 use [Telethon objects and methods](https://docs.telethon.dev/en/stable/quick-references/objects-reference.html)
-for messages, users and chats. This page explains basic actions with messages, such as sending and editing.
+for messages, users and chats. This page explains how to perform basic message actions, such as sending and editing.
 
 ??? tldr "Already familiar with Telethon?"
 
@@ -20,7 +20,7 @@ for messages, users and chats. This page explains basic actions with messages, s
 
     Now you can skip the rest of the page and go to the [examples](/basics/examples) :)
 
-TGPy provides some builtin Telegram objects. The `client` object is useful for general functions such as sending
+TGPy provides some global Telegram objects. The `client` object is useful for general functionality, such as sending
 messages, listing chats and so on. The `msg` object always refers to the current message.
 
 ## Sending a message
@@ -31,21 +31,21 @@ The simplest Telegram action is sending a message. There is a method for that:
 await client.send_message(chat, text)
 ```
 
-As the `chat` you can use either a chat name, a username or an ID.
+`chat` can be either a chat name, a username, or an ID.
 
-Therefore, to send a «Hello World» to the current chat you may use:
+For example, to send a «Hello World» to the current chat you can use:
 
 ```python
 await client.send_message(msg.chat_id, "Hello World")
 ```
 
-Or there is a shortcut for that:
+Or use a shortcut for this exact action:
 
 ```python
 await msg.respond("Hello World")
 ```
 
-You can also use `msg.reply` instead of `msg.respond` to send the message as a reply.
+You can also use `msg.reply` instead of `msg.respond` to send the message as a reply, rather than just send it to the chat.
 
 !!! note
 
