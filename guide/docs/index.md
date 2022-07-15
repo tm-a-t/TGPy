@@ -17,7 +17,7 @@ These docs consist of:
 
 **[Reference:](/reference/builtins/)** List of TGPy objects and settings.
 
-Learning for the first time? Read the pages one by one by clicking the "Next" button in the bottom.
+Learning for the first time? Read the pages one by one by clicking the «Next» button in the bottom.
 
 You can also skip pages using the menu on the left.
 
