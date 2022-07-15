@@ -3,8 +3,8 @@
 All variables from your messages will be lost when TGPy stops. Yet, you can use modules to define some variables every
 time TGPy starts.
 
-Modules are code snippets executed every time TGPy starts. For example, with modules you can define some shortcut
-functions, classes or constants for future using.
+Modules are code snippets executed every time at every startup. For example, modules can help you define some shortcut
+functions, classes, or constants for future use.
 
 ## Add a module
 
@@ -59,7 +59,7 @@ modules
 
 Modules are stored as separate Python files in `data/modules` directory. You can safely edit them manually.
 
-Modules run each time TGPy starts. By default, they run in order of addition.
+Modules run each time TGPy starts. By default, they run in the order they were added.
 
 ## Module settings
 
