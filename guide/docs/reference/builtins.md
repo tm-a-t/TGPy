@@ -37,7 +37,7 @@
 
 | Object | Description |
 | --- | --- |
-| `#!python ctx.msg` | The latest message TGPy is evaluating or has evaluated. |
+| `#!python ctx.msg` | The message containing the code TGPy is evaluating at the moment |
 
 ## TGPy API object
 
