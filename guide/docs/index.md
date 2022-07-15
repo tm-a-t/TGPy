@@ -2,8 +2,8 @@
 
 ## What is TGPy?
 
-TGPy is a tool for running Python code snippets right your Telegram
-messages. [See at GitHub](https://github.com/tm-a-t/TGPy/)
+TGPy is a tool for running Python code snippets right in your Telegram
+messages. [Check it out at GitHub](https://github.com/tm-a-t/TGPy/).
 
 ![](/assets/example.gif)
 
@@ -15,13 +15,13 @@ These docs consist of:
 
 **[Extensibility Guide:](/extensibility/context/)** Special features for advanced usage.
 
-**[Reference:](/reference/builtins/)** List  of TGPy objects and settings.
+**[Reference:](/reference/builtins/)** List of TGPy objects and settings.
 
-Learning for the first time? Read the pages one by one clicking the «Next» button in the bottom.
+Learning for the first time? Read the pages one by one by clicking the "Next" button in the bottom.
 
-You can also skip pages with the menu on the left.
+You can also skip pages using the menu on the left.
 
 
-## Haven’t TGPy installed yet?
+## Haven't installed TGPy yet?
 
 Start with [Installation](/installation/) and move on to the Basics Guide.
