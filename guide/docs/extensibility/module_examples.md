@@ -24,7 +24,7 @@ async def save():
 
 ## Stats for chat member IDs
 
-Sort chat members by their IDs. In average, the lower ID user has, the earlier they registered in Telegram.
+Sort chat members by their IDs. In average, the lower the ID of a user is, the earlier they registered in Telegram.
 
 ```python
 def fullname(user):

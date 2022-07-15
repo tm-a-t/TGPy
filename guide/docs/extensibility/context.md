@@ -1,13 +1,15 @@
 # Context data
 
-[`msg`](../reference/builtins.md#telethon-objects) object always relates to the message where it was used. However,
-sometimes you need to define reusable functions that use the current message.
+The [`msg`](../reference/builtins.md#telethon-objects) object always refers to the message where it was used. For
+instance, if you use `msg` in a function, it will refer to the message that defined this function, even if it is
+called from another message later. However, sometimes you need to define reusable functions that use the current
+message.
 
 Let’s say we want to define a `cat()` function which sends a cat picture to the chat it was used at. Somehow the
 function must use the current chat. We could pass `msg` as an argument, but it wouldn’t be handy enough to reuse the
 function. Instead, we will use `ctx.msg` variable.
 
-`ctx.msg` always contains your latest TGPy message. With it, we can define `cat()` function as following:
+`ctx.msg` always contains your latest TGPy message. With it, we can define `cat()` function as follows:
 
 ```python
 async def cat():

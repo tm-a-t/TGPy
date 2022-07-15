@@ -18,26 +18,26 @@ TL;DR: Some simple expressions, which could be email addresses, URLs or several 
 
 ??? note "More details"
 
-    In this section, an **unknown** variable is one not present in `locals` — that is, which were not saved in previous
-    messages and which are not built in TGPy (as `ctx`, `orig`, `msg` and `print` are). Unknown variables' attributes are
-    also considered unknown
+    In this section, an **unknown** variable is one not present in `locals` — that is, one that was not saved in previous
+    messages and which is not built into TGPy (as `ctx`, `orig`, `msg` and `print` are). Unknown variables' attributes are
+    also considered unknown.
 
-    **Ignored** expressions are expressions in the list below:
+    **Ignored** expressions are the expressions from the list below:
 
     * Constants like `1` or `"abcd"` and unknown variables 
-    * Binary operations on unknown variables (recursively, i.e., `a - b -c` is also ignored in case `a`, `b`, `c` are unknown)
+    * Binary operations on unknown variables (recursively, i.e., `a - b -c` is also ignored in case `a`, `b`, or `c` are unknown)
     * Unary operations on constants or unknown variables
     * Tuples of ignored expressions
-    * Multiple ignored expressions (i.e. separated by `;` or newline)****
+    * Multiple ignored expressions (i.e. separated by `;` or newline)
 
-## Cancel evaluation
+## Cancelling evaluation
 
-You can change the message with evaluated code to the original with the `cancel` command.
+You can restore the message with evaluated code to its original contents with the `cancel` command.
 
 `cancel` edits back your latest TGPy message in the current chat (if it’s in 10 latest messages).
 
 `cancel` can be also used in reply to a specific TGPy message.
 
-## Prevent evaluation
+## Preventing evaluation
 
 If you begin your message with `//`, the code won’t run. The `//` prefix will be deleted.
