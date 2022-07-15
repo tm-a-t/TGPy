@@ -1,4 +1,4 @@
-# Code run
+# Running code
 
 ## How to use TGPy
 
@@ -27,9 +27,9 @@ TGPy> 4950
 ```
 </div>
 
-Edit your message to change the result.
+If you edit your message, TGPy will recalculate the result.
 
-If you want to keep the original message rather than run the code, send `cancel` after your message.
+If TGPy mistakes your plain-text message for code, reply `cancel` to fix that. If you haven't sent anything since, you can just send `cancel` without replying.
 
 !!! tip
 
@@ -37,7 +37,7 @@ If you want to keep the original message rather than run the code, send `cancel`
 
 ## Power of Python
 
-All Python possibilities are available, including **module imports** and **function definitions**. Moreover, you can use
+All Python features are available, including **module imports** and **function definitions**. Moreover, you can use
 most of Telegram features, such as sending messages. You’ll learn more about them later in the guide.
 
 ## Code result
@@ -55,7 +55,7 @@ TGPy> 4
 ```
 </div>
 
-Otherwise, all calculated values will be automatically returned:
+Otherwise, all computed values will be returned automatically:
 
 <div class="tgpy-code-block">
 ```python
@@ -69,7 +69,7 @@ TGPy> [70, 30]
 ```
 </div>
 
-You can also print values. The `print` function is redefined, so that the output is added to messages.
+You can also print values. The `print` function is redefined, so that the output is added to the message.
 
 <div class="tgpy-code-block">
 ```python
@@ -81,7 +81,7 @@ TGPy> Hello World!
 ```
 </div>
 
-Exceptions are also shown right in messages.
+Exceptions are also shown right in the message.
 
 !!! note
 
@@ -90,5 +90,5 @@ Exceptions are also shown right in messages.
 ## Other tips
 
 - TGPy saves the defined variables, so you use them in further messages 
-- Use the `_` variable as the result of the previous message expression
+- The `_` variable contains the result of the previous message
 - Edit the message to rerun it
