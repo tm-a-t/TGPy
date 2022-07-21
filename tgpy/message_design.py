@@ -47,7 +47,8 @@ async def edit_message(
         ),
         MessageEntityTextUrl(
             utf16_codepoints_len(parts[0]) + 2,
-            utf16_codepoints_len(TITLE), TITLE_URL,
+            utf16_codepoints_len(TITLE),
+            TITLE_URL,
         ),
     ]
 
