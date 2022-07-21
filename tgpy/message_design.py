@@ -11,6 +11,16 @@ TITLE_URL = 'https://github.com/tm-a-t/TGPy'
 FORMATTED_ERROR_HEADER = f'<b><a href="{TITLE_URL}">TGPy error&gt;</a></b>'
 
 
+def utf16_codepoints_len(s: str):
+    return len(s.encode('utf-16-le')) // 2
+
+
+def utf16_codepoints_prefix(s: str, length: int):
+    s = s.encode('utf-16-le')
+    s = s[: length * 2]
+    return s.decode('utf-16-le')
+
+
 async def edit_message(
     message: Message, code: str, result, traceback: str = '', output: str = ''
 ) -> None:
@@ -25,14 +35,20 @@ async def edit_message(
     entities = []
     offset = 0
     for p in parts:
-        entities.append(MessageEntityCode(offset, len(p)))
-        offset += len(p) + 2
+        entities.append(MessageEntityCode(offset, utf16_codepoints_len(p)))
+        offset += utf16_codepoints_len(p) + 2
 
-    entities[1].offset += len(TITLE) + 1
-    entities[1].length -= len(TITLE) + 1
+    entities[1].offset += utf16_codepoints_len(TITLE) + 1
+    entities[1].length -= utf16_codepoints_len(TITLE) + 1
     entities[1:1] = [
-        MessageEntityBold(len(parts[0]) + 2, len(TITLE)),
-        MessageEntityTextUrl(len(parts[0]) + 2, len(TITLE), TITLE_URL),
+        MessageEntityBold(
+            utf16_codepoints_len(parts[0]) + 2,
+            utf16_codepoints_len(TITLE),
+        ),
+        MessageEntityTextUrl(
+            utf16_codepoints_len(parts[0]) + 2,
+            utf16_codepoints_len(TITLE), TITLE_URL,
+        ),
     ]
 
     if len(text) > 4096:
@@ -43,7 +59,7 @@ async def edit_message(
 def get_code(message: Message) -> str:
     for e in message.entities or []:
         if isinstance(e, MessageEntityTextUrl) and e.url == TITLE_URL:
-            return message.raw_text[: e.offset].strip()
+            return utf16_codepoints_prefix(message.raw_text, length=e.offset).strip()
     return ''
 
 
