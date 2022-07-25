@@ -10,7 +10,7 @@ TGPy is a tool for evaluating expressions and Telegram API scripts, built on top
 
 ## Getting started
 
-Python 3.9+ required. Host TGPy and connect it to your Telegram account:
+Python 3.9+ required. Install TGPy and connect it to your Telegram account:
 
 ```shell
 > pip install tgpy
@@ -19,28 +19,27 @@ Python 3.9+ required. Host TGPy and connect it to your Telegram account:
 
 You’re ready now. Send Python code to any chat, and it will run. Change your message to change the result.
 
-**Learn basics:** https://tgpy.tmat.me/basics/
+Details on installation: http://tgpy.tmat.me/installation/
 
 <img alt="" src="https://raw.githubusercontent.com/tm-a-t/TGPy/master/readme_assets/example.gif" width="540">
 
-## Userbot convenience
+## New TGPy docs
 
-Since TGPy is a program to interact with your user account, it is called a _userbot_.
+**[Basics Guide:](http://tgpy.tmat.me/basics/code/)** All you need to know to start using TGPy.
 
-Unlike other userbots for evaluating code in messages, TGPy is designed for sequent and frequent using. That’s why it provides special features such as:
+**[Extensibility Guide:](http://tgpy.tmat.me/extensibility/context/)** Special features for advanced usage.
 
-- Run every Python code without a command.
-- Re-run a code message after editing.
-- Auto-save variables for using in following messages. 
-- Automatically return values and await functions.
-- Save code as modules to run it every time TGPy starts.
+**[Reference:](http://tgpy.tmat.me/reference/builtins/)** List of TGPy objects and settings.
 
-TODO: links
+## Inspiration
+
+TGPy is inspired by [FTG](https://gitlab.com/friendly-telegram/friendly-telegram) and similar userbots. However, the key concept is different: TGPy is totally based on usage of code in Telegram rather than plugging extra modules. This leads both to convenience of single-use scripts and reusage flexibility.
 
 ## Credits
 
-- Basic TGPy code transformation (such as values auto-return) is based on [meval](https://github.com/penn5/meval).
-- TGPy is built on [Telethon](https://github.com/LonamiWebs/Telethon), which allows to integrate Telegram features in Python code. 
+TGPy is built on [Telethon](https://github.com/LonamiWebs/Telethon), which allows to integrate Telegram features in Python code.
+
+Basic code transformation (such as auto-return of values) is based on [meval](https://github.com/penn5/meval).
 
 ## License
 
