@@ -47,3 +47,22 @@ for name in modules:
     code = escape(modules[name].code)
     await ctx.msg.respond(f'<pre>Module "{name}":\n\n{code}</pre>')
 ```
+
+## Process a message with sed
+
+Use in reply to a message.
+
+```python
+import subprocess
+
+async def sed(s):
+    orig = await ctx.msg.get_reply_message()
+    text = subprocess.run(["sed", s], input=orig.text, capture_output=True, check=True, encoding="utf-8").stdout
+    if text == orig.text:
+        return "(no changes)"
+    if orig.from_id == ctx.msg.from_id:
+        await orig.edit(text)
+        await ctx.msg.delete()
+    else:
+        return text
+```

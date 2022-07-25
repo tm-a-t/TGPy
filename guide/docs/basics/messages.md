@@ -45,7 +45,8 @@ Or use a shortcut for this exact action:
 await msg.respond("Hello World")
 ```
 
-You can also use `msg.reply` instead of `msg.respond` to send the message as a reply, rather than just send it to the chat.
+You can also use `msg.reply` instead of `msg.respond` to send the message as a reply, rather than just send it to the
+chat.
 
 !!! note
 
@@ -75,9 +76,13 @@ There are also message methods for common actions, such as `message.edit()`, `me
 
 Well, have fun :)
 
-[Telethon reference for Message attributes](https://docs.telethon.dev/en/stable/quick-references/objects-reference.html#message)
+!!! note
 
-[Telethon reference for client attributes](https://docs.telethon.dev/en/stable/quick-references/client-reference.html)
+    Check out Telethon reference for details:
+
+    - [Message attributes](https://docs.telethon.dev/en/stable/quick-references/objects-reference.html#message)
+    
+    - [Client attributes](https://docs.telethon.dev/en/stable/quick-references/client-reference.html)
 
 ??? example "Example: show full message data"
 
@@ -130,3 +135,15 @@ Well, have fun :)
      ttl_period=None
     )
     ```
+
+## Getting the original message
+
+The `orig` variable is a shortcut for the message you are replying to. 
+
+For example, you can reply with this to get the uppercased text of the message:
+
+```python
+orig.text.upper()
+```
+
+When your message is not a reply, the `orig` object is None.
