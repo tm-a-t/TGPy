@@ -1,12 +1,18 @@
 # TGPy
 
-### Run Python code right in your Telegram messages
+_Run Python code right in your Telegram messages_
 
-TGPy is a tool for evaluating expressions and Telegram API scripts, built on top of [Telethon](https://github.com/LonamiWebs/Telethon).
+![PyPI](https://img.shields.io/pypi/v/tgpy)
+![Docker Image Version (latest semver)](https://img.shields.io/docker/v/tgpy/tgpy?label=docker&sort=semver)
+![Open issues](https://img.shields.io/github/issues-raw/tm-a-t/TGPy)
+![Docs](https://img.shields.io/website?label=docs&url=https%3A%2F%2Ftgpy.tmat.me)
+<!-- ![PyPI - Downloads](https://img.shields.io/pypi/dm/tgpy) -->
+
+TGPy is a tool for running Python expressions and Telegram API scripts, built on top of [Telethon](https://github.com/LonamiWebs/Telethon).
 
 - Do Python calculations in dialogs
-- Interact with your messages and chats
-- Automate sending messages and more
+- Use code to send messages, save files, analyze chats and more
+- Set up functions to automate your Telegram actions
 
 ## Getting started
 
