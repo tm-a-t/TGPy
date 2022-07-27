@@ -4,8 +4,9 @@
 
 TGPy is a tool for running Python code snippets right in your Telegram
 messages. [Check it out at GitHub](https://github.com/tm-a-t/TGPy/).
-
-![](/assets/example.gif)
+<video controls>
+    <source id="mp4" src="/assets/example.mp4" type="video/mp4">
+</video>
 
 ## How to use the docs?
 
