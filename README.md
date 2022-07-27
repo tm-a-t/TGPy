@@ -27,7 +27,7 @@ You’re ready now. Send Python code to any chat, and it will run. Change your m
 
 Details on installation: http://tgpy.tmat.me/installation/
 
-<video src="/readme_assets/video_example.mp4" width="540"></video>
+https://user-images.githubusercontent.com/38432588/181266550-c4640ff1-71f2-4868-ab83-6ea3690c01b6.mp4
 
 ## New TGPy docs
 
