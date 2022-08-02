@@ -1,6 +1,7 @@
 import ast
 
 from tgpy import app
+from tgpy.run_code.utils import apply_code_transformers
 
 
 class _Result:
@@ -78,8 +79,7 @@ def parse_code(text: str, locs: dict) -> _Result:
     """Parse given text and decide should it be evaluated as Python code"""
     result = _Result()
 
-    # noinspection PyProtectedMember
-    text = app.api._apply_code_transformers(text)
+    text = apply_code_transformers(app, text)
 
     try:
         root = ast.parse(text, '', 'exec')
