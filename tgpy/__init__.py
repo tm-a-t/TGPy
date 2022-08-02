@@ -12,6 +12,7 @@ from tgpy.version import __version__
 logging.basicConfig(
     level=logging.INFO, format='%(message)s', datefmt="[%X]", handlers=[RichHandler()]
 )
+logging.getLogger('telethon').setLevel(logging.WARNING)
 
 
 class App:
