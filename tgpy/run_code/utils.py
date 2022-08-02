@@ -23,10 +23,6 @@ def format_traceback():
 
 
 def apply_code_transformers(app: App, code: str) -> str:
-    try:
-        code = autoawait.pre_transform(code)
-    except tokenize.TokenError:
-        pass
     for _, transformer in app.api.code_transformers:
         try:
             code = transformer(code)
@@ -37,4 +33,8 @@ def apply_code_transformers(app: App, code: str) -> str:
                 exc_info=True,
             )
             raise
+    try:
+        code = autoawait.pre_transform(code)
+    except tokenize.TokenError:
+        pass
     return code
