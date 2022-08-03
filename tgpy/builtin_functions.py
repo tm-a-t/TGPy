@@ -7,7 +7,7 @@ from typing import Optional
 from telethon.tl.custom import Message
 
 from tgpy import app
-from tgpy.message_design import get_code
+from tgpy.message_design import parse_message
 from tgpy.modules import (
     Module,
     delete_module_file,
@@ -94,9 +94,10 @@ class ModulesObject:
             original: Message = await app.ctx.msg.get_reply_message()
             if original is None:
                 return 'Use this function in reply to a message'
-            code = get_code(original)
-            if not code:
+            message_data = parse_message(original)
+            if not message_data.is_tgpy_message:
                 return 'No code found in reply message'
+            code = message_data.code
 
         origin = f'{filename_prefix}module/{name}'
 

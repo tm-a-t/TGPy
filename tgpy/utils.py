@@ -9,6 +9,7 @@ from pathlib import Path
 from subprocess import PIPE, Popen
 
 import appdirs
+from telethon.tl import types
 
 from tgpy import version
 
@@ -109,6 +110,17 @@ def get_version():
     return 'unknown'
 
 
+def peer_to_id(peer: types.TypePeer):
+    if isinstance(peer, types.PeerUser):
+        return peer.user_id
+    elif isinstance(peer, types.PeerChat):
+        return peer.chat_id
+    elif isinstance(peer, types.PeerChannel):
+        return peer.channel_id
+    else:
+        raise TypeError(f'Unknown peer type: {type(peer)}')
+
+
 __all__ = [
     'DATA_DIR',
     'MODULES_DIR',
@@ -126,4 +138,5 @@ __all__ = [
     'get_user',
     'get_hostname',
     'running_in_docker',
+    'peer_to_id',
 ]
