@@ -2,11 +2,15 @@ name: Lint & release project
 on:
   push:
     paths:
+      - 'pyproject.toml'
+      - 'poetry.lock'
       - 'tgpy/**'
       - '.github/workflows/main.yml'
       - '.github/workflows/docker.yml'
   pull_request:
     paths:
+      - 'pyproject.toml'
+      - 'poetry.lock'
       - 'tgpy/**'
       - '.github/workflows/main.yml'
       - '.github/workflows/docker.yml'
