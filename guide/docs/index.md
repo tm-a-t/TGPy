@@ -1,88 +1,28 @@
-# TGPy
+# Introduction
 
-### Run Python code right in your Telegram messages
+## What is TGPy?
 
-Made with Telethon library, TGPy is a tool for evaluating expressions and Telegram API scripts.
+TGPy is a tool for running Python code snippets right in your Telegram
+messages. [Check it out at GitHub](https://github.com/tm-a-t/TGPy/).
+<video controls>
+    <source id="mp4" src="/assets/example.mp4" type="video/mp4">
+</video>
 
-- Do Python calculations in dialogs
-- Interact with your messages and chats
-- Automate sending messages and more
+## How to use the docs?
 
-## Installation
+These docs consist of:
 
-Python 3.9+ is required.
+**[Basics Guide:](/basics/code/)** All you need to know to start using TGPy.
 
-```shell
-> pip install tgpy
-> tgpy
-```
+**[Extensibility Guide:](/extensibility/context/)** Special features for advanced usage.
 
-## Getting started
+**[Reference:](/reference/builtins/)** List of TGPy objects and settings.
 
-Just send Python code to any chat, and it will be executed. Change your message to change the result.
+Learning for the first time? Read the pages one by one by clicking the «Next» button in the bottom.
 
-[📒 TGPy Basics](https://tgpy.tmat.me/basics/)
+You can also skip pages using the menu on the left.
 
-![Example](assets/example.gif)
 
-## Examples
+## Haven't installed TGPy yet?
 
-Send any of these examples to any chat to evaluate:
-
-🐍 Do Python calculations
-
-```python
-for i in range(5):
-    print(i)
-```
-
-⏳ Delete the current message in 5 seconds
-
-```python
-import asyncio
-
-await asyncio.sleep(5)
-await msg.delete()
-```
-
-↪️ Forward the message you replied to to another chat
-
-```python
-orig.forward_to('Chat title')
-```
-
-🖼 Send all chat profile photos to the same chat
-
-```python
-photos = await client.get_profile_photos(msg.chat)
-msg.reply(file=photos)
-```
-
-🔖 Define a function which forwards messages to Saved Messages with reply
-
-```python
-def save():
-    message = ctx.msg
-    original = await message.get_reply_message()
-    await original.forward_to('me')
-    return 'Saved!'
-``` 
-
-🗑 Define a function which deletes messages with reply
-
-```python
-async def delete():
-    message = ctx.msg
-    original = await message.get_reply_message()
-    await original.delete()
-    await message.delete()
-```
-
-## Credits
-
-- Thanks to [penn5](https://github.com/penn5) for [meval](https://github.com/penn5/meval)
-- Thanks to [Lonami](https://github.com/LonamiWebs) for [Telethon](https://github.com/LonamiWebs/Telethon)
-
-## License
-
-This project is licensed under the terms of the MIT license.
+Start with [Installation](/installation/) and move on to the Basics Guide.

@@ -2,12 +2,18 @@ name: Lint & release project
 on:
   push:
     paths:
+      - 'pyproject.toml'
+      - 'poetry.lock'
       - 'tgpy/**'
       - '.github/workflows/main.yml'
+      - '.github/workflows/docker.yml'
   pull_request:
     paths:
+      - 'pyproject.toml'
+      - 'poetry.lock'
       - 'tgpy/**'
       - '.github/workflows/main.yml'
+      - '.github/workflows/docker.yml'
 
 jobs:
   Lint:
@@ -94,3 +100,17 @@ jobs:
           export REPOSITORY_USERNAME="__token__"
           export REPOSITORY_PASSWORD="${PYPI_TOKEN}"
           python -m semantic_release publish -D commit_author="github-actions <action@github.com>"
+
+  Build-dev-docker:
+    name: Build dev docker image
+    if: github.event_name == 'push' && github.ref != 'refs/heads/master'
+    uses: ./.github/workflows/docker.yml
+    secrets: inherit
+
+  Build-release-docker:
+    name: Build release docker image
+    needs: Release
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    uses: ./.github/workflows/docker.yml
+    secrets: inherit
+

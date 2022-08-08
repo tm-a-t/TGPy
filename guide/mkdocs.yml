@@ -1,19 +1,25 @@
 site_name: TGPy Guide
+site_description: 'TGPy, a tool for running Python code snippets right in your Telegram messages'
+site_url: https://tgpy.tmat.me/
 repo_url: https://github.com/tm-a-t/TGPy
 repo_name: tm-a-t/TGPy
 edit_uri: edit/master/guide/docs/
 theme:
   name: material
   features:
+    - content.code.annotate
     - navigation.instant
     - navigation.sections
+    - search.suggest
+    - search.highlight
+    - search.share
   icon:
     repo: fontawesome/brands/github
     admonition:
-      note: octicons/tag-16
+      note: octicons/pin-16
       abstract: octicons/checklist-16
       info: octicons/info-16
-      tip: octicons/squirrel-16
+      tip: octicons/flame-16
       success: octicons/check-16
       question: octicons/question-16
       warning: octicons/alert-16
@@ -22,27 +28,65 @@ theme:
       bug: octicons/bug-16
       example: octicons/beaker-16
       quote: octicons/quote-16
+  font:
+    text: Albert Sans
+    code: Source Code Pro
+  palette:
+    - scheme: default
+      primary: cyan
+      accent: cyan
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - scheme: slate
+      primary: cyan
+      accent: cyan
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
 plugins:
   - search
+  - git-revision-date-localized:
+        type: timeago
+        enable_creation_date: true
 markdown_extensions:
   - toc:
       permalink: true
   - admonition
   - attr_list
+  - tables
   - pymdownx.highlight
   - pymdownx.inlinehilite
   - pymdownx.superfences
   - pymdownx.details
   - pymdownx.superfences
   - pymdownx.mark
+  - pymdownx.tabbed:
+      alternate_style: true
   - pymdownx.tilde
+extra:
+  social:
+    - icon: material/youtube
+      link: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+      name: TGPy on YouTube
+extra_css:
+  - stylesheets/extra.css
 nav:
-  - Home: index.md
+  - index.md
   - installation.md
-  - basics.md
-  - builtins.md
-  - code_detection.md
-  - Advanced:
-    - modules.md
-    - context.md
-  - api.md
+  - Basics:
+    - basics/code.md
+    - basics/asyncio.md
+    - basics/messages.md
+    - basics/examples.md
+  - Extensibility:
+    - extensibility/context.md
+    - extensibility/modules.md
+    - extensibility/module_examples.md
+    - extensibility/code_transformers.md
+  - Reference:
+    - reference/builtins.md
+    - reference/module_metadata.md
+    - reference/code_detection.md
+#  - Explanation:
+#    - explanation/how.md

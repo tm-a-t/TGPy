@@ -9,6 +9,8 @@ from types import CodeType
 from typing import Any, Iterator
 
 from tgpy import app
+from tgpy.run_code import autoawait
+from tgpy.run_code.utils import apply_code_transformers
 
 
 def shallow_walk(node) -> Iterator:
@@ -65,9 +67,9 @@ async def meval(
         # Copy data to args we are sending
         kwargs[global_args][glob] = globs[glob]
 
-    # noinspection PyProtectedMember
-    str_code = app.api._apply_code_transformers(str_code)
+    str_code = apply_code_transformers(app, str_code)
     root = ast.parse(str_code, '', 'exec')
+    autoawait.transformer.visit(root)
 
     ret_name = '_ret'
     ok = False

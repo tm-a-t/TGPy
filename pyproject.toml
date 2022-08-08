@@ -16,13 +16,13 @@ tgpy = 'tgpy.main:main'
 
 [tool.semantic_release]
 version_variable = [
-    "tgpy/__init__.py:__version__",
+    "tgpy/version.py:__version__",
     "pyproject.toml:version"
 ]
 branch = "master"
 upload_to_repository = true
 upload_to_release = true
-build_command = "poetry build"
+build_command = """sed -i "s/\\(IS_DEV_BUILD *= *\\).*/\\1False/" tgpy/version.py && poetry build"""
 commit_subject = 'chore(release): v{version} [skip ci]'
 commit_message = ''
 
@@ -36,17 +36,17 @@ src_paths = ["tgpy"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-Telethon = "^1.24.0"
-cryptg = "^0.2.post4"
+cryptg = "^0.3.1"
 PyYAML = "^6.0"
-pydantic = "^1.8.2"
-aiorun = "^2021.10.1"
-rich = "^10.16.1"
+pydantic = "^1.9.1"
+aiorun = "^2022.4.1"
+rich = "^12.5.1"
 appdirs = "^1.4.4"
+telethon-v1-24 = "^1.24.2"
 
 [tool.poetry.dev-dependencies]
-python-semantic-release = "^7.23.0"
-black = "^21.12b0"
+python-semantic-release = "^7.31.2"
+black = "^22.6.0"
 isort = "^5.10.1"
 
 [build-system]

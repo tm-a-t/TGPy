@@ -1,88 +1,51 @@
 # TGPy
 
-### Run Python code right in your Telegram messages
+_Run Python code right in your Telegram messages_
 
-TGPy is a tool for evaluating expressions and Telegram API scripts, built on top of [Telethon](https://github.com/LonamiWebs/Telethon).
+![PyPI](https://img.shields.io/pypi/v/tgpy)
+![Docker Image Version (latest semver)](https://img.shields.io/docker/v/tgpy/tgpy?label=docker&sort=semver)
+![Open issues](https://img.shields.io/github/issues-raw/tm-a-t/TGPy)
+![Docs](https://img.shields.io/website?label=docs&url=https%3A%2F%2Ftgpy.tmat.me)
+<!-- ![PyPI - Downloads](https://img.shields.io/pypi/dm/tgpy) -->
+
+TGPy is a tool for running Python expressions and Telegram API scripts, built on top of [Telethon](https://github.com/LonamiWebs/Telethon).
 
 - Do Python calculations in dialogs
-- Interact with your messages and chats
-- Automate sending messages and more
-
-**Learn basics:** https://tgpy.tmat.me/basics/
-
+- Use code to send messages, save files, analyze chats and more
+- Set up functions to automate your Telegram actions
 
 ## Getting started
 
-Python 3.9+ required. Host TGPy and connect it to your Telegram account:
+Python 3.9+ required. Install TGPy and connect it to your Telegram account:
 
 ```shell
 > pip install tgpy
 > tgpy
 ```
 
-You’re ready now. Send Python code to any chat to run it. Change your message to change the result.
+You’re ready now. Send Python code to any chat, and it will run. Change your message to change the result.
 
-<img alt="" src="https://raw.githubusercontent.com/tm-a-t/TGPy/master/readme_assets/example.gif" width="540">
+Details on installation: http://tgpy.tmat.me/installation/
 
-## Examples
+https://user-images.githubusercontent.com/38432588/181266550-c4640ff1-71f2-4868-ab83-6ea3690c01b6.mp4
 
-Send any of these examples to any chat to evaluate:
+## New TGPy docs
 
-🐍 Do Python calculations
+**[Basics Guide:](http://tgpy.tmat.me/basics/code/)** All you need to know to start using TGPy.
 
-```python
-for i in range(5):
-    print(i)
-```
+**[Extensibility Guide:](http://tgpy.tmat.me/extensibility/context/)** Special features for advanced usage.
 
-⏳ Delete the current message in 5 seconds
+**[Reference:](http://tgpy.tmat.me/reference/builtins/)** List of TGPy objects and settings.
 
-```python
-import asyncio
+## Inspiration
 
-await asyncio.sleep(5)
-await msg.delete()
-```
-
-↪️ Forward the message you replied to to another chat
-
-```python
-orig.forward_to('Chat title')
-```
-
-🖼 Send all chat profile photos to the same chat
-
-```python
-photos = await client.get_profile_photos(msg.chat)
-msg.reply(file=photos)
-```
-
-🔖 Define a function which forwards messages to Saved Messages with reply
-
-```python
-def save():
-    message = ctx.msg
-    original = await message.get_reply_message()
-    await original.forward_to('me')
-    return 'Saved!'
-``` 
-
-🗑 Define a function which deletes messages with reply
-
-```python
-async def delete():
-    message = ctx.msg
-    original = await message.get_reply_message()
-    await original.delete()
-    await message.delete()
-```
-
-## [TGPy Guide](https://tgpy.tmat.me/)
+TGPy is inspired by [FTG](https://gitlab.com/friendly-telegram/friendly-telegram) and similar userbots. However, the key concept is different: TGPy is totally based on usage of code in Telegram rather than plugging extra modules. This leads both to convenience of single-use scripts and reusage flexibility.
 
 ## Credits
 
-- Thanks to [penn5](https://github.com/penn5) for [meval](https://github.com/penn5/meval)
-- Thanks to [Lonami](https://github.com/LonamiWebs) for [Telethon](https://github.com/LonamiWebs/Telethon)
+TGPy is built on [Telethon](https://github.com/LonamiWebs/Telethon), which allows to integrate Telegram features in Python code.
+
+Basic code transformation (such as auto-return of values) is based on [meval](https://github.com/penn5/meval).
 
 ## License
 

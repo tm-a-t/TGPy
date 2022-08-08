@@ -1,5 +1,6 @@
 import sys
 import traceback as tb
+from dataclasses import dataclass
 
 from telethon.tl.custom import Message
 from telethon.tl.types import MessageEntityBold, MessageEntityCode, MessageEntityTextUrl
@@ -11,16 +12,47 @@ TITLE_URL = 'https://github.com/tm-a-t/TGPy'
 FORMATTED_ERROR_HEADER = f'<b><a href="{TITLE_URL}">TGPy error&gt;</a></b>'
 
 
+class Utf16CodepointsWrapper(str):
+    def __len__(self):
+        return len(self.encode('utf-16-le')) // 2
+
+    def __getitem__(self, item):
+        s = self.encode('utf-16-le')
+        if isinstance(item, slice):
+            item = slice(
+                item.start * 2 if item.start else None,
+                item.stop * 2 if item.stop else None,
+                item.step * 2 if item.step else None,
+            )
+            s = s[item]
+        elif isinstance(item, int):
+            s = s[item * 2 : item * 2 + 2]
+        else:
+            raise TypeError(f'{type(item)} is not supported')
+        return s.decode('utf-16-le')
+
+
 async def edit_message(
-    message: Message, code: str, result, traceback: str = '', output: str = ''
-) -> None:
+    message: Message,
+    code: str,
+    result: str,
+    traceback: str = '',
+    output: str = '',
+) -> Message:
     if result is None and output:
         result = output
         output = ''
 
-    parts = [code.strip(), f'{TITLE} {str(result).strip()}']
-    parts += [part for part in (output.strip(), traceback.strip()) if part]
-    text = '\n\n'.join(parts)
+    title = Utf16CodepointsWrapper(TITLE)
+    parts = [
+        Utf16CodepointsWrapper(code.strip()),
+        Utf16CodepointsWrapper(f'{title} {str(result).strip()}'),
+    ]
+    parts += [
+        Utf16CodepointsWrapper(part)
+        for part in (output.strip(), traceback.strip())
+        if part
+    ]
 
     entities = []
     offset = 0
@@ -28,23 +60,48 @@ async def edit_message(
         entities.append(MessageEntityCode(offset, len(p)))
         offset += len(p) + 2
 
-    entities[1].offset += len(TITLE) + 1
-    entities[1].length -= len(TITLE) + 1
+    entities[1].offset += len(title) + 1
+    entities[1].length -= len(title) + 1
     entities[1:1] = [
-        MessageEntityBold(len(parts[0]) + 2, len(TITLE)),
-        MessageEntityTextUrl(len(parts[0]) + 2, len(TITLE), TITLE_URL),
+        MessageEntityBold(
+            len(parts[0]) + 2,
+            len(title),
+        ),
+        MessageEntityTextUrl(
+            len(parts[0]) + 2,
+            len(title),
+            TITLE_URL,
+        ),
     ]
 
+    text = str('\n\n'.join(parts))
     if len(text) > 4096:
         text = text[:4095] + '…'
-    await message.edit(text, formatting_entities=entities, link_preview=False)
+    return await message.edit(text, formatting_entities=entities, link_preview=False)
 
 
-def get_code(message: Message) -> str:
+@dataclass
+class MessageParseResult:
+    is_tgpy_message: bool
+    code: str | None
+    result: str | None
+
+
+def get_title_entity(message: Message) -> MessageEntityTextUrl | None:
     for e in message.entities or []:
         if isinstance(e, MessageEntityTextUrl) and e.url == TITLE_URL:
-            return message.raw_text[: e.offset].strip()
-    return ''
+            return e
+    return None
+
+
+def parse_message(message: Message) -> MessageParseResult:
+    e = get_title_entity(message)
+    if not e:
+        return MessageParseResult(False, None, None)
+    msg_text = Utf16CodepointsWrapper(message.raw_text)
+    code = msg_text[: e.offset].strip()
+    result = msg_text[e.offset + e.length :].strip()
+    return MessageParseResult(True, code, result)
 
 
 async def send_error(chat) -> None:
@@ -54,3 +111,11 @@ async def send_error(chat) -> None:
     await app.client.send_message(
         chat, f'{FORMATTED_ERROR_HEADER}\n\n<code>{exc}</code>', link_preview=False
     )
+
+
+__all__ = [
+    'edit_message',
+    'MessageParseResult',
+    'parse_message',
+    'send_error',
+]

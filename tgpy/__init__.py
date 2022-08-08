@@ -7,12 +7,12 @@ from tgpy.api import API
 from tgpy.app_config import Config
 from tgpy.console import console
 from tgpy.context import Context
-
-__version__ = "0.4.1"
+from tgpy.version import __version__
 
 logging.basicConfig(
     level=logging.INFO, format='%(message)s', datefmt="[%X]", handlers=[RichHandler()]
 )
+logging.getLogger('telethon').setLevel(logging.WARNING)
 
 
 class App:

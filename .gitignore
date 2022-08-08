@@ -11,3 +11,5 @@ dist/
 data/
 config.py
 config.yaml
+
+guide/site

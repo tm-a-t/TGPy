@@ -2,48 +2,79 @@ from telethon import events
 from telethon.tl.custom import Message
 from telethon.tl.types import Channel
 
-from tgpy import app, message_design
+from tgpy import app, message_design, reactions_fix
 from tgpy.handlers.utils import _handle_errors, outgoing_messages_filter
+from tgpy.reactions_fix import ReactionsFixResult
 from tgpy.run_code import eval_message, get_variable_names, parse_code
 
 
-async def handle_message(message: Message) -> None:
-    raw_text = message.raw_text
-
-    if not raw_text:
-        return
+async def handle_message(
+    message: Message, *, only_show_warning: bool = False
+) -> Message:
+    if not message.raw_text:
+        return message
 
     if message.text.startswith('//') and message.text[2:].strip():
-        await message.edit(message.text[2:])
-        return
+        return await message.edit(message.text[2:])
 
     locals_ = get_variable_names()
 
-    res = parse_code(raw_text, locals_)
+    res = parse_code(message.raw_text, locals_)
     if not res.is_code:
-        return
+        return message
 
-    await eval_message(raw_text, message, uses_orig=res.uses_orig)
+    if only_show_warning:
+        return await message_design.edit_message(
+            message,
+            message.raw_text,
+            'Edit message again to evaluate',
+        )
+    else:
+        return await eval_message(message.raw_text, message, res.uses_orig)
 
 
 @events.register(events.NewMessage(func=outgoing_messages_filter))
 @_handle_errors
 async def on_new_message(event: events.NewMessage.Event) -> None:
-    await handle_message(event.message)
+    message = await handle_message(event.message)
+    reactions_fix.update_hash(message)
 
 
 @events.register(events.MessageEdited(func=outgoing_messages_filter))
 @_handle_errors
-async def on_message_edited(event: events.NewMessage.Event) -> None:
-    if isinstance(event.message.chat, Channel) and event.message.chat.broadcast:
+async def on_message_edited(event: events.MessageEdited.Event) -> None:
+    message: Message = event.message
+    if isinstance(message.chat, Channel) and message.chat.broadcast:
         return
-    code = message_design.get_code(event.message)
-    if not code:
-        await handle_message(event.message)
-        return
-    await eval_message(
-        code, event.message, uses_orig=parse_code(code, get_variable_names()).uses_orig
-    )
+    message_data = message_design.parse_message(message)
+    reactions_fix_result = reactions_fix.check_hash(message)
+    try:
+        match reactions_fix_result:
+            case ReactionsFixResult.ignore:
+                return
+            case ReactionsFixResult.show_warning:
+                if message_data.is_tgpy_message:
+                    message = await message_design.edit_message(
+                        message, message_data.code, 'Edit message again to evaluate'
+                    )
+                else:
+                    message = await handle_message(message, only_show_warning=True)
+                return
+            case ReactionsFixResult.evaluate:
+                pass
+            case _:
+                raise ValueError(f'Bad reactions fix result: {reactions_fix_result}')
+
+        if not message_data.is_tgpy_message:
+            message = await handle_message(message)
+            return
+        message = await eval_message(
+            message_data.code,
+            message,
+            parse_code(message_data.code, get_variable_names()).uses_orig,
+        )
+    finally:
+        reactions_fix.update_hash(message)
 
 
 @events.register(
@@ -55,14 +86,14 @@ async def cancel(message: Message):
         async for msg in app.client.iter_messages(
             message.chat_id, max_id=message.id, limit=10
         ):
-            if msg.out and message_design.get_code(msg):
+            if msg.out and message_design.parse_message(msg).is_tgpy_message:
                 prev = msg
                 break
         else:
             return
     # noinspection PyBroadException
     try:
-        await prev.edit(message_design.get_code(prev))
+        await prev.edit(message_design.parse_message(prev).code)
     except Exception:
         pass
     else:

@@ -1,4 +1,3 @@
-from telethon.errors import MessageIdInvalidError
 from telethon.tl.custom import Message
 
 from tgpy import app, message_design
@@ -17,7 +16,7 @@ def get_variable_names(include_orig=True):
     # fmt: on
 
 
-async def eval_message(code: str, message: Message, uses_orig=False) -> None:
+async def eval_message(code: str, message: Message, uses_orig: bool) -> Message:
     await message_design.edit_message(message, code, 'Running...')
 
     app.ctx.msg = message
@@ -48,10 +47,11 @@ async def eval_message(code: str, message: Message, uses_orig=False) -> None:
         result = convert_result(result)
         exc = ''
 
-    try:
-        # noinspection PyProtectedMember
-        await message_design.edit_message(
-            message, code, result, traceback=exc, output=app.ctx._print_output
-        )
-    except MessageIdInvalidError:
-        pass
+    # noinspection PyProtectedMember
+    return await message_design.edit_message(
+        message,
+        code,
+        result,
+        traceback=exc,
+        output=app.ctx._print_output,
+    )
