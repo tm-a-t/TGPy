@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v0.5.1 (2022-08-09)
+### Fix
+* Restart() now edits message properly ([`60afa44`](https://github.com/tm-a-t/TGPy/commit/60afa44e7002fa87a5c0d2adb60c2065e885f1ec))
+* Compatibility with python 3.9 ([`f3c0468`](https://github.com/tm-a-t/TGPy/commit/f3c046847f9d7f549586c829dbec74238f264ed2))
+
 ## v0.5.0 (2022-08-08)
 ### Feature
 * Use custom telethon fork with updated layer ([`91894fc`](https://github.com/tm-a-t/TGPy/commit/91894fc6894e5e111baa469c3de372b46e62b049)) ([`9c7738e`](https://github.com/tm-a-t/TGPy/commit/9c7738e40cda69499974ceda711f56ca65782312))
