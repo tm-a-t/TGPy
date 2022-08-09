@@ -41,9 +41,9 @@ def ping():
 def restart(msg: Optional[str] = 'Restarted successfully'):
     mod_code = dedent(
         f'''
-        from tgpy.message_design import edit_message, get_code
+        from tgpy.message_design import edit_message, parse_message
         msg = await client.get_messages({app.ctx.msg.chat_id}, ids={app.ctx.msg.id})
-        await edit_message(msg, get_code(msg), '{msg}')
+        await edit_message(msg, parse_message(msg).code, '{msg}')
         '''
     )
     module = Module(
