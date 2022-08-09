@@ -101,7 +101,14 @@ jobs:
           export REPOSITORY_PASSWORD="${PYPI_TOKEN}"
           python -m semantic_release publish -D commit_author="github-actions <action@github.com>"
 
+      - name: Save release commit hash
+        id: release-commit-hash
+        run: echo "::set-output name=release-commit-hash::$(git rev-parse HEAD)"
+    outputs:
+      release-commit-hash: ${{ steps.release-commit-hash.outputs.release-commit-hash }}
+
   Build-dev-docker:
+    needs: Lint
     name: Build dev docker image
     if: github.event_name == 'push' && github.ref != 'refs/heads/master'
     uses: ./.github/workflows/docker.yml
@@ -112,5 +119,7 @@ jobs:
     needs: Release
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     uses: ./.github/workflows/docker.yml
+    with:
+      commit-hash: ${{ needs.Release.outputs.release-commit-hash }}
     secrets: inherit
 

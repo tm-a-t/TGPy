@@ -1,6 +1,16 @@
 name: Build docker image
 on:
-  workflow_call: {}
+  workflow_call:
+    inputs:
+      commit-hash:
+        required: false
+        type: string
+        default: ''
+    secrets:
+      DOCKERHUB_USER:
+        required: true
+      DOCKERHUB_PASSWORD:
+        required: true
 
 env:
   DOCKERHUB_REPO: tgpy/tgpy
@@ -15,6 +25,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+          ref: ${{ inputs.commit-hash }}
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v2
       - name: Setup Buildx
