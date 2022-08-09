@@ -49,21 +49,20 @@ async def on_message_edited(event: events.MessageEdited.Event) -> None:
     message_data = message_design.parse_message(message)
     reactions_fix_result = reactions_fix.check_hash(message)
     try:
-        match reactions_fix_result:
-            case ReactionsFixResult.ignore:
-                return
-            case ReactionsFixResult.show_warning:
-                if message_data.is_tgpy_message:
-                    message = await message_design.edit_message(
-                        message, message_data.code, 'Edit message again to evaluate'
-                    )
-                else:
-                    message = await handle_message(message, only_show_warning=True)
-                return
-            case ReactionsFixResult.evaluate:
-                pass
-            case _:
-                raise ValueError(f'Bad reactions fix result: {reactions_fix_result}')
+        if reactions_fix_result == ReactionsFixResult.ignore:
+            return
+        elif reactions_fix_result == ReactionsFixResult.show_warning:
+            if message_data.is_tgpy_message:
+                message = await message_design.edit_message(
+                    message, message_data.code, 'Edit message again to evaluate'
+                )
+            else:
+                message = await handle_message(message, only_show_warning=True)
+            return
+        elif reactions_fix_result == ReactionsFixResult.evaluate:
+            pass
+        else:
+            raise ValueError(f'Bad reactions fix result: {reactions_fix_result}')
 
         if not message_data.is_tgpy_message:
             message = await handle_message(message)

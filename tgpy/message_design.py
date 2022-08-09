@@ -1,6 +1,7 @@
 import sys
 import traceback as tb
 from dataclasses import dataclass
+from typing import Optional
 
 from telethon.tl.custom import Message
 from telethon.tl.types import MessageEntityBold, MessageEntityCode, MessageEntityTextUrl
@@ -83,11 +84,11 @@ async def edit_message(
 @dataclass
 class MessageParseResult:
     is_tgpy_message: bool
-    code: str | None
-    result: str | None
+    code: Optional[str]
+    result: Optional[str]
 
 
-def get_title_entity(message: Message) -> MessageEntityTextUrl | None:
+def get_title_entity(message: Message) -> Optional[MessageEntityTextUrl]:
     for e in message.entities or []:
         if isinstance(e, MessageEntityTextUrl) and e.url == TITLE_URL:
             return e
