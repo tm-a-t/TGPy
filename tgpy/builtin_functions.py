@@ -14,6 +14,7 @@ from tgpy.modules import (
     get_module_names,
     get_sorted_modules,
 )
+from tgpy.run_code.utils import apply_code_transformers
 from tgpy.utils import (
     REPO_ROOT,
     RunCmdException,
@@ -97,7 +98,7 @@ class ModulesObject:
             message_data = parse_message(original)
             if not message_data.is_tgpy_message:
                 return 'No code found in reply message'
-            code = message_data.code
+            code = apply_code_transformers(message_data.code)
 
         origin = f'{filename_prefix}module/{name}'
 
