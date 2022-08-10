@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.6.0 (2022-08-10)
+### Fix
+* Apply code tranformers on added module code ([`3dc4c38`](https://github.com/liferooter/TGPy/commit/3dc4c38bcdab5b41a4870117e3df4c5e57f13e5d))
+
 ## v0.5.1 (2022-08-09)
 ### Fix
 * Restart() now edits message properly ([`60afa44`](https://github.com/tm-a-t/TGPy/commit/60afa44e7002fa87a5c0d2adb60c2065e885f1ec))
