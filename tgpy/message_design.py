@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from typing import Optional
 
 from telethon.tl.custom import Message
-from telethon.tl.types import MessageEntityBold, MessageEntityCode, MessageEntityTextUrl
+from telethon.tl.types import MessageEntityBold, MessageEntityCode, MessageEntityTextUrl, MessageEntityPre
 
 from tgpy import app
 
@@ -61,6 +61,7 @@ async def edit_message(
         entities.append(MessageEntityCode(offset, len(p)))
         offset += len(p) + 2
 
+    entities[0] = MessageEntityPre(entities[0].offset, entities[0].length, 'python')
     entities[1].offset += len(title) + 1
     entities[1].length -= len(title) + 1
     entities[1:1] = [
