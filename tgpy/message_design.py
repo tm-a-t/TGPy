@@ -4,7 +4,12 @@ from dataclasses import dataclass
 from typing import Optional
 
 from telethon.tl.custom import Message
-from telethon.tl.types import MessageEntityBold, MessageEntityCode, MessageEntityTextUrl, MessageEntityPre
+from telethon.tl.types import (
+    MessageEntityBold,
+    MessageEntityCode,
+    MessageEntityPre,
+    MessageEntityTextUrl,
+)
 
 from tgpy import app
 
