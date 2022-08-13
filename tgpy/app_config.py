@@ -1,14 +1,16 @@
+import dataclasses
+from dataclasses import dataclass
 from typing import Optional
 
 import yaml
-from pydantic import BaseModel, ValidationError
 
 from tgpy.utils import CONFIG_FILENAME
 
 
-class Config(BaseModel):
-    api_id: Optional[int]
-    api_hash: Optional[str]
+@dataclass
+class Config:
+    api_id: Optional[int] = None
+    api_hash: Optional[str] = None
 
     @classmethod
     def load(cls):
@@ -17,12 +19,8 @@ class Config(BaseModel):
                 config_dict = yaml.safe_load(file)
         except FileNotFoundError:
             config_dict = {}
-        try:
-            config = cls(**config_dict)
-        except ValidationError:
-            config = cls()
-        return config
+        return cls(**config_dict)
 
     def save(self):
         with open(CONFIG_FILENAME, 'w') as file:
-            yaml.safe_dump(self.dict(), file)
+            yaml.safe_dump(dataclasses.asdict(self), file)
