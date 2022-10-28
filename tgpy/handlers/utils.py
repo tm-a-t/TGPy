@@ -10,6 +10,8 @@ def _handle_errors(func: Callable):
         # noinspection PyBroadException
         try:
             await func(message)
+        except MessageIdInvalidError:
+            pass
         except Exception:
             await message_design.send_error(message.chat_id)
 
