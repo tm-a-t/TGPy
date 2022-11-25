@@ -84,7 +84,7 @@ async def on_message_edited(event: events.MessageEdited.Event) -> None:
     events.NewMessage(pattern='(?i)^(cancel|сфтсуд)$', func=outgoing_messages_filter)
 )
 async def cancel(message: Message):
-    prev = await message.get_reply_message()
+    prev: Message = await message.get_reply_message()
     if not prev:
         async for msg in app.client.iter_messages(
             message.chat_id, max_id=message.id, limit=10
@@ -96,10 +96,11 @@ async def cancel(message: Message):
             return
     # noinspection PyBroadException
     try:
-        await prev.edit(message_design.parse_message(prev).code)
+        edit_result = await prev.edit(message_design.parse_message(prev).code)
     except Exception:
-        pass
-    else:
+        return
+
+    if edit_result is not None:
         await message.delete()
 
 
