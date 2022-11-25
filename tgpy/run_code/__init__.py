@@ -19,7 +19,9 @@ def get_variable_names(include_orig=True):
     # fmt: on
 
 
-async def eval_message(code: str, message: Message, uses_orig: bool) -> Optional[Message]:
+async def eval_message(
+    code: str, message: Message, uses_orig: bool
+) -> Optional[Message]:
     await message_design.edit_message(message, code, 'Running...')
 
     app.ctx.msg = message
