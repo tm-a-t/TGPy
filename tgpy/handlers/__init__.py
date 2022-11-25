@@ -1,3 +1,5 @@
+from typing import Optional
+
 from telethon import events
 from telethon.tl.custom import Message
 from telethon.tl.types import Channel
@@ -10,7 +12,7 @@ from tgpy.run_code import eval_message, get_variable_names, parse_code
 
 async def handle_message(
     message: Message, *, only_show_warning: bool = False
-) -> Message:
+) -> Optional[Message]:
     if not message.raw_text:
         return message
 
@@ -37,7 +39,8 @@ async def handle_message(
 @_handle_errors
 async def on_new_message(event: events.NewMessage.Event) -> None:
     message = await handle_message(event.message)
-    reactions_fix.update_hash(message)
+    if message is not None:
+        reactions_fix.update_hash(message)
 
 
 @events.register(events.MessageEdited(func=outgoing_messages_filter))
@@ -73,7 +76,8 @@ async def on_message_edited(event: events.MessageEdited.Event) -> None:
             parse_code(message_data.code, get_variable_names()).uses_orig,
         )
     finally:
-        reactions_fix.update_hash(message)
+        if message is not None:
+            reactions_fix.update_hash(message)
 
 
 @events.register(
