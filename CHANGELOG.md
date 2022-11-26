@@ -2,6 +2,17 @@
 
 <!--next-version-placeholder-->
 
+## v0.6.0 (2022-11-26)
+### Feature
+* Use MessageEntityPre with language set to 'python' to enable syntax highlighting on supported clients (e.g. WebZ). Closes #24 ([`5de6ded`](https://github.com/tm-a-t/TGPy/commit/5de6ded579c237f0221b6223dfd18254a2ebb1cd))
+
+### Fix
+* Keep 'cancel' message when replying to other user (fixes #21) ([`057231d`](https://github.com/tm-a-t/TGPy/commit/057231d7a437d5ab4fca280b130714573904a67e))
+* Ignore error when running code deletes the message itself ([`d022450`](https://github.com/tm-a-t/TGPy/commit/d0224502c5393dc423c9790e88fedc94bbb5afbf))
+
+### Documentation
+* Update readme ([`a321bbf`](https://github.com/tm-a-t/TGPy/commit/a321bbfe474e8ae97132a7f0f4d11c009495c482))
+
 ## v0.5.1 (2022-08-09)
 ### Fix
 * Restart() now edits message properly ([`60afa44`](https://github.com/tm-a-t/TGPy/commit/60afa44e7002fa87a5c0d2adb60c2065e885f1ec))
