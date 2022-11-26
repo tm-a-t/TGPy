@@ -3,7 +3,7 @@ FROM python:3.10-alpine as base
 WORKDIR /app
 
 FROM base as builder
-RUN apk add --no-cache gcc musl-dev libffi-dev git rust cargo
+RUN apk add --no-cache gcc musl-dev libffi-dev git
 
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1 \
     POETRY_VERSION=1.1.13

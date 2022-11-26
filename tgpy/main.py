@@ -2,7 +2,6 @@ import logging
 
 import aiorun
 import yaml
-from pydantic import ValidationError
 from telethon import TelegramClient, errors
 from yaml import YAMLError
 
@@ -93,7 +92,7 @@ def migrate_hooks_to_modules():
                     f.write(serialize_module(module))
                 mod_file.unlink()
                 mod_file = new_mod_file
-            except (YAMLError, ValidationError):
+            except YAMLError:
                 continue
         except Exception:
             pass

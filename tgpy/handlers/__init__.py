@@ -1,3 +1,5 @@
+from typing import Optional
+
 from telethon import events
 from telethon.tl.custom import Message
 from telethon.tl.types import Channel
@@ -10,7 +12,7 @@ from tgpy.run_code import eval_message, get_variable_names, parse_code
 
 async def handle_message(
     message: Message, *, only_show_warning: bool = False
-) -> Message:
+) -> Optional[Message]:
     if not message.raw_text:
         return message
 
@@ -37,7 +39,8 @@ async def handle_message(
 @_handle_errors
 async def on_new_message(event: events.NewMessage.Event) -> None:
     message = await handle_message(event.message)
-    reactions_fix.update_hash(message)
+    if message is not None:
+        reactions_fix.update_hash(message)
 
 
 @events.register(events.MessageEdited(func=outgoing_messages_filter))
@@ -73,14 +76,15 @@ async def on_message_edited(event: events.MessageEdited.Event) -> None:
             parse_code(message_data.code, get_variable_names()).uses_orig,
         )
     finally:
-        reactions_fix.update_hash(message)
+        if message is not None:
+            reactions_fix.update_hash(message)
 
 
 @events.register(
     events.NewMessage(pattern='(?i)^(cancel|сфтсуд)$', func=outgoing_messages_filter)
 )
 async def cancel(message: Message):
-    prev = await message.get_reply_message()
+    prev: Message = await message.get_reply_message()
     if not prev:
         async for msg in app.client.iter_messages(
             message.chat_id, max_id=message.id, limit=10
@@ -92,10 +96,11 @@ async def cancel(message: Message):
             return
     # noinspection PyBroadException
     try:
-        await prev.edit(message_design.parse_message(prev).code)
+        edit_result = await prev.edit(message_design.parse_message(prev).code)
     except Exception:
-        pass
-    else:
+        return
+
+    if edit_result is not None:
         await message.delete()
 
 

@@ -1,15 +1,16 @@
+import dataclasses
 import logging
 import random
 import re
 import string
 import traceback
+from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from textwrap import dedent, indent
 from typing import Iterator, Optional, Union
 
 import yaml
-from pydantic import BaseModel
 from yaml import YAMLError
 
 from tgpy import app
@@ -77,7 +78,7 @@ MODULE_TEMPLATE = '''
 
 def serialize_module(module: Union['Module', dict]) -> str:
     if isinstance(module, Module):
-        module_dict = module.dict()
+        module_dict = dataclasses.asdict(module)
     else:
         module_dict = module
     module_code = DOCSTRING_RGX.sub('', module_dict.pop('code')).strip()
@@ -112,17 +113,18 @@ def deserialize_module(data: str, name: Optional[str] = None) -> 'Module':
         logger.warning(f'No metadata found in module {name!r}')
     # to support debugging properly, module code is the whole file
     module_dict['code'] = data
-    module = Module.parse_obj(module_dict)
+    module = Module(**module_dict)
     return module
 
 
-class Module(BaseModel):
+@dataclass
+class Module:
     name: str
-    once: bool = False
-    save_locals: bool = True
     code: str
     origin: str
     priority: int
+    once: bool = False
+    save_locals: bool = True
 
     @classmethod
     def load(cls, mod_name: str) -> 'Module':
