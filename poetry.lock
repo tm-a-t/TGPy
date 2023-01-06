@@ -540,7 +540,7 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "telethon-v1-24"
-version = "1.24.3"
+version = "1.24.4"
 description = "Full-featured Telegram client library for Python 3"
 category = "main"
 optional = false
@@ -661,7 +661,7 @@ testing = ["func-timeout", "jaraco.itertools", "pytest (>=6)", "pytest-black (>=
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "6d519377deb49a9bd6dd9ff21b444463c548fc651d8809b09e277c77a2f935a6"
+content-hash = "034ec923882508de44f85e36a8d8f09a8156cf05ff0ab2bb2a2e885d4372fcbd"
 
 [metadata.files]
 aiorun = [
@@ -1051,8 +1051,8 @@ smmap = [
     {file = "smmap-5.0.0.tar.gz", hash = "sha256:c840e62059cd3be204b0c9c9f74be2c09d5648eddd4580d9314c3ecde0b30936"},
 ]
 telethon-v1-24 = [
-    {file = "Telethon-v1.24-1.24.3.tar.gz", hash = "sha256:e253db400dbdb4cde8480b4fb4ecdbd640c28fd666f3da06094f80e72d254061"},
-    {file = "Telethon_v1.24-1.24.3-py3-none-any.whl", hash = "sha256:29e552748eafcaa80228522d0616a5474c1a6cb4e12119a1fc2e6f743de1c22b"},
+    {file = "Telethon-v1.24-1.24.4.tar.gz", hash = "sha256:51c41153679754ab198dae640674d70c67d08a3da86ae2b11ea3aab9cc0b0334"},
+    {file = "Telethon_v1.24-1.24.4-py3-none-any.whl", hash = "sha256:579cfb3f60f0c00efbee8a716e68deeb1910cb23a3f8b0344a93e2c2802c6875"},
 ]
 tomli = [
     {file = "tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc"},
