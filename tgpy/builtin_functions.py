@@ -20,11 +20,12 @@ from tgpy.utils import (
     execute_in_repo_root,
     filename_prefix,
     get_hostname,
-    get_user,
+    get_installed_version,
     get_running_version,
+    get_user,
     installed_as_package,
     run_cmd,
-    running_in_docker, get_installed_version,
+    running_in_docker,
 )
 
 
