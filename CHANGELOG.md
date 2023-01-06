@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.6.1 (2023-01-06)
+### Fix
+* Update command saying "Already up to date" while in fact updating correctly ([`9b25fe6`](https://github.com/tm-a-t/TGPy/commit/9b25fe60809cfbb045bd605c0fa78f5ae19d57d0))
+
 ## v0.6.0 (2022-11-26)
 ### Feature
 * Use MessageEntityPre with language set to 'python' to enable syntax highlighting on supported clients (e.g. WebZ). Closes #24 ([`5de6ded`](https://github.com/tm-a-t/TGPy/commit/5de6ded579c237f0221b6223dfd18254a2ebb1cd))
