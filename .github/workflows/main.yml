@@ -14,6 +14,7 @@ on:
       - 'tgpy/**'
       - '.github/workflows/main.yml'
       - '.github/workflows/docker.yml'
+  workflow_dispatch: {}
 
 jobs:
   Lint:
