@@ -21,10 +21,10 @@ from tgpy.utils import (
     filename_prefix,
     get_hostname,
     get_user,
-    get_version,
+    get_running_version,
     installed_as_package,
     run_cmd,
-    running_in_docker,
+    running_in_docker, get_installed_version,
 )
 
 
@@ -33,7 +33,7 @@ def ping():
         f'''
         Pong!
         Running on {get_user()}@{get_hostname()}
-        Version: {get_version()}
+        Version: {get_running_version()}
         '''
     )
 
@@ -59,7 +59,7 @@ def restart(msg: Optional[str] = 'Restarted successfully'):
 
 
 def update():
-    old_version = get_version()
+    old_version = get_running_version()
 
     if running_in_docker():
         return 'Can\'t update a docker container'
@@ -79,7 +79,9 @@ def update():
     else:
         return 'Could not find suitable update method'
 
-    new_version = get_version()
+    new_version = get_installed_version()
+    if not new_version:
+        return 'Could not determine upgraded version. This is probably a bug in TGPy.'
     if old_version == new_version:
         return 'Already up to date'
     else:

@@ -11,7 +11,7 @@ from subprocess import PIPE, Popen
 import appdirs
 from telethon.tl import types
 
-from tgpy import version
+import tgpy
 
 ENV_TGPY_DATA = os.getenv('TGPY_DATA')
 if ENV_TGPY_DATA:
@@ -93,21 +93,39 @@ def get_hostname():
     return real_hostname
 
 
-def get_version():
-    if not version.IS_DEV_BUILD:
-        return version.__version__
+def _get_git_version() -> str | None:
+    if not REPO_ROOT:
+        return None
+    with execute_in_repo_root():
+        try:
+            return 'git@' + run_cmd(['git', 'rev-parse', '--short', 'HEAD'])
+        except (RunCmdException, FileNotFoundError):
+            pass
 
-    if REPO_ROOT:
-        with execute_in_repo_root():
-            try:
-                return 'git@' + run_cmd(['git', 'rev-parse', '--short', 'HEAD'])
-            except (RunCmdException, FileNotFoundError):
-                pass
+    return None
 
-    if version.COMMIT_HASH:
-        return 'git@' + version.COMMIT_HASH[:7]
+
+def get_running_version():
+    if not tgpy.version.IS_DEV_BUILD:
+        return tgpy.version.__version__
+
+    if _COMMIT_HASH:
+        return _COMMIT_HASH
+
+    if tgpy.version.COMMIT_HASH:
+        return 'git@' + tgpy.version.COMMIT_HASH[:7]
 
     return 'unknown'
+
+
+def get_installed_version():
+    if version := _get_git_version():
+        return version
+
+    if installed_as_package():
+        return importlib.metadata.version('tgpy')
+
+    return None
 
 
 def peer_to_id(peer: types.TypePeer):
@@ -121,6 +139,8 @@ def peer_to_id(peer: types.TypePeer):
         raise TypeError(f'Unknown peer type: {type(peer)}')
 
 
+_COMMIT_HASH = _get_git_version()
+
 __all__ = [
     'DATA_DIR',
     'MODULES_DIR',
@@ -129,7 +149,7 @@ __all__ = [
     'SESSION_FILENAME',
     'REPO_ROOT',
     'run_cmd',
-    'get_version',
+    'get_running_version',
     'create_config_dirs',
     'installed_as_package',
     'RunCmdException',
