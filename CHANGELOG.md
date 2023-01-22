@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v0.6.2 (2023-01-22)
+### Fix
+* Fix IndentationError appearing for some non-code messages ([`599c84f`](https://github.com/tm-a-t/TGPy/commit/599c84f9ba4104d678476b07b090c54529246ab9))
+* **docker:** Add /venv/bin to path ([`00be149`](https://github.com/tm-a-t/TGPy/commit/00be149b4ce827e97bb31b84f39cfa988a68d1ee))
+
+### Documentation
+* Update readme intro ([`c334669`](https://github.com/tm-a-t/TGPy/commit/c334669fcab8a6fc7a3f8330ae3217de21b97430))
+
 ## v0.6.1 (2023-01-06)
 ### Fix
 * Update command saying "Already up to date" while in fact updating correctly ([`9b25fe6`](https://github.com/tm-a-t/TGPy/commit/9b25fe60809cfbb045bd605c0fa78f5ae19d57d0))
