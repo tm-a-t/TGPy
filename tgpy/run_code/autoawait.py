@@ -5,8 +5,11 @@ from io import BytesIO
 AWAIT_REPLACEMENT_ATTRIBUTE = '__tgpy_await__'
 
 
-def tokenize_string(s: str) -> list[tokenize.TokenInfo]:
-    return list(tokenize.tokenize(BytesIO(s.encode('utf-8')).readline))
+def tokenize_string(s: str) -> list[tokenize.TokenInfo] | None:
+    try:
+        return list(tokenize.tokenize(BytesIO(s.encode('utf-8')).readline))
+    except IndentationError:
+        return None
 
 
 def untokenize_to_string(tokens: list[tokenize.TokenInfo]) -> str:
@@ -15,6 +18,8 @@ def untokenize_to_string(tokens: list[tokenize.TokenInfo]) -> str:
 
 def pre_transform(code: str) -> str:
     tokens = tokenize_string(code)
+    if not tokens:
+        return code
     for i, tok in enumerate(tokens):
         if i == 0:
             continue

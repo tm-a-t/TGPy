@@ -22,6 +22,8 @@ RUN sed -i "s/\(COMMIT_HASH *= *\).*/\1'$(git rev-parse HEAD)'/" tgpy/version.py
 
 FROM base as runner
 COPY --from=builder /venv /venv
+ENV PATH="/venv/bin:$PATH"
+
 COPY --from=builder /app/tgpy tgpy
 
 ENV TGPY_DATA=/data
