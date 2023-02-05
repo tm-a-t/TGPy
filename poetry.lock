@@ -550,7 +550,7 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "telethon-v1-24"
-version = "1.24.6"
+version = "1.24.8"
 description = "Updated fork of 1.24 branch of Telethon, primarily used by TGPy"
 category = "main"
 optional = false
@@ -671,7 +671,7 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "f9541d7aaa6724cf2563683af471ac64fff9730453d9b32fdfcd8014aa65ddde"
+content-hash = "0185b68100006fbee5f6c7bb59c19ff223587d1f5dfa6dbca05ed2ef5073b663"
 
 [metadata.files]
 aiorun = [
@@ -1141,8 +1141,8 @@ smmap = [
     {file = "smmap-5.0.0.tar.gz", hash = "sha256:c840e62059cd3be204b0c9c9f74be2c09d5648eddd4580d9314c3ecde0b30936"},
 ]
 telethon-v1-24 = [
-    {file = "Telethon-v1.24-1.24.6.tar.gz", hash = "sha256:c5c62da470c1589cbd4cd5fb8005d8954f187eaa8f9554ca3b6e1a6beff50bdf"},
-    {file = "Telethon_v1.24-1.24.6-py3-none-any.whl", hash = "sha256:950d4ef8e5d72d016e34688a60131bf774dd43e62867d5761503ac666aff5a31"},
+    {file = "Telethon-v1.24-1.24.8.tar.gz", hash = "sha256:3d4db7215a9d8f7979cbac2b09fcb127baa524309889d516de92069aa1a8ab14"},
+    {file = "Telethon_v1.24-1.24.8-py3-none-any.whl", hash = "sha256:834fa9ad87f3f786dfb1b1cbb6f74485cd79dd8b76ece023175b8a5f8b3d1e8f"},
 ]
 tomli = [
     {file = "tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc"},
