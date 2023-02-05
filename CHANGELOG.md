@@ -2,6 +2,16 @@
 
 <!--next-version-placeholder-->
 
+## v0.7.0 (2023-02-05)
+### Feature
+* Update telethon (new markdown parser, html parser fixes) ([`43dd76f`](https://github.com/tm-a-t/TGPy/commit/43dd76f0953e6ba2e77e9b5bc25f2748a36967ee))
+* Update dependencies (layer 152) ([`234dc86`](https://github.com/tm-a-t/TGPy/commit/234dc86399c8545b07f55c1cddbcfbabcac2c372))
+
+### Fix
+* Handle entities properly when editing "//" message ([`6d989dc`](https://github.com/tm-a-t/TGPy/commit/6d989dc5349e026338857115d93f5c532f760578))
+* Specify parse_mode in error handler to support markdown global parse mode ([`60cd81b`](https://github.com/tm-a-t/TGPy/commit/60cd81b9ca5cbb85ed72808e6ce3954bee455c3a))
+* Use message.raw_text instead of message.text to detect // ([`a85b1c8`](https://github.com/tm-a-t/TGPy/commit/a85b1c834135f2b7c251ff8482afbab93f73002e))
+
 ## v0.6.2 (2023-01-22)
 ### Fix
 * Fix IndentationError appearing for some non-code messages ([`599c84f`](https://github.com/tm-a-t/TGPy/commit/599c84f9ba4104d678476b07b090c54529246ab9))
