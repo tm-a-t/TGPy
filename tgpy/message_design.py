@@ -116,7 +116,10 @@ async def send_error(chat) -> None:
     if len(exc) > 4000:
         exc = exc[:4000] + '…'
     await app.client.send_message(
-        chat, f'{FORMATTED_ERROR_HEADER}\n\n<code>{exc}</code>', link_preview=False
+        chat,
+        f'{FORMATTED_ERROR_HEADER}\n\n<code>{exc}</code>',
+        link_preview=False,
+        parse_mode='html',
     )
 
 
