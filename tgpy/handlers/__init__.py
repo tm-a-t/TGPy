@@ -16,8 +16,8 @@ async def handle_message(
     if not message.raw_text:
         return message
 
-    if message.text.startswith('//') and message.text[2:].strip():
-        return await message.edit(message.text[2:])
+    if message.raw_text.startswith('//') and message.raw_text[2:].strip():
+        return await message.edit(message.raw_text[2:])
 
     locals_ = get_variable_names()
 
