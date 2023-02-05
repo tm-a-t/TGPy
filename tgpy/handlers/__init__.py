@@ -17,7 +17,14 @@ async def handle_message(
         return message
 
     if message.raw_text.startswith('//') and message.raw_text[2:].strip():
-        return await message.edit(message.raw_text[2:])
+        entities = message.entities or []
+        for ent in entities:
+            if ent.offset < 2:
+                ent.length -= 2 - ent.offset
+                ent.offset = 0
+            else:
+                ent.offset -= 2
+        return await message.edit(message.raw_text[2:], formatting_entities=entities)
 
     locals_ = get_variable_names()
 
