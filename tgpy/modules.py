@@ -150,7 +150,6 @@ class Module:
             globals(),
             app.api.variables,
             msg=None,
-            print=lambda *args, **kwargs: None,
             **app.api.constants,
         )
         if self.save_locals:

@@ -25,6 +25,7 @@ async def eval_message(
     await message_design.edit_message(message, code, 'Running...')
 
     app.ctx.msg = message
+    app.ctx._init_stdout()
 
     orig_kwarg = {}
     if uses_orig:
@@ -40,7 +41,6 @@ async def eval_message(
             globals(),
             app.api.variables,
             msg=message,
-            print=app.ctx._print,
             **app.api.constants,
             **orig_kwarg,
         )
@@ -59,7 +59,7 @@ async def eval_message(
             code,
             result,
             traceback=exc,
-            output=app.ctx._print_output,
+            output=app.ctx._stdout,
         )
     except MessageIdInvalidError:
         return None

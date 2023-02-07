@@ -1,35 +1,39 @@
+import sys
 from contextvars import ContextVar
-from typing import Optional
+from io import StringIO, TextIOBase
 
 from telethon.tl.custom import Message
 
+_message: ContextVar[Message] = ContextVar('_message')
+_stdout: ContextVar[StringIO] = ContextVar('_stdout')
+
+
+class _StdoutWrapper(TextIOBase):
+    def __getobj(self):
+        return _stdout.get(sys.__stdout__)
+
+    def write(self, s: str) -> int:
+        return self.__getobj().write(s)
+
+
+sys.stdout = _StdoutWrapper()
+
 
 class Context:
-    __print_output: ContextVar[str]
-    __msg: ContextVar[Optional[Message]]
-
-    def __init__(self):
-        self.__msg = ContextVar('msg')
-        self.__print_output = ContextVar('print_output', default='')
-
     @property
     def msg(self):
-        return self.__msg.get(None)
+        return _message.get(None)
 
     @msg.setter
     def msg(self, msg: Message):
-        self.__msg.set(msg)
+        _message.set(msg)
+
+    def _init_stdout(self):
+        _stdout.set(StringIO())
 
     @property
-    def _print_output(self):
-        return self.__print_output.get()
-
-    def _print(self, *values, sep=' ', end='\n', file=None, flush=True):
-        if file:
-            print(*values, sep=sep, end=end, file=file, flush=flush)
-        else:
-            output = sep.join(str(val) for val in values) + end
-            self.__print_output.set(self.__print_output.get() + output)
+    def _stdout(self):
+        return _stdout.get().getvalue()
 
     def __str__(self):
         return f'<Context(msg)>'
