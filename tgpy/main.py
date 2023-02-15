@@ -120,4 +120,4 @@ async def _main():
 
 
 def main():
-    aiorun.run(_main(), stop_on_unhandled_errors=True)
+    aiorun.run(_main())
