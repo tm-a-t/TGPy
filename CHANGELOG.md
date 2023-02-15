@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v0.8.0 (2023-02-15)
+### Feature
+* Wrap sys.stdout instead of print to capture output + properly use contextvars ([`7aa2015`](https://github.com/tm-a-t/TGPy/commit/7aa2015215ad621b405c6471add250bf11aa70c2))
+
+### Fix
+* Don't stop on unhandled errors. They may happen when, for example, a module uses asyncio.create_task ([`3584f22`](https://github.com/tm-a-t/TGPy/commit/3584f223064902f8238f35715219289b6a16ea13))
+
 ## v0.7.0 (2023-02-05)
 ### Feature
 * Update telethon (new markdown parser, html parser fixes) ([`43dd76f`](https://github.com/tm-a-t/TGPy/commit/43dd76f0953e6ba2e77e9b5bc25f2748a36967ee))
