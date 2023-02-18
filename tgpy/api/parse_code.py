@@ -1,12 +1,21 @@
 import ast
+import logging
+from dataclasses import dataclass
 
-from tgpy import app
-from tgpy.run_code.utils import apply_code_transformers
+import tgpy.api
+from tgpy.api.transformers import ast_transformers, code_transformers
+
+logger = logging.getLogger(__name__)
 
 
-class _Result:
-    is_code = False
-    uses_orig = False
+@dataclass
+class ParseResult:
+    is_code: bool = False
+    uses_orig: bool = False
+    original: str = ''
+    transformed: str = ''
+    tree: ast.AST | None = None
+    exc: Exception | None = None
 
 
 def _is_node_unknown_variable(node: ast.AST, locs: dict) -> bool:
@@ -75,25 +84,39 @@ def _ignore_node(node: ast.AST, locs: dict) -> bool:
     )
 
 
-def parse_code(text: str, locs: dict) -> _Result:
+async def parse_code(text: str, ignore_simple: bool = True) -> ParseResult:
     """Parse given text and decide should it be evaluated as Python code"""
-    result = _Result()
+    result = ParseResult(original=text)
 
-    text = apply_code_transformers(app, text)
+    text = await code_transformers.apply(text)
+    result.transformed = text
 
     try:
-        root = ast.parse(text, '', 'exec')
-    except (SyntaxError, ValueError):
+        tree = ast.parse(text, '', 'exec')
+    except (SyntaxError, ValueError) as e:
+        result.exc = e
         return result
 
-    if all(_ignore_node(body_item, locs) for body_item in root.body):
-        return result
+    tree = await ast_transformers.apply(tree)
+    result.tree = tree
+
+    if ignore_simple:
+        locs = (
+            list(tgpy.api.variables.keys())
+            + list(tgpy.api.constants.keys())
+            + ['msg', 'print', 'orig']
+        )
+        if all(_ignore_node(body_item, locs) for body_item in tree.body):
+            return result
 
     result.is_code = True
 
-    for node in ast.walk(root):
+    for node in ast.walk(tree):
         if isinstance(node, ast.Name) and node.id == 'orig':
             result.uses_orig = True
             return result
 
     return result
+
+
+__all__ = ['ParseResult', 'parse_code']

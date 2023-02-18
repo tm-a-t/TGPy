@@ -39,11 +39,13 @@
 | --- | --- |
 | `#!python ctx.msg` | The message containing the code TGPy is evaluating at the moment |
 
-## TGPy API object
+## TGPy API module
 
-| Object | Description |
-| --- | --- |
-| `#!python tgpy.add_code_transformer(name: str, transformer: Callable[[str], str])` | _To be documented_ |
-| `#!python tgpy.code_transformers` | _To be documented_ |
-| `#!python tgpy.variables` | Dictionary of saved variables |
-| `#!python tgpy.constants` | Dictionary of constants<br>(`tgpy`, `ctx`, `client`) |
+Can be imported with `import tgpy.api`
+
+| Object                                                                                 | Description                                  |
+|----------------------------------------------------------------------------------------|----------------------------------------------|
+| `#!python tgpy.api.add_code_transformer(name: str, transformer: Callable[[str], str])` | _To be documented_                           |
+| `#!python tgpy.api.code_transformers`                                                  | _To be documented_                           |
+| `#!python tgpy.api.variables`                                                          | Dictionary of saved variables                |
+| `#!python tgpy.api.constants`                                                          | Dictionary of constants<br>(`ctx`, `client`) |

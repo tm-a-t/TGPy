@@ -1,33 +1,24 @@
-import getpass
-import importlib.metadata
 import os
-import re
+import random
 import shlex
-import socket
+import string
 from contextlib import contextmanager
 from pathlib import Path
 from subprocess import PIPE, Popen
+from typing import Any, NewType, Union
 
-import appdirs
-from telethon.tl import types
+from tgpy.api.directories import DATA_DIR, MODULES_DIR, WORKDIR
 
-import tgpy
+JSON = NewType('JSON', Union[None, str, int, bool, list['JSON'], dict[str, 'JSON']])
+UNDEFINED = object()
 
-ENV_TGPY_DATA = os.getenv('TGPY_DATA')
-if ENV_TGPY_DATA:
-    DATA_DIR = Path(os.getenv('TGPY_DATA'))
-else:
-    # noinspection PyTypeChecker
-    DATA_DIR = Path(appdirs.user_config_dir('tgpy', appauthor=False))
-MODULES_DIR = DATA_DIR / 'modules'
-WORKDIR = DATA_DIR / 'workdir'
 CONFIG_FILENAME = DATA_DIR / 'config.yml'
 SESSION_FILENAME = DATA_DIR / 'TGPy.session'
 REPO_ROOT = Path(__file__).parent.parent
 if not os.path.exists(REPO_ROOT / '.git'):
     REPO_ROOT = None
 
-filename_prefix = 'tgpy://'
+FILENAME_PREFIX = 'tgpy://'
 
 
 @contextmanager
@@ -64,99 +55,45 @@ def run_cmd(args: list[str]):
     return output.decode('utf-8').strip()
 
 
-def installed_as_package():
-    try:
-        importlib.metadata.version('tgpy')
-        return True
-    except importlib.metadata.PackageNotFoundError:
-        return False
+def dot_get(
+    obj: dict, key: str, default: Any | None = UNDEFINED, *, create: bool = False
+) -> Any:
+    if not key:
+        return obj
+    curr_obj = obj
+    parts = key.split('.')
+    for i, part in enumerate(parts):
+        new_obj = curr_obj.get(part, UNDEFINED)
+        if new_obj is UNDEFINED:
+            if create and (default is UNDEFINED or i != len(parts) - 1):
+                new_obj = curr_obj[part] = {}
+            elif default is UNDEFINED:
+                raise KeyError(key)
+            else:
+                if create:
+                    curr_obj[part] = default
+                return default
+        if not isinstance(new_obj, dict) and i != len(parts) - 1:
+            raise ValueError('.'.join(parts[: i + 1]) + ' is not a dict')
+        curr_obj = new_obj
+    return curr_obj
 
 
-def running_in_docker():
-    return os.path.exists('/.dockerenv')
+def numid():
+    return ''.join(random.choices(string.digits, k=8))
 
-
-def get_user():
-    try:
-        return getpass.getuser()
-    except KeyError:
-        return str(os.getuid())
-
-
-DOCKER_DEFAULT_HOSTNAME_RGX = re.compile(r'[0-9a-f]{12}')
-
-
-def get_hostname():
-    real_hostname = socket.gethostname()
-    if running_in_docker() and DOCKER_DEFAULT_HOSTNAME_RGX.fullmatch(real_hostname):
-        return 'docker'
-    return real_hostname
-
-
-def _get_git_version() -> str | None:
-    if not REPO_ROOT:
-        return None
-    with execute_in_repo_root():
-        try:
-            return 'git@' + run_cmd(['git', 'rev-parse', '--short', 'HEAD'])
-        except (RunCmdException, FileNotFoundError):
-            pass
-
-    return None
-
-
-def get_running_version():
-    if not tgpy.version.IS_DEV_BUILD:
-        return tgpy.version.__version__
-
-    if _COMMIT_HASH:
-        return _COMMIT_HASH
-
-    if tgpy.version.COMMIT_HASH:
-        return 'git@' + tgpy.version.COMMIT_HASH[:7]
-
-    return 'unknown'
-
-
-def get_installed_version():
-    if version := _get_git_version():
-        return version
-
-    if installed_as_package():
-        return importlib.metadata.version('tgpy')
-
-    return None
-
-
-def peer_to_id(peer: types.TypePeer):
-    if isinstance(peer, types.PeerUser):
-        return peer.user_id
-    elif isinstance(peer, types.PeerChat):
-        return peer.chat_id
-    elif isinstance(peer, types.PeerChannel):
-        return peer.channel_id
-    else:
-        raise TypeError(f'Unknown peer type: {type(peer)}')
-
-
-_COMMIT_HASH = _get_git_version()
 
 __all__ = [
-    'DATA_DIR',
-    'MODULES_DIR',
-    'WORKDIR',
+    'JSON',
+    'UNDEFINED',
     'CONFIG_FILENAME',
     'SESSION_FILENAME',
     'REPO_ROOT',
+    'FILENAME_PREFIX',
     'run_cmd',
-    'get_running_version',
     'create_config_dirs',
-    'installed_as_package',
     'RunCmdException',
-    'filename_prefix',
     'execute_in_repo_root',
-    'get_user',
-    'get_hostname',
-    'running_in_docker',
-    'peer_to_id',
+    'dot_get',
+    'numid',
 ]

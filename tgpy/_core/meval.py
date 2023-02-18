@@ -3,14 +3,13 @@
 import ast
 import inspect
 from collections import deque
+from copy import deepcopy
 from importlib.abc import SourceLoader
 from importlib.util import module_from_spec, spec_from_loader
 from types import CodeType
 from typing import Any, Iterator
 
-from tgpy import app
-from tgpy.run_code import autoawait
-from tgpy.run_code.utils import apply_code_transformers
+from tgpy.api.parse_code import ParseResult
 
 
 def shallow_walk(node) -> Iterator:
@@ -48,33 +47,16 @@ class MevalLoader(SourceLoader):
         return self.code
 
 
-async def meval(
-    str_code: str, filename: str, globs: dict, saved_variables: dict, **kwargs
+async def _meval(
+    parsed: ParseResult, filename: str, saved_variables: dict, **kwargs
 ) -> (dict, Any):
     kwargs.update(saved_variables)
 
-    # Restore globals later
-    globs = globs.copy()
-
-    # This code saves __name__ and __package into a kwarg passed to the function.
-    # It is set before the users code runs to make sure relative imports work
-    global_args = '_globs'
-    while global_args in globs.keys():
-        # Make sure there's no name collision, just keep prepending _s
-        global_args = '_' + global_args
-    kwargs[global_args] = {}
-    for glob in ['__name__', '__package__']:
-        # Copy data to args we are sending
-        kwargs[global_args][glob] = globs[glob]
-
-    str_code = apply_code_transformers(app, str_code)
-    root = ast.parse(str_code, '', 'exec')
-    autoawait.transformer.visit(root)
-
+    root = deepcopy(parsed.tree)
     ret_name = '_ret'
     ok = False
     while True:
-        if ret_name in globs.keys():
+        if ret_name in kwargs.keys():
             ret_name = '_' + ret_name
             continue
         for node in ast.walk(root):
@@ -89,32 +71,13 @@ async def meval(
     if not code:
         return {}, None
 
-    # globals().update(**<global_args>)
-    glob_copy = ast.Expr(
-        ast.Call(
-            func=ast.Attribute(
-                value=ast.Call(
-                    func=ast.Name(id='globals', ctx=ast.Load()), args=[], keywords=[]
-                ),
-                attr='update',
-                ctx=ast.Load(),
-            ),
-            args=[],
-            keywords=[
-                ast.keyword(arg=None, value=ast.Name(id=global_args, ctx=ast.Load()))
-            ],
-        )
-    )
-    ast.fix_missing_locations(glob_copy)
-    code.insert(0, glob_copy)
-
     # _ret = []
     ret_decl = ast.Assign(
         targets=[ast.Name(id=ret_name, ctx=ast.Store())],
         value=ast.List(elts=[], ctx=ast.Load()),
     )
     ast.fix_missing_locations(ret_decl)
-    code.insert(1, ret_decl)
+    code.insert(0, ret_decl)
 
     # __import__('builtins').locals()
     get_locals = ast.Call(
@@ -205,15 +168,13 @@ async def meval(
 
     # print(ast.unparse(mod))
     comp = compile(mod, filename, 'exec')
-    loader = MevalLoader(str_code, comp, filename)
+    loader = MevalLoader(parsed.original, comp, filename)
     py_module = module_from_spec(spec_from_loader(filename, loader, origin=filename))
     loader.exec_module(py_module)
 
     new_locs, ret = await getattr(py_module, 'tmp')(**kwargs)
     for loc in list(new_locs):
-        if (
-            loc in globs or loc in kwargs or loc == ret_name
-        ) and loc not in saved_variables:
+        if (loc in kwargs or loc == ret_name) and loc not in saved_variables:
             new_locs.pop(loc)
 
     ret = [await el if inspect.isawaitable(el) else el for el in ret]

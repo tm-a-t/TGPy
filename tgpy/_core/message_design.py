@@ -1,7 +1,5 @@
 import sys
 import traceback as tb
-from dataclasses import dataclass
-from typing import Optional
 
 from telethon.tl.custom import Message
 from telethon.tl.types import (
@@ -87,28 +85,11 @@ async def edit_message(
     return await message.edit(text, formatting_entities=entities, link_preview=False)
 
 
-@dataclass
-class MessageParseResult:
-    is_tgpy_message: bool
-    code: Optional[str]
-    result: Optional[str]
-
-
-def get_title_entity(message: Message) -> Optional[MessageEntityTextUrl]:
+def get_title_entity(message: Message) -> MessageEntityTextUrl | None:
     for e in message.entities or []:
         if isinstance(e, MessageEntityTextUrl) and e.url == TITLE_URL:
             return e
     return None
-
-
-def parse_message(message: Message) -> MessageParseResult:
-    e = get_title_entity(message)
-    if not e:
-        return MessageParseResult(False, None, None)
-    msg_text = Utf16CodepointsWrapper(message.raw_text)
-    code = msg_text[: e.offset].strip()
-    result = msg_text[e.offset + e.length :].strip()
-    return MessageParseResult(True, code, result)
 
 
 async def send_error(chat) -> None:
@@ -125,7 +106,5 @@ async def send_error(chat) -> None:
 
 __all__ = [
     'edit_message',
-    'MessageParseResult',
-    'parse_message',
     'send_error',
 ]

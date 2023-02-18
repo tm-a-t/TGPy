@@ -1,23 +1,29 @@
+import asyncio
 import logging
 
 import aiorun
 import yaml
+from rich.console import Console, Theme
 from telethon import TelegramClient, errors
 from yaml import YAMLError
 
-from tgpy import Config, app
-from tgpy.builtin_functions import add_builtin_functions
-from tgpy.console import console
-from tgpy.handlers import add_handlers
+from tgpy import app
+from tgpy._handlers import add_handlers
+from tgpy.api import DATA_DIR, MODULES_DIR, config
 from tgpy.modules import run_modules, serialize_module
-from tgpy.utils import DATA_DIR, MODULES_DIR, SESSION_FILENAME, create_config_dirs
+from tgpy.utils import SESSION_FILENAME, create_config_dirs
 
-log = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
+
+theme = Theme(inherit=False)
+console = Console(theme=theme)
 
 
 def create_client():
     client = TelegramClient(
-        str(SESSION_FILENAME), app.config.api_id, app.config.api_hash
+        str(SESSION_FILENAME),
+        config.get('core.api_id'),
+        config.get('core.api_hash'),
     )
     client.parse_mode = 'html'
     return client
@@ -48,8 +54,8 @@ async def initial_setup():
     )
     success = False
     while not success:
-        app.config.api_id = console.input('│ Please enter api_id: ')
-        app.config.api_hash = console.input('│ ...and api_hash: ')
+        config.set('core.api_id', int(console.input('│ Please enter api_id: ')))
+        config.set('core.api_hash', console.input('│ ...and api_hash: '))
         try:
             app.client = create_client()
             console.print()
@@ -65,7 +71,6 @@ async def initial_setup():
                 await app.client.disconnect()
                 del app.client
     console.print('│ Login successful!')
-    app.config.save()
 
 
 def migrate_hooks_to_modules():
@@ -101,23 +106,40 @@ def migrate_hooks_to_modules():
     old_modules_dir.rmdir()
 
 
-async def _main():
+def migrate_config():
+    if old_api_id := config.get('api_id'):
+        config.set('core.api_id', int(old_api_id))
+        config.unset('api_id')
+    if old_api_hash := config.get('api_hash'):
+        config.set('core.api_hash', old_api_hash)
+        config.unset('api_hash')
+
+
+async def _async_main():
     create_config_dirs()
     migrate_hooks_to_modules()
 
-    app.config = Config.load()
-    if not (app.config.api_id and app.config.api_hash):
+    config.load()
+    migrate_config()
+    if not (config.get('core.api_id') and config.get('core.api_hash')):
         await initial_setup()
 
-    log.info('Starting TGPy...')
+    logger.info('Starting TGPy...')
     app.client = create_client()
     add_handlers()
-    add_builtin_functions()
     await start_client()
-    log.info('[bold]TGPy is running!', extra={'markup': True})
+    logger.info('TGPy is running!')
     await run_modules()
     await app.client.run_until_disconnected()
 
 
+async def async_main():
+    try:
+        await _async_main()
+    except Exception:
+        logger.exception('TGPy failed to start')
+        asyncio.get_event_loop().stop()
+
+
 def main():
-    aiorun.run(_main())
+    aiorun.run(async_main())

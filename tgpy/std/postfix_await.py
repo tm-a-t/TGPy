@@ -1,22 +1,19 @@
+"""
+    name: postfix_await
+    origin: tgpy://builtin_module/postfix_await
+    priority: 300
+"""
+
 import ast
 import tokenize
-from io import BytesIO
+
+import tgpy.api
+from tgpy._core.utils import tokenize_string, untokenize_to_string
 
 AWAIT_REPLACEMENT_ATTRIBUTE = '__tgpy_await__'
 
 
-def tokenize_string(s: str) -> list[tokenize.TokenInfo] | None:
-    try:
-        return list(tokenize.tokenize(BytesIO(s.encode('utf-8')).readline))
-    except IndentationError:
-        return None
-
-
-def untokenize_to_string(tokens: list[tokenize.TokenInfo]) -> str:
-    return tokenize.untokenize(tokens).decode('utf-8')
-
-
-def pre_transform(code: str) -> str:
+def code_trans(code: str) -> str:
     tokens = tokenize_string(code)
     if not tokens:
         return code
@@ -43,6 +40,11 @@ class AwaitTransformer(ast.NodeTransformer):
             return node
 
 
-transformer = AwaitTransformer()
+def ast_trans(tree: ast.AST) -> ast.AST:
+    return AwaitTransformer().visit(tree)
 
-__all__ = ['pre_transform', 'transformer']
+
+tgpy.api.code_transformers.add('postfix_await', code_trans)
+tgpy.api.ast_transformers.add('postfix_await', ast_trans)
+
+__all__ = []
