@@ -2,7 +2,7 @@
 
 ## Not familiar with asyncio?
 
-To use TGPy features for Telegram (such as sending messages, getting chats, and so on), you should understand Python
+To use Telegram-related TGPy features (such as sending messages, getting chats, and so on), you should understand Python
 asynchronous functions.
 
 Modern Python versions support asynchronous functions. Basically, asynchronous function is a function that runs until
@@ -15,7 +15,7 @@ otherwise, the function won’t run.
 result = await some_function()
 ```
 
-This way the code snippet will be suspended until `some_function()` ends, but **TGPy itself won’t stop**. For instance,
+This way the code snippet will be suspended until `some_function()` ends, but TGPy itself won’t stop. For instance,
 the code from another message may run at the same time.
 
 If you declare some function which uses asynchronous functions, your function must be asynchronous too. For that
@@ -30,7 +30,7 @@ use `async def` instead of `def`.
 
 ## Asyncio in TGPy
 
-TGPy allows using top-level `async`/`await` in the code:
+You can use top-level `async`/`await` in TGPy code:
 
 ```python
 import asyncio
@@ -39,11 +39,20 @@ await asyncio.sleep(10)
 print('Done!')
 ```
 
-In addition, TGPy automatically awaits all returned values (if needed). Therefore, you may omit top-level `await`:
+TGPy provides a shortcut to use `await` as an attribute:
 
-```python hl_lines="3"
+```python
 import asyncio
 
-asyncio.sleep(10)
+asyncio.sleep(10).await
 print('Done!')
+```
+
+In addition, TGPy automatically awaits the last returned value (if needed). Therefore, you may omit `await` 
+in simple cases:
+
+```python
+import asyncio 
+
+asyncio.sleep(10)
 ```

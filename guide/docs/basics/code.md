@@ -29,7 +29,7 @@ TGPy> 4950
 
 If you edit your message, TGPy will recalculate the result.
 
-If TGPy mistakes your plain-text message for code, reply `cancel` to fix that. If you haven't sent anything since, you can just send `cancel` without replying.
+When TGPy mistakes your plain-text message for code, type [`cancel`](/reference/code_detection/#cancel-evaluation) to fix that.
 
 !!! tip
 
@@ -87,7 +87,7 @@ Exceptions are also shown right in the message.
 
     Long messages might be truncated because of Telegram limit of 4096 symbols per message.
 
-## Other tips
+## More tips
 
 - TGPy saves the defined variables, so you use them in further messages 
 - The `_` variable contains the result of the previous message

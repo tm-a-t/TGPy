@@ -1,0 +1,130 @@
+:root {
+    --md-primary-fg-color: #0dc7bd;
+    --md-primary-fg-color--light: #cbfff7;
+    --md-primary-fg-color--dark: #056375;
+    --md-accent-fg-color: #AA8F66;
+}
+
+[data-md-color-scheme=slate] {
+    --md-hue: 185;
+}
+
+::selection {
+    background-color: #E2D9CA;
+}
+
+[data-md-color-scheme=slate] ::selection {
+    background-color: #5D4C32;
+}
+
+
+
+/* TYPOGRAPHY */
+
+.md-main__inner {
+    margin-top: 1.5rem;
+}
+
+.md-typeset h1 {
+    font-weight: 400;
+    letter-spacing: -.02em;
+    color: inherit;
+    font-family: var(--md-code-font-family);
+    font-size: 2.5rem;
+    margin: -.25rem 0 1em;
+}
+
+
+
+/* SIDE NAVS */
+
+@media screen and (min-width: 76.25em) {
+    .md-nav--primary .md-nav__title[for=__drawer] {
+        display: none;
+    }
+
+    .md-nav__item--section > .md-nav__link[for] {
+        color: inherit;
+    }
+
+    .md-nav__item--section {
+        margin: 1.5em 0;
+    }
+}
+
+@media screen and (min-width: 60em) {
+    .md-nav__title {
+        color: inherit;
+    }
+}
+
+
+
+/* HEADER */
+
+@media screen and (min-width: 76.1875em) {
+    .md-header__title > .md-header__ellipsis > .md-header__topic:first-child > .md-ellipsis {
+        visibility: hidden;
+    }
+
+    .md-header__title > .md-header__ellipsis > .md-header__topic:first-child > .md-ellipsis::before {
+        visibility: visible;
+        content: "Guide";
+        content: "Guide" / "";
+    }
+}
+
+.md-header {
+    background: none;
+    box-shadow: none;
+    backdrop-filter: blur(8px);
+}
+
+.md-header::before {
+    z-index: -100;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.85;
+    background-color: var(--md-default-bg-color);
+}
+
+.md-header__inner {
+    color: var(--md-default-fg-color);
+}
+
+.md-search__input::placeholder {
+    color: var(--md-default-fg-color--light);
+}
+
+
+
+/* Copypasted from styles with [data-md-color-primary=white] */
+
+[data-md-color-scheme=default] .md-button {
+    color: var(--md-typeset-a-color)
+}
+
+[data-md-color-scheme=default] .md-button--primary {
+    background-color: var(--md-typeset-a-color);
+    border-color: var(--md-typeset-a-color);
+    color: #fff
+}
+
+@media screen and (min-width: 60em) {
+    [data-md-color-scheme=default] .md-search__form {
+        background-color:#00000012
+    }
+
+    [data-md-color-scheme=default] .md-search__form:hover {
+        background-color: #00000052
+    }
+
+    [data-md-color-scheme=default] .md-search__input+.md-search__icon {
+        color: #000000de
+    }
+}
+

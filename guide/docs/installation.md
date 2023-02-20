@@ -9,7 +9,7 @@ You can install and run TGPy on your computer, but you might have to use a remot
 
     And the other way round: anyone with access to your Telegram account has access to the machine TGPy is running on.
 
-Make sure you have [Python 3.9 or above](https://www.python.org/) installed.
+Make sure you have [Python 3.10 or above](https://www.python.org/) installed.
 
 Install TGPy:
 
@@ -35,9 +35,7 @@ Follow the instructions to connect your Telegram account for the first time.
 
 When it’s ready, try to send `ping()` to any chat to check if TGPy is running.
 
-## Updating
-
-Update to the latest version:
+## Update to the latest version
 
 === "From Telegram message"
 
@@ -50,3 +48,8 @@ Update to the latest version:
     ```shell
     pip install -U tgpy
     ```
+
+## Data storage
+
+Config, session, and modules are stored in `~/.config/tgpy` directory. You can change this path via `TGPY_DATA`
+environment variable.

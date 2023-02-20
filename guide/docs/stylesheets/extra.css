@@ -1,7 +1,28 @@
-.tgpy-code-block {
-    background-color: var(--md-code-bg-color);
+.md-typeset video {
+    border-radius: .1rem;
+    margin: 1rem 0;
 }
 
-.tgpy-code-block > hr {
-    margin: -1em 0;
+.md-typeset .link-card-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1rem;
+}
+
+.md-typeset .link-card {
+    min-height: 8rem;
+    display: block;
+    color: var(--md-typeset-color);
+    border: 2px var(--md-primary-fg-color) solid;
+    border-radius: .1rem;
+    padding: 1rem 1rem 3rem;
+}
+
+.md-typeset .link-card:hover {
+    background-color: var(--md-primary-fg-color);
+    color: var(--md-primary-bg-color);
+}
+
+.md-typeset .link-card h3 {
+    margin: .25rem 0 .125rem;
 }

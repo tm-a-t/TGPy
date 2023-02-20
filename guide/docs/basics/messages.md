@@ -20,8 +20,8 @@ for messages, users and chats. This page explains how to perform basic message a
 
     Now you can skip the rest of the page and go to the [examples](/basics/examples) :)
 
-TGPy provides some global Telegram objects. The `client` object is useful for general functionality, such as sending
-messages, listing chats and so on. The `msg` object always refers to the current message.
+In TGPy messages, you can always use some Telegram objects. The `client` object is helpful for general functionality,
+such as sending messages, listing chats and so on. The `msg` object always refers to the current message.
 
 ## Sending a message
 
@@ -31,9 +31,8 @@ The simplest Telegram action is sending a message. There is a method for that:
 await client.send_message(chat, text)
 ```
 
-`chat` can be either a chat name, a username, or an ID.
-
-For example, to send a «Hello World» to the current chat you can use:
+<code>chat</code> can be either a chat name, a username, or an ID. For example, you can refer to the current chat 
+with `msg.chat_id`. Hence, you can send a «Hello World» as following:
 
 ```python
 await client.send_message(msg.chat_id, "Hello World")
@@ -74,7 +73,7 @@ You can use message properties such as `message.text`, `message.chat`, `message.
 There are also message methods for common actions, such as `message.edit()`, `message.delete()`, `message.forward_to()`
 , `message.pin()` and so on.
 
-Well, have fun :)
+Have fun :)
 
 !!! note
 
@@ -84,7 +83,7 @@ Well, have fun :)
     
     - [Client attributes](https://docs.telethon.dev/en/stable/quick-references/client-reference.html)
 
-??? example "Example: show full message data"
+??? example "Example: show full info about a message"
 
     ```python
     return msg

@@ -1,22 +1,32 @@
 # Code detection
 
+## Cancel evaluation
+
+Sometimes TGPy processes a message when you don’t mean it. In this case TGPy usually shows a value or an error.
+
+Send `cancel` to the chat to edit back your latest TGPy message (only if it’s one of the 10 latest in the chat).
+
+You can also use `cancel` in reply to a specific TGPy message.
+
+
+## Prevent evaluation
+
+If you begin your message with `//`, the code won’t run. TGPy will delete the `//` prefix.
+
+
 ## Why use auto-detection?
 
-TGPy is designed for running code snippets sequentially and frequently. Bot-like commands
-(such as `/run print('Hello World')`) would break the workflow. That's why TGPy automatically detects your messages with
-syntactically correct Python code and evaluates it.
+We designed TGPy for writing code snippets quickly and sequentially. Bot-like commands, 
+such as `#!python /run print('Hello World')`, would break the workflow. That's why we made TGPy automatically detect
+your messages with syntactically correct Python code.
 
 It turns out that regular text messages are identified as code pretty rarely. In fact, TGPy ignores too simple
 expressions.
 
-However, optional disabling of auto-detection might be added in the future.
 
-## What is ignored?
-
-TL;DR: Some simple expressions, which could be email addresses, URLs or several comma- or hyphen-separated words
-(as described in [issue 4](https://github.com/tm-a-t/TGPy/issues/4))
-
-??? note "More details"
+??? note "Ignored expressions"
+    TL;DR: TGPy ignores some simple expressions, which could be email addresses, URLs or several comma- or hyphen-separated words
+    (as described in [issue 4](https://github.com/tm-a-t/TGPy/issues/4))
 
     In this section, an **unknown** variable is one not present in `locals` — that is, one that was not saved in previous
     messages and which is not built into TGPy (as `ctx`, `orig`, `msg` and `print` are). Unknown variables' attributes are
@@ -30,14 +40,27 @@ TL;DR: Some simple expressions, which could be email addresses, URLs or several 
     * Tuples of ignored expressions
     * Multiple ignored expressions (i.e. separated by `;` or newline)
 
-## Cancelling evaluation
 
-You can restore the message with evaluated code to its original contents with the `cancel` command.
+## Disable auto-detection
 
-`cancel` edits back your latest TGPy message in the current chat (if it’s in 10 latest messages).
+If you want to disable auto-detection, you can save the following [hook](/extensibility/transformers/#exec-hooks) 
+as a [module](/extensibility/modules/).
 
-`cancel` can be also used in reply to a specific TGPy message.
+```python
+import re
+import tgpy.api
 
-## Preventing evaluation
+CODE_RGX = re.compile(r'\.py[ \n]')  # regex for the messages that you want to run
 
-If you begin your message with `//`, the code won’t run. The `//` prefix will be deleted.
+def hook(msg, is_edit):
+    if is_edit:
+        return True
+    if not CODE_RGX.match(msg.raw_text):
+        return False
+    msg.raw_text = CODE_RGX.sub('', msg.raw_text, count=1)
+    return msg
+
+tgpy.api.add_exec_hook('no_autodetect', hook)
+
+__all__ = []
+```

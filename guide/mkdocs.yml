@@ -6,10 +6,14 @@ repo_name: tm-a-t/TGPy
 edit_uri: edit/master/guide/docs/
 theme:
   name: material
+  logo: assets/TGPy.png
   features:
     - content.code.annotate
+    - content.code.copy
+    - content.action.edit
     - navigation.instant
     - navigation.sections
+    - navigation.footer
     - search.suggest
     - search.highlight
     - search.share
@@ -29,18 +33,14 @@ theme:
       example: octicons/beaker-16
       quote: octicons/quote-16
   font:
-    text: Albert Sans
-    code: Source Code Pro
+    text: Cantarell
+    code: IBM Plex Mono
   palette:
     - scheme: default
-      primary: cyan
-      accent: cyan
       toggle:
         icon: material/weather-sunny
         name: Switch to dark mode
     - scheme: slate
-      primary: cyan
-      accent: cyan
       toggle:
         icon: material/weather-night
         name: Switch to light mode
@@ -70,9 +70,11 @@ extra:
       link: https://www.youtube.com/watch?v=dQw4w9WgXcQ
       name: TGPy on YouTube
 extra_css:
+  - stylesheets/custom_theme.css
+  - stylesheets/code_blocks.css
   - stylesheets/extra.css
 nav:
-  - index.md
+  - Introduction: index.md
   - installation.md
   - Basics:
     - basics/code.md
@@ -83,7 +85,8 @@ nav:
     - extensibility/context.md
     - extensibility/modules.md
     - extensibility/module_examples.md
-    - extensibility/code_transformers.md
+    - extensibility/transformers.md
+    - extensibility/api.md
   - Reference:
     - reference/builtins.md
     - reference/module_metadata.md

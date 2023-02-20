@@ -1,55 +1,76 @@
-# Using modules
+# Modules
 
-All variables from your messages will be lost when TGPy stops. Yet, you can use modules to define some variables every
-time TGPy starts.
+You may want to define functions, classes, or constants to reuse later. If you want to keep them when TGPy restarts,
+save their definitions to modules.
 
-Modules are code snippets executed at every startup. For example, modules can help you define some shortcut
-functions, classes, or constants for future use.
+Modules are code snippets that run at every startup.
 
 ## Add a module
 
-After running a code snippet with TGPy, you can add it to modules by replying with the `modules.add` function:
+Say TGPy ran your message. Then you can reply to your message with this method:
 
 ```python
-modules.add(module_name)
+modules.add(name)
 ```
 
-You can add a module from a code string instead using `#!python modules.add(module_name, code)`.
-
-!!! Info
-
-    If a module with this name already exists, its code will be replaced.
+Alternatively, you can add a module from a string with `#!python modules.add(name, source)`.
 
 !!! example
 
     1. Define a square function:
 
+        <div class="tgpy-code-block">
         ```python
         def square(x):
            return x * x
-        
+        ```
+        <hr>
+        ```
         TGPy> None
         ```
+        </div>
     
     2. Save the definition to modules:
 
+        <div class="tgpy-code-block">
         ```python
         # in reply to the previous message
         modules.add('square')
-        
+        ```
+        <hr>
+        ```
         TGPy> Added module 'square'.
         The module will be executed every time TGPy starts.
         ```
+        </div>
+
+
+!!! Info
+
+    If a module with this name already exists, its code will be replaced.
+
 
 ## Remove a module
 
 Remove a module by name:
 
 ```python
-modules.remove(module_name)
+modules.remove(name)
 ```
 
-## Manage your modules
+## Storage
+
+Modules are stored as separate Python files in <code>[tgpy/](/installation/#data-storage)modules</code> directory. You can safely edit them manually.
+
+Modules run each time TGPy starts. By default, they run in the order they were added.
+
+Each module file contains [module metadata](/reference/module_metadata).
+
+## Features
+
+By default, all variables from a module are saved for future use. You can specify ones the with the `__all__` variable.
+
+## Manage modules
 
 Use the string value of `modules` to list all of your modules:
 
@@ -57,11 +78,5 @@ Use the string value of `modules` to list all of your modules:
 modules
 ```
 
-Modules are stored as separate Python files in `data/modules` directory. You can safely edit them manually.
-
-Modules run each time TGPy starts. By default, they run in the order they were added.
-
-## Module settings
-
-Module metadata is stored as a comment in the module file. You can edit it
-manually. [Module metadata reference](/reference/module_metadata)
+The `modules` object provides handy ways to manage your modules. You can iterate over it to get names of your 
+modules or use `modules[name]` to get info about the module.

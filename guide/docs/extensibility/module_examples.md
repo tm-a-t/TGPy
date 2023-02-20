@@ -1,5 +1,12 @@
 # Module examples
 
+These are examples of using [`ctx`](/extensibility/context) and [modules](/extensibility/modules).
+It may be handy to save the functions here as modules to reuse in the future.
+
+!!! Tip
+    
+    Join the Russian-speaking chat [@tgpy_flood](https://t.me/tgpy_flood) to see what modules users share.
+
 ## Shortcut for deleting messages
 
 Send `d()` in reply to any message to delete it.
@@ -7,7 +14,7 @@ Send `d()` in reply to any message to delete it.
 ```python
 async def d():
     original = await ctx.msg.get_reply_message()
-    await msg.delete()
+    await ctx.msg.delete()
     await original.delete()
 ```
 
@@ -18,7 +25,7 @@ Send `save()` in reply to any message to forward to Saved Messages.
 ```python
 async def save():
     original = await ctx.msg.get_reply_message()
-    await msg.delete()
+    await ctx.msg.delete()
     await original.forward_to('me')
 ```
 

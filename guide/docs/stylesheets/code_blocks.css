@@ -1,0 +1,19 @@
+.tgpy-code-block {
+    background-color: var(--md-code-bg-color);
+}
+
+.tgpy-code-block > hr {
+    margin: -1em 0;
+}
+
+.code-label {
+    margin-top: -.5rem;
+    opacity: .75;
+    font-size: 80%;
+}
+
+/*
+.md-typeset pre>code {
+    padding: 4em 2em;
+}
+ */

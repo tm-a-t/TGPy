@@ -96,7 +96,7 @@ Delete all messages starting with the message you‘re replying to and ending wi
 
 !!! note
 
-    TGPy can only delete messages if you have rights for that, for instance if you’re a group admin.
+    Of course, TGPy can delete messages only if you have the permission, for instance if you’re a group admin.
 
 ### List your drafts
 
