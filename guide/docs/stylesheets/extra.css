@@ -26,3 +26,7 @@
 .md-typeset .link-card h3 {
     margin: .25rem 0 .125rem;
 }
+
+.md-typeset a.link-card {
+    transition: color,background-color 125ms;
+}
