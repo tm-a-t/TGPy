@@ -80,3 +80,17 @@ modules
 
 The `modules` object provides handy ways to manage your modules. You can iterate over it to get names of your 
 modules or use `modules[name]` to get info about the module.
+
+## Disable standard modules
+
+TGPy has a number of features implemented via stanard modules.
+You may want to disable them, for example to reimplement these features yourself.
+
+Disabled modules are controlled by the `core.disabled_modules` config key. 
+For example, to disable the `prevent_eval` module (provides // and cancel features) use the following code:
+
+```python
+tgpy.api.config.set('core.disabled_modules', ['prevent_eval'])
+```
+
+Full list of standard modules can be seen [here](https://github.com/tm-a-t/TGPy/tree/master/tgpy/std).

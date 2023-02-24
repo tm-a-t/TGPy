@@ -18,7 +18,7 @@ Transformers are functions that take message text and return some modified text.
 To create a transformer, you should define a function which takes a string and returns a new string — let’s call your function `transformer`. Then you should register it as following:
 
 ```python
-tgpy.api.add_code_transformer(name, transformer)
+tgpy.api.code_transformers.add(name, transformer_function)
 ```
 
 !!! example
@@ -44,37 +44,20 @@ tgpy.api.add_code_transformer(name, transformer)
             return f"shell({repr(cmd[4:])})"
         return cmd
     
-    tgpy.add_code_transformer("shell", sh_trans)
+    tgpy.code_transformers.add("shell", sh_trans)
     ```
 
     Code by [Ivanq](https://t.me/Ivanq_SandS)
-
-
-List of your code transformers:
-
-```python
-tgpy.api.code_transformers
-```
-This is the list of tuples `(name, transformer)`. TGPy applies transformers in the same order as they are listed.
-
-You can use this list and change it. Particularly, to delete a code transformer, you should delete it from the list.
-
 
 ## AST transformers
 
 AST transformers are similar to code transformers, but operate with abstract syntax trees instead of text strings.
 
-<div class="tgpy-code-block">
+Add an AST transformer:
 
 ```python
-tgpy.api.add_ast_transformer(name, transformer)
+tgpy.api.ast_transformers.add(name, transformer_function)
 ```
-<hr>
-```python
-tgpy.api.ast_transformers
-```
-
-</div>
 
 First, TGPy applies code transformers. If the transformation result is valid Python code, AST transformers are then applied.
 
@@ -102,28 +85,66 @@ parsing or evaluating.
 Add a hook:
 
 ```python
-tgpy.api.add_exec_hook(name, hook)
+tgpy.api.exec_hooks.add(name, hook_function)
 ```
+
+
+## Transformer store objects
+
+Code and AST transformers and exec hooks are stored in `TransformerStore` objects 
+(`tgpy.api.code_transformers`, `tgpy.api.ast_transformers` and `tgpy.api.exec_hooks`).
+
+These are special objects that represent a list of tuples `(name, transformer_function)` 
+or a dict where keys are names and values are transformer functions.
+
+TGPy applies exec hooks in the same order they are listed, 
+but transformers are applied in reverse order.
+It's done so that the newly added transformers can emit code that uses features of an older transformer.
+
+### Examples:
+
+<div class="tgpy-code-block">
+```python
+tgpy.api.code_transformers
+```
+<hr>
+```python
+TransformerStore({'postfix_await': <function tmp.<locals>.code_trans at 0x7f2db16cd1c0>})
+```
+</div>
+
+```python
+tgpy.api.code_transformers.remove('postfix_await')
+del tgpy.api.code_transformers['postfix_await']
+tgpy.api.code_transformers['test'] = func
+tgpy.api.code_transformers.add('test', func)
+tgpy.api.code_transformers.append(('test', func))
+for name, func in tgpy.api.code_transformers:
+    ...
+list(tgpy.api.code_transformers) -> list[tuple[str, function]]
+dict(tgpy.api.code_transformers) -> dict[str, function]
+```
+
 
 
 ## Using transformers and hooks manually
 
-Apply all your code transformers to custom text:
+Apply all your code transformers to a custom text:
 
 ```python
-tgpy.api.apply_code_transformers(text)
+tgpy.api.code_transformers.apply(text)
 ```
 
 Apply all your AST transformers to a custom AST:
 
 ```python
-await tgpy.api.apply_ast_transformers(tree)
+await tgpy.api.ast_transformers.apply(tree)
 ```
 
 Apply all your exec hooks to a message:
 
 ```python
-await apply_exec_hooks(message, is_edit)
+await tgpy.api.exec_hooks.apply(message, is_edit)
 ```
 
 <p class="code-label">Returns False if any of the hooks returned False or a Message object that should be used instead
