@@ -2,6 +2,40 @@
 
 <!--next-version-placeholder-->
 
+## v0.9.0 (2023-02-25)
+Major update
+- restructured the code
+- cancel, // now remember cancellation permanently
+- reactions fix now remembers message content hashes after a restart. This means no more 'Edit message again to evaluate' messages
+- implemented simple key-value store for storing various data
+  - `tgpy.api.config.get(key: str, default: JSON = None) -> JSON`
+  - `tgpy.api.config.set(key: str, value: JSON)`
+  - `tgpy.api.config.unset(key: str)`
+  - `tgpy.api.config.save()` useful when modifying objects acquired using the .get method in place
+- if the `__all__` variable is set in a module, only objects with names in that list are exported (added to variables list)
+- `ctx.is_module` is True if the code is executed as a module (on startup)
+- `ctx.is_manual_output` can be set to True to prevent the last message edit by TGPy so that you can edit it yourself
+- cancel, //, restart, ping, update, modules object and .await syntax are now implemented as regular modules in the `std` directory
+  - builtin modules can be disabled with `core.disable_modules` config option (for example, `tgpy.api.config.set('core.disable_modules', ['postfix_await'])`)
+- extra keys are now allowed in module metadata. They are parsed into `Module.extra` dict
+- `tgpy.api` module is now used for public API instead of the `tgpy` object
+- moved `get_installed_version`, `get_running_version`, `installed_as_package`, `get_user`, `get_hostname`, `running_in_docker`, `try_await`, `outgoing_messages_filter`
+  functions to `tgpy.api` (`tgpy.api.utils`)
+- new public API functions:
+  - `async parse_code(text: str) -> ParseResult(is_code: bool, original: str, transformed: str, tree: AST | None)`
+  - `parse_tgpy_message(message: Message) -> MessageParseResult(is_tgpy_message: bool, code: str | None, result: str | None)`
+  - `async tgpy_eval(code: str, message: Message = None, *, filename: str = None) -> EvalResult(result: Any, output: str)`
+- AST transformers. AST transformers are applied after code transformers
+- exec hooks. Exec hooks are executed before the message is parsed and handled. Exec hooks must have the following signature: `async hook(message: Message, is_edit: bool) -> Message | bool | None`. An exec hook may edit the message using Telegram API methods and/or alter the message in place. If a hook returns Message object or alters it in place, it's used instead of the original Message object during the rest of handling (including calling other hook functions). If a hook returns True or None, execution completes normally. If a hook returns False, the rest of hooks are executed and then the handling stops without further message parsing or evaluating
+  - Apply hooks with `tgpy.api.exec_hooks.apply(message: Message, *, is_edit: bool) -> Message | False`. This method returns False if any of the hooks returned False, Message object that should be used instead of the original one otherwise
+- new dict/list compatible transformers/hooks interface (`store_obj` is one of `tgpy.api.code_transformers`, `tgpy.api.ast_transformers` or `tgpy.api.exec_hooks`)
+  - add a function with `store_obj.add(name, function)`
+  - add/replace a function with `store_obj[name] = function`
+  - get a function with `store_obj[name or index]`
+  - iter functions with `for name, function in store_obj`
+  - apply transformers/hooks with `tgpy.api.code_transformers.apply(code: str) -> str`, `tgpy.api.ast_transformers.apply(tree: AST) -> AST` or `tgpy.api.exec_hooks.apply` (documented above)
+- podman is now correctly detected so that tgpy doesn't try to update itself in the container
+
 ## v0.8.0 (2023-02-15)
 ### Feature
 * Wrap sys.stdout instead of print to capture output + properly use contextvars ([`7aa2015`](https://github.com/tm-a-t/TGPy/commit/7aa2015215ad621b405c6471add250bf11aa70c2))
