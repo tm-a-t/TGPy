@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.9.1 (2023-02-25)
+### Fix
+* Update from older versions ([`df11e8b`](https://github.com/tm-a-t/TGPy/commit/df11e8b0b8801b7c0e47f29b173964a7b63fa887))
+
 ## v0.9.0 (2023-02-25)
 Major update
 - restructured the code
