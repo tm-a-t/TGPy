@@ -15,10 +15,10 @@ With code transformers, you can transform the code before TGPy runs it. This is 
 
 Transformers are functions that take message text and return some modified text. Whenever you send a message, TGPy tries to apply your code transformers to its text. If the final text is the valid Python code, it runs.
 
-To create a transformer, you should define a function which takes a string and returns a new string — let’s call your function `transformer`. Then you should register it as following:
+To create a transformer, you should define a function which takes a string and returns a new string — let’s call it `func`. Then you should register it as following:
 
 ```python
-tgpy.api.code_transformers.add(name, transformer_function)
+tgpy.api.code_transformers.add(name, func)
 ```
 
 !!! example
@@ -56,7 +56,7 @@ AST transformers are similar to code transformers, but operate with abstract syn
 Add an AST transformer:
 
 ```python
-tgpy.api.ast_transformers.add(name, transformer_function)
+tgpy.api.ast_transformers.add(name, func)
 ```
 
 First, TGPy applies code transformers. If the transformation result is valid Python code, AST transformers are then applied.
@@ -85,23 +85,21 @@ parsing or evaluating.
 Add a hook:
 
 ```python
-tgpy.api.exec_hooks.add(name, hook_function)
+tgpy.api.exec_hooks.add(name, func)
 ```
 
 
-## Transformer store objects
+## Transformer stores
 
-Code and AST transformers and exec hooks are stored in `TransformerStore` objects 
-(`tgpy.api.code_transformers`, `tgpy.api.ast_transformers` and `tgpy.api.exec_hooks`).
+TGPy stores transformers and exec hooks in `#!python TransformerStore` objects: `#!python tgpy.api.code_transformers`, 
+`#!python tgpy.api.ast_transformers` and `#!python tgpy.api.exec_hooks`.
 
-These are special objects that represent a list of tuples `(name, transformer_function)` 
-or a dict where keys are names and values are transformer functions.
+Each of them represents a list of tuples `#!python (name, func)` or a dict in the form of `#!python {name: func}`.
 
-TGPy applies exec hooks in the same order they are listed, 
-but transformers are applied in reverse order.
+While TGPy applies exec hooks in the same order they are listed, transformers are applied in reverse order.
 It's done so that the newly added transformers can emit code that uses features of an older transformer.
 
-### Examples:
+Some examples:
 
 <div class="tgpy-code-block">
 ```python
@@ -109,7 +107,7 @@ tgpy.api.code_transformers
 ```
 <hr>
 ```python
-TransformerStore({'postfix_await': <function tmp.<locals>.code_trans at 0x7f2db16cd1c0>})
+TGPy> TransformerStore({'postfix_await': <function tmp.<locals>.code_trans at 0x7f2db16cd1c0>})
 ```
 </div>
 
@@ -127,7 +125,7 @@ dict(tgpy.api.code_transformers) -> dict[str, function]
 
 
 
-## Using transformers and hooks manually
+## Use transformers and hooks manually
 
 Apply all your code transformers to a custom text:
 

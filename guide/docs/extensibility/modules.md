@@ -44,11 +44,9 @@ Alternatively, you can add a module from a string with `#!python modules.add(nam
         ```
         </div>
 
-
 !!! Info
 
     If a module with this name already exists, its code will be replaced.
-
 
 ## Remove a module
 
@@ -58,9 +56,21 @@ Remove a module by name:
 modules.remove(name)
 ```
 
+## Manage modules
+
+Use the string value of `modules` to list all of your modules:
+
+```python
+modules
+```
+
+The `modules` object provides handy ways to manage your modules. You can iterate over it to get names of your
+modules or use `modules[name]` to get info about the module.
+
 ## Storage
 
-Modules are stored as separate Python files in <code>[tgpy/](/installation/#data-storage)modules</code> directory. You can safely edit them manually.
+Modules are stored as separate Python files in <code>[tgpy/](/installation/#data-storage)modules</code> directory. You
+can safely edit them manually.
 
 Modules run each time TGPy starts. By default, they run in the order they were added.
 
@@ -70,27 +80,16 @@ Each module file contains [module metadata](/reference/module_metadata).
 
 By default, all variables from a module are saved for future use. You can specify ones the with the `__all__` variable.
 
-## Manage modules
+## Standard modules
 
-Use the string value of `modules` to list all of your modules:
-
-```python
-modules
-```
-
-The `modules` object provides handy ways to manage your modules. You can iterate over it to get names of your 
-modules or use `modules[name]` to get info about the module.
-
-## Disable standard modules
-
-TGPy has a number of features implemented via stanard modules.
-You may want to disable them, for example to reimplement these features yourself.
-
-Disabled modules are controlled by the `core.disabled_modules` config key. 
-For example, to disable the `prevent_eval` module (provides // and cancel features) use the following code:
+TGPy has a number of features implemented via standard modules, such as `#!python ping()`
+and `#!python restart()` functions.
+You may want to disable these features, for example to reimplement them. Use the `#!python core.disabled_modules` config 
+key to specify the disabled modules. For example, you can use the following code to disable the `prevent_eval` module which
+provides [// and cancel](/reference/code_detection/#cancel-evaluation) features:
 
 ```python
 tgpy.api.config.set('core.disabled_modules', ['prevent_eval'])
 ```
 
-Full list of standard modules can be seen [here](https://github.com/tm-a-t/TGPy/tree/master/tgpy/std).
+[All standard modules in the repo](https://github.com/tm-a-t/TGPy/tree/master/tgpy/std)
