@@ -7,6 +7,7 @@
 import sys
 
 import tgpy.api
+from tgpy._core import message_design
 
 
 class MessageDesignCompatStub:
@@ -17,6 +18,10 @@ class MessageDesignCompatStub:
     @staticmethod
     def parse_message(message):
         return tgpy.api.parse_tgpy_message(message)
+
+    @staticmethod
+    async def edit_message(*args, **kwargs):
+        return await message_design.edit_message(*args, **kwargs)
 
 
 # noinspection PyTypeChecker
