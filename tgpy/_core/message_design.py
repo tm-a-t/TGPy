@@ -13,7 +13,7 @@ from tgpy import app
 
 TITLE = 'TGPy>'
 OLD_TITLE_URL = 'https://github.com/tm-a-t/TGPy'
-TITLE_URL = 'https://tgpy.tmat.me'
+TITLE_URL = 'https://tgpy.tmat.me/'
 FORMATTED_ERROR_HEADER = f'<b><a href="{TITLE_URL}">TGPy error&gt;</a></b>'
 
 
