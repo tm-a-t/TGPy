@@ -8,7 +8,7 @@ import ast
 import tokenize
 
 import tgpy.api
-from tgpy._core.utils import tokenize_string, untokenize_to_string
+from tgpy.api import tokenize_string, untokenize_to_string
 
 AWAIT_REPLACEMENT_ATTRIBUTE = '__tgpy_await__'
 

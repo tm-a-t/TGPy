@@ -12,7 +12,9 @@ from .utils import (
     installed_as_package,
     outgoing_messages_filter,
     running_in_docker,
+    tokenize_string,
     try_await,
+    untokenize_to_string,
 )
 
 __all__ = [
@@ -44,4 +46,6 @@ __all__ = [
     'running_in_docker',
     'try_await',
     'outgoing_messages_filter',
+    'tokenize_string',
+    'untokenize_to_string',
 ]

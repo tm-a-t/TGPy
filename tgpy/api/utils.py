@@ -4,6 +4,8 @@ import inspect
 import os
 import re
 import socket
+import tokenize
+from io import BytesIO
 
 from telethon.tl.custom import Message
 
@@ -19,6 +21,21 @@ def get_installed_version():
         return importlib.metadata.version('tgpy')
 
     return None
+
+
+def _get_git_version() -> str | None:
+    if not REPO_ROOT:
+        return None
+    with execute_in_repo_root():
+        try:
+            return 'git@' + run_cmd(['git', 'rev-parse', '--short', 'HEAD'])
+        except (RunCmdException, FileNotFoundError):
+            pass
+
+    return None
+
+
+_COMMIT_HASH = _get_git_version()
 
 
 def get_running_version():
@@ -63,18 +80,6 @@ def running_in_docker():
     return os.path.exists('/.dockerenv') or os.path.exists('/run/.containerenv')
 
 
-def _get_git_version() -> str | None:
-    if not REPO_ROOT:
-        return None
-    with execute_in_repo_root():
-        try:
-            return 'git@' + run_cmd(['git', 'rev-parse', '--short', 'HEAD'])
-        except (RunCmdException, FileNotFoundError):
-            pass
-
-    return None
-
-
 async def try_await(func, *args, **kwargs):
     res = func(*args, **kwargs)
     if inspect.isawaitable(res):
@@ -86,7 +91,16 @@ def outgoing_messages_filter(m: Message):
     return m.out and not m.forward and not m.via_bot
 
 
-_COMMIT_HASH = _get_git_version()
+def tokenize_string(s: str) -> list[tokenize.TokenInfo] | None:
+    try:
+        return list(tokenize.tokenize(BytesIO(s.encode('utf-8')).readline))
+    except (IndentationError, tokenize.TokenError):
+        return None
+
+
+def untokenize_to_string(tokens: list[tokenize.TokenInfo]) -> str:
+    return tokenize.untokenize(tokens).decode('utf-8')
+
 
 __all__ = [
     'get_installed_version',
@@ -97,4 +111,6 @@ __all__ = [
     'running_in_docker',
     'try_await',
     'outgoing_messages_filter',
+    'tokenize_string',
+    'untokenize_to_string',
 ]
