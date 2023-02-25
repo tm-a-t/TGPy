@@ -43,6 +43,8 @@ def check_hash(message: Message) -> ReactionsFixResult:
 
 
 def update_hash(message: Message, *, in_memory: bool = False) -> None:
+    if not message:
+        return
     if in_memory:
         in_memory_hashes[message.chat_id, message.id] = get_content_hash(message)
     else:
