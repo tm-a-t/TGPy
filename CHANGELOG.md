@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.9.3 (2023-02-25)
+### Fix
+* Deleting message no longer produces an error ([`ef317d9`](https://github.com/tm-a-t/TGPy/commit/ef317d98b9e817843eca8f0756147855217ccb3b))
+
 ## v0.9.2 (2023-02-25)
 ### Fix
 * Message editing bug ([`3d1d566`](https://github.com/tm-a-t/TGPy/commit/3d1d566864381ea939143fae3fad607e03b5a548))
