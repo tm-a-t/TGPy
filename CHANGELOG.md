@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.9.2 (2023-02-25)
+### Fix
+* Message editing bug ([`3d1d566`](https://github.com/tm-a-t/TGPy/commit/3d1d566864381ea939143fae3fad607e03b5a548))
+
 ## v0.9.1 (2023-02-25)
 ### Fix
 * Update from older versions ([`df11e8b`](https://github.com/tm-a-t/TGPy/commit/df11e8b0b8801b7c0e47f29b173964a7b63fa887))
