@@ -3,19 +3,6 @@
 <!--next-version-placeholder-->
 
 ## v0.9.0 (2023-02-25)
-### Feature
-* Change in-message url to tgpy.tmat.me ([`8737ca9`](https://github.com/tm-a-t/TGPy/commit/8737ca92d600e0f57987426fa0ab9ba2fc655183))
-* Move tokenize_string and untokenize_to_string to tgpy.api ([`7d8c3b2`](https://github.com/tm-a-t/TGPy/commit/7d8c3b2cadb46bd7447f9e908da1b9cadfe012e8))
-
-### Documentation
-* Update pages ([`1a696e3`](https://github.com/tm-a-t/TGPy/commit/1a696e3c9e523bd0532f7a576aec196d6e6d447a))
-* Non-flickery buttons on the index page ([`a783e1f`](https://github.com/tm-a-t/TGPy/commit/a783e1f0f26ab10796d98191336488f7cfda3c1b))
-* Document new features ([`f10b340`](https://github.com/tm-a-t/TGPy/commit/f10b340fc21cf5f7c492292621b0703fcad2e6a0))
-* Update readme ([`e446344`](https://github.com/tm-a-t/TGPy/commit/e446344302aac9fafc057f9846dec7b9e902115d))
-* Update pages ([`937dc35`](https://github.com/tm-a-t/TGPy/commit/937dc35cd71216c474e2cb7de9056f61c07d1d5e))
-* Update changelog ([`21abcf0`](https://github.com/tm-a-t/TGPy/commit/21abcf04b2d239d3043f8dc31386e226502e1e96))
-
-## v0.9.0 (2023-02-25)
 Major update
 - restructured the code
 - cancel, // now remember cancellation permanently
@@ -48,6 +35,8 @@ Major update
   - iter functions with `for name, function in store_obj`
   - apply transformers/hooks with `tgpy.api.code_transformers.apply(code: str) -> str`, `tgpy.api.ast_transformers.apply(tree: AST) -> AST` or `tgpy.api.exec_hooks.apply` (documented above)
 - podman is now correctly detected so that tgpy doesn't try to update itself in the container
+- Change in-message url to tgpy.tmat.me ([`8737ca9`](https://github.com/tm-a-t/TGPy/commit/8737ca92d600e0f57987426fa0ab9ba2fc655183))
+- Move tokenize_string and untokenize_to_string to tgpy.api ([`7d8c3b2`](https://github.com/tm-a-t/TGPy/commit/7d8c3b2cadb46bd7447f9e908da1b9cadfe012e8))
 
 ## v0.8.0 (2023-02-15)
 ### Feature
