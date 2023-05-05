@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v0.9.4 (2023-05-05)
+### Fix
+* Initial setup can now be interrupted with ctrl+c ([`e6253c7`](https://github.com/tm-a-t/TGPy/commit/e6253c7573f1eed9bbaefe739a967181a9c932e9))
+* Initial setup prompts now work properly ([`8713dff`](https://github.com/tm-a-t/TGPy/commit/8713dff2f216bdadb9b07269c68f909b6867f681))
+
 ## v0.9.3 (2023-02-25)
 ### Fix
 * Deleting message no longer produces an error ([`ef317d9`](https://github.com/tm-a-t/TGPy/commit/ef317d98b9e817843eca8f0756147855217ccb3b))
