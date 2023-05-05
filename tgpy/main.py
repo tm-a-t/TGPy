@@ -1,4 +1,5 @@
 import asyncio
+import functools
 import logging
 
 import aiorun
@@ -19,6 +20,13 @@ theme = Theme(inherit=False)
 console = Console(theme=theme)
 
 
+async def ainput(prompt: str, password: bool = False):
+    def wrapper(prompt, password):
+        return console.input(prompt, password=password)
+
+    return await asyncio.get_event_loop().run_in_executor(None, wrapper, prompt, password)
+
+
 def create_client():
     client = TelegramClient(
         str(SESSION_FILENAME),
@@ -31,10 +39,12 @@ def create_client():
 
 async def start_client():
     await app.client.start(
-        phone=lambda: console.input('| Please enter your phone number: '),
-        code_callback=lambda: console.input('| Please enter the code you received: '),
-        password=lambda: console.input(
-            '| Please enter your 2FA password: ', password=True
+        phone=functools.partial(ainput, '| Please enter your phone number: '),
+        code_callback=functools.partial(
+            ainput, '| Please enter the code you received: '
+        ),
+        password=functools.partial(
+            ainput, '| Please enter your 2FA password: ', password=True
         ),
     )
 
@@ -54,8 +64,8 @@ async def initial_setup():
     )
     success = False
     while not success:
-        config.set('core.api_id', int(console.input('│ Please enter api_id: ')))
-        config.set('core.api_hash', console.input('│ ...and api_hash: '))
+        config.set('core.api_id', int(await ainput('│ Please enter api_id: ')))
+        config.set('core.api_hash', await ainput('│ ...and api_hash: '))
         try:
             app.client = create_client()
             console.print()
