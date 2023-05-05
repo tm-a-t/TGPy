@@ -24,7 +24,9 @@ async def ainput(prompt: str, password: bool = False):
     def wrapper(prompt, password):
         return console.input(prompt, password=password)
 
-    return await asyncio.get_event_loop().run_in_executor(None, wrapper, prompt, password)
+    return await asyncio.get_event_loop().run_in_executor(
+        None, wrapper, prompt, password
+    )
 
 
 def create_client():
