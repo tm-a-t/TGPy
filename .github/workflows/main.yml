@@ -66,7 +66,7 @@ jobs:
   Release:
     concurrency: release
     needs: Lint
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -111,14 +111,14 @@ jobs:
   Build-dev-docker:
     needs: Lint
     name: Build dev docker image
-    if: github.event_name == 'push' && github.ref != 'refs/heads/master'
+    if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref != 'refs/heads/master'
     uses: ./.github/workflows/docker.yml
     secrets: inherit
 
   Build-release-docker:
     name: Build release docker image
     needs: Release
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/master'
     uses: ./.github/workflows/docker.yml
     with:
       commit-hash: ${{ needs.Release.outputs.release-commit-hash }}
