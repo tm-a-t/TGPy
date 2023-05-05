@@ -17,6 +17,13 @@ class _StdoutWrapper(TextIOBase):
     def write(self, s: str) -> int:
         return self.__getobj().write(s)
 
+    def flush(self) -> None:
+        return self.__getobj().flush()
+
+    @property
+    def isatty(self):
+        return getattr(self.__getobj(), 'isatty', None)
+
 
 sys.stdout = _StdoutWrapper()
 
