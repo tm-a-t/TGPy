@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.9.6 (2023-06-01)
+### Fix
+* Strip device model ([`a775cc5`](https://github.com/tm-a-t/TGPy/commit/a775cc5a6415e92d023c421578f31bdd57a7a88d))
+
 ## v0.9.5 (2023-06-01)
 ### Fix
 * Try to fix session termination issue by setting device_model and system_version to real values from the system ([`44e1c3d`](https://github.com/tm-a-t/TGPy/commit/44e1c3d8faf17f52ec289c3b6c69ae44ed75271e))
