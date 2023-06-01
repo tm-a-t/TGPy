@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.9.5 (2023-06-01)
+### Fix
+* Try to fix session termination issue by setting device_model and system_version to real values from the system ([`44e1c3d`](https://github.com/tm-a-t/TGPy/commit/44e1c3d8faf17f52ec289c3b6c69ae44ed75271e))
+
 ## v0.9.4 (2023-05-05)
 ### Fix
 * Initial setup can now be interrupted with ctrl+c ([`e6253c7`](https://github.com/tm-a-t/TGPy/commit/e6253c7573f1eed9bbaefe739a967181a9c932e9))
