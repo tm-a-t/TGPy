@@ -38,7 +38,7 @@ def create_client():
     if sys.platform == 'linux':
         if os.path.isfile('/sys/devices/virtual/dmi/id/product_name'):
             with open('/sys/devices/virtual/dmi/id/product_name') as f:
-                device_model = f.read()
+                device_model = f.read().strip()
     elif sys.platform == 'darwin':
         device_model = (
             subprocess.check_output('sysctl -n hw.model'.split(' ')).decode().strip()
