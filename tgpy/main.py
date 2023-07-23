@@ -78,16 +78,16 @@ async def start_client():
 
 
 async def initial_setup():
-    console.print('[bold on bright_cyan] Welcome to TGPy ')
+    console.print('[bold #ffffff on #16a085] Welcome to TGPy ')
     console.print('Starting setup...')
     console.print()
-    console.print('[bold black on white] Step 1 of 2 ')
+    console.print('[bold #7f8c8d on #ffffff] Step 1 of 2 ')
     console.print(
         '│ TGPy uses Telegram API, so you\'ll need to register your Telegram app.\n'
-        '│  [cyan]1.[/] Go to https://my.telegram.org\n'
-        '│  [cyan]2.[/] Login with your Telegram account\n'
-        '│  [cyan]3.[/] Go to "API development tools"\n'
-        '│  [cyan]4.[/] Create your app. Choose any app title and short_title. You can leave other fields empty.\n'
+        '│  [#1abc9c]1.[/] Go to https://my.telegram.org\n'
+        '│  [#1abc9c]2.[/] Login with your Telegram account\n'
+        '│  [#1abc9c]3.[/] Go to "API development tools"\n'
+        '│  [#1abc9c]4.[/] Create your app. Choose any app title and short_title. You can leave other fields empty.\n'
         '│ You will get api_id and api_hash.'
     )
     success = False
@@ -97,13 +97,15 @@ async def initial_setup():
         try:
             app.client = create_client()
             console.print()
-            console.print('[bold black on white] Step 2 of 2 ')
+            console.print('[bold #7f8c8d on #ffffff] Step 2 of 2 ')
             console.print('│ Now login to Telegram.')
             await app.client.connect()
             await start_client()
             success = True
         except (errors.ApiIdInvalidError, errors.ApiIdPublishedFloodError, ValueError):
-            console.print('│ [bold on red]Incorrect api_id/api_hash, try again')
+            console.print(
+                '│ [bold #ffffff on #ed1515]Incorrect api_id/api_hash, try again'
+            )
         finally:
             if app.client:
                 await app.client.disconnect()
