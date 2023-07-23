@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.9.7 (2023-07-23)
+### Fix
+* Consistent colors in setup across all terminals ([`faa625b`](https://github.com/tm-a-t/TGPy/commit/faa625bd2f4543b08ea7af361c8217cf006303d2))
+
 ## v0.9.6 (2023-06-01)
 ### Fix
 * Strip device model ([`a775cc5`](https://github.com/tm-a-t/TGPy/commit/a775cc5a6415e92d023c421578f31bdd57a7a88d))
