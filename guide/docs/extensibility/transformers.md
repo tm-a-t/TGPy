@@ -45,10 +45,10 @@ tgpy.api.code_transformers.add(name, func)
             return f"shell({repr(cmd[4:])})"
         return cmd
     
-    tgpy.code_transformers.add("shell", sh_trans)
+    tgpy.api.code_transformers.add("shell", sh_trans)
     ```
 
-    Code by [Ivanq](https://t.me/Ivanq_SandS)
+    Code by [@purplesyringa](https://t.me/purplesyringa)
 
 ## AST transformers
 
