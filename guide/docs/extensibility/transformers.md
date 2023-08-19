@@ -34,6 +34,7 @@ tgpy.api.code_transformers.add(name, func)
     ```python title="Your module"
     import os
     import subprocess
+    import tgpy.api
     
     def shell(code):
         proc = subprocess.run([os.getenv("SHELL") or "/bin/sh", "-c", code], encoding="utf-8", stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
