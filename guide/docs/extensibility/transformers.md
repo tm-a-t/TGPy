@@ -34,6 +34,7 @@ tgpy.api.code_transformers.add(name, func)
     ```python title="Your module"
     import os
     import subprocess
+    import tgpy.api
     
     def shell(code):
         proc = subprocess.run([os.getenv("SHELL") or "/bin/sh", "-c", code], encoding="utf-8", stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -44,10 +45,10 @@ tgpy.api.code_transformers.add(name, func)
             return f"shell({repr(cmd[4:])})"
         return cmd
     
-    tgpy.code_transformers.add("shell", sh_trans)
+    tgpy.api.code_transformers.add("shell", sh_trans)
     ```
 
-    Code by [Ivanq](https://t.me/Ivanq_SandS)
+    Code by [@purplesyringa](https://t.me/purplesyringa)
 
 ## AST transformers
 
