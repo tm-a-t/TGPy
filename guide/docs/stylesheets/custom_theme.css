@@ -69,13 +69,13 @@ html {
         margin: 1.5em 0;
     }
 
-    [dir="ltr"] .md-sidebar--primary:not([hidden]) ~ .md-content > .md-content__inner {
-        margin-left: 5rem;
-    }
+    /*[dir="ltr"] .md-sidebar--primary:not([hidden]) ~ .md-content > .md-content__inner {*/
+    /*    margin-left: 5rem;*/
+    /*}*/
 
-    [dir="ltr"] .md-sidebar--secondary:not([hidden]) ~ .md-content > .md-content__inner {
-        margin-right: 5rem;
-    }
+    /*[dir="ltr"] .md-sidebar--secondary:not([hidden]) ~ .md-content > .md-content__inner {*/
+    /*    margin-right: 5rem;*/
+    /*}*/
 }
 
 @media screen and (min-width: 60em) {
