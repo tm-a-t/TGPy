@@ -1,3 +1,7 @@
+---
+description: 'Examples of using Context object and TGPy modules: saving shortcuts for message operations, getting chat stats, sharing modules, and more.'
+---
+
 # Module examples
 
 These are examples of using [`ctx`](/extensibility/context) and [modules](/extensibility/modules).

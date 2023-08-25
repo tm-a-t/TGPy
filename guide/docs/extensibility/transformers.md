@@ -1,3 +1,7 @@
+---
+description: Code transformers, AST transformers, and hooks are advanced TGPy API features that can control code evaluation.
+---
+
 # Transformers & hooks
 
 TGPy API allows you to use TGPy internal features in your messages and modules.
@@ -6,16 +10,20 @@ TGPy API allows you to use TGPy internal features in your messages and modules.
 import tgpy.api
 ```
 
-Transformers and hooks are API features that can control code evaluation.
+Code transformers, AST transformers, and exec hooks are TGPy API features that can control code evaluation.
 
+Code transformers are most commonly used.
 
 ## Code transformers
 
-With code transformers, you can transform the code before TGPy runs it. This is useful for setting up custom commands, syntax changes, and more.
+With code transformers, you can transform the code before TGPy runs it.
+This is useful for setting up prefix commands, syntax changes, and more.
 
-Transformers are functions that take message text and return some modified text. Whenever you send a message, TGPy tries to apply your code transformers to its text. If the final text is the valid Python code, it runs.
+Transformers are functions that take message text and return some modified text. Whenever you send a message, TGPy tries
+to apply your code transformers to its text. If the final text is the valid Python code, it runs.
 
-To create a transformer, you should define a function which takes a string and returns a new string — let’s call it `func`. Then you should register it as following:
+To create a transformer, you should define a function which takes a string and returns a new string — let’s call
+it `func`. Then you should register it as following:
 
 ```python
 tgpy.api.code_transformers.add(name, func)
@@ -60,8 +68,8 @@ Add an AST transformer:
 tgpy.api.ast_transformers.add(name, func)
 ```
 
-First, TGPy applies code transformers. If the transformation result is valid Python code, AST transformers are then applied.
-
+First, TGPy applies code transformers. If the transformation result is valid Python code, AST transformers are then
+applied.
 
 ## Exec hooks
 
@@ -74,7 +82,8 @@ Exec hooks must have the following signature:
 async hook(message: Message, is_edit: bool) -> Message | bool | None
 ``` 
 
-<p class="code-label"><code>is_edit</code> is True if you have edited the TGPy message</p>
+`is_edit` is True if you have edited the TGPy message
+{.code-label}
 
 An exec hook may edit the message using Telegram API methods or alter the message in place.
 
@@ -89,10 +98,24 @@ Add a hook:
 tgpy.api.exec_hooks.add(name, func)
 ```
 
+## Complete flow
 
-## Transformer stores
+``` mermaid
+flowchart TB
+    start(New outgoing message) --> hooks
+    start2(Outgoing message edited) -- is_edit=True --> hooks
+    hooks(Exec hooks applied) -- If hooks didn't stop execution --> code
+    code(Code transformers applied) -- If syntax is correct --> ast
+    ast(AST transformers applied) -- If not a too simple expression --> run((Code runs))
+  
+    click hooks "#exec-hooks"
+    click ast "#ast-transformers"
+    click code "#code-transformers"
+```
 
-TGPy stores transformers and exec hooks in `#!python TransformerStore` objects: `#!python tgpy.api.code_transformers`, 
+## Managing
+
+TGPy stores transformers and exec hooks in `#!python TransformerStore` objects: `#!python tgpy.api.code_transformers`,
 `#!python tgpy.api.ast_transformers` and `#!python tgpy.api.exec_hooks`.
 
 Each of them represents a list of tuples `#!python (name, func)` or a dict in the form of `#!python {name: func}`.
@@ -108,7 +131,7 @@ tgpy.api.code_transformers
 ```
 <hr>
 ```python
-TGPy> TransformerStore({'postfix_await': <function tmp.<locals>.code_trans at 0x7f2db16cd1c0>})
+TransformerStore({'postfix_await': <function tmp.<locals>.code_trans at 0x7f2db16cd1c0>})
 ```
 </div>
 
@@ -124,9 +147,7 @@ list(tgpy.api.code_transformers) -> list[tuple[str, function]]
 dict(tgpy.api.code_transformers) -> dict[str, function]
 ```
 
-
-
-## Use transformers and hooks manually
+## Manual usage
 
 Apply all your code transformers to a custom text:
 
@@ -146,5 +167,6 @@ Apply all your exec hooks to a message:
 await tgpy.api.exec_hooks.apply(message, is_edit)
 ```
 
-<p class="code-label">Returns False if any of the hooks returned False or a Message object that should be used instead
-of the original one otherwise</p>
+Returns False if any of the hooks returned False or a Message object that should be used instead
+of the original one otherwise
+{.code-label}

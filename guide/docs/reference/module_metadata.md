@@ -1,3 +1,7 @@
+---
+description: Reference on module metadata. The metadata stores settings such as module name and execution order.
+---
+
 # Module metadata
 
 [Modules are stored as separate Python files.](/extensibility/modules/#storage) Module metadata is

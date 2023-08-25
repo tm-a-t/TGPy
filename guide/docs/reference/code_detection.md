@@ -1,3 +1,7 @@
+---
+description: Automatic code detection is a unique TGPy design feature. In case of a false positive, you can escape code. You can also save a hook that disables auto-detection forever.
+---
+
 # Code detection
 
 ## Cancel evaluation

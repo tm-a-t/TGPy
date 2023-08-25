@@ -28,5 +28,21 @@
 }
 
 .md-typeset a.link-card {
-    transition: color,background-color 125ms;
+    transition: color, background-color 125ms;
+}
+
+.md-typeset .home-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    row-gap: .5rem;
+    position: relative;
+}
+
+.md-typeset .home-links > a > svg {
+    width: 1.2em;
+    height: 1.2em;
+    margin: -.6em 0;
+    position: relative;
+    top: -.35em;
 }

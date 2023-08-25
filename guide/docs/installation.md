@@ -1,4 +1,10 @@
+---
+description: You can install TGPy with pip and run it with a shell command. To update TGPy, use update() function.
+---
+
 # Installation
+
+TGPy is a command line application that connects to your account much like a Telegram app on a new device.
 
 You can install and run TGPy on your computer, but you might have to use a remote server to have TGPy available 24/7.
 
@@ -9,33 +15,87 @@ You can install and run TGPy on your computer, but you might have to use a remot
 
     And the other way round: anyone with access to your Telegram account has access to the machine TGPy is running on.
 
-Make sure you have [Python 3.10 or above](https://www.python.org/) installed.
+It’s recommended to use pipx or Docker.
 
-Install TGPy:
+## How to install using pipx
 
-```shell
-pip install tgpy
-```
+pipx is a package manager for Python command line applications. 
 
-And start it:
+1. Make sure you have [Python 3.10 or above](https://www.python.org/) installed.
 
-=== "With a simple command"
+2. Get pipx if you don’t have it:
+
+    === "Ubuntu"
+    
+        ```shell
+        sudo apt update
+        sudo apt install pipx
+        pipx ensurepath
+        ```
+    
+    === "Arch"
+    
+        ```shell
+        sudo pacman -Sy python-pipx
+        pipx ensurepath
+        ```
+    
+    === "Fedora"
+    
+        ```shell
+        sudo dnf install pipx
+        pipx ensurepath
+        ```
+    
+    === "Other Linux"
+    
+        1. Install `pipx` with your package manager.
+        2. 
+            ```shell
+            pipx ensurepath
+            ```
+    
+    === "Windows"
+    
+        ```shell
+        python3 -m pip install --user pipx
+        python3 -m pipx ensurepath 
+        ```
+    
+    === "macOS"
+    
+        ```shell
+        brew install pipx
+        pipx ensurepath
+        ```
+
+3. Now install TGPy:
+
+    ```shell
+    pipx install tgpy
+    ```
+
+5. And start it:
 
     ```shell
     tgpy
     ```
 
-=== "If the simple command doesn’t work"
 
-    ```shell
-    python -m tgpy
-    ```
+Follow the instructions to connect your Telegram account for the first time. When it’s ready, try sending `ping()` to any chat to check if TGPy is running.
 
-Follow the instructions to connect your Telegram account for the first time.
+## How to install using Docker
 
-When it’s ready, try to send `ping()` to any chat to check if TGPy is running.
+```shell
+docker pull tgpy/tgpy
+docker run -it --rm -v /tgpy_data:/data tgpy/tgpy
+```
 
-## Update to the latest version
+Follow the instructions to connect your Telegram account for the first time. When it’s ready, try sending `ping()` to any chat to check if TGPy is running.
+
+## Updating to the latest version
+
+When new updates arrive, you can get them with a TGPy function or from  shell.
 
 === "From Telegram message"
 
@@ -43,13 +103,30 @@ When it’s ready, try to send `ping()` to any chat to check if TGPy is running.
     update()
     ```
 
-=== "From shell"
+=== "From shell using pipx"
 
     ```shell
-    pip install -U tgpy
+    pipx upgrade tgpy
     ```
+
+=== "From shell using docker"
+
+    ```shell
+    docker pull tgpy/tgpy
+    ```
+   
+    Then re-run:
+
+    ```shell
+    docker run -it --rm -v /tgpy_data:/data tgpy/tgpy
+    ```
+
+## Running in background
+
+To get TGPy running in background, you need to additionally configure systemd, docker compose, or similar.
+Instructions are coming.
 
 ## Data storage
 
-Config, session, and modules are stored in `~/.config/tgpy` directory. You can change this path via `TGPY_DATA`
-environment variable.
+Config, session, and modules are stored in `~/.config/tgpy` directory (unless you’re using Docker.) 
+You can change this path via `TGPY_DATA` environment variable.

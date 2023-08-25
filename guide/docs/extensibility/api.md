@@ -1,3 +1,7 @@
+---
+description: Through TGPy API module you can use internal features such as internal config object and functions to parse and run code.
+---
+
 # Other API features
 
 TGPy API allows you to use TGPy internal features in your messages and modules.
@@ -6,10 +10,9 @@ TGPy API allows you to use TGPy internal features in your messages and modules.
 import tgpy.api
 ```
 
-
 ## Config
 
-`tgpy.api.config` provides you simple key-value store for any data. 
+`tgpy.api.config` provides you simple key-value store for any data.
 The data, as well as some TGPy settings, is saved to <code>[tgpy/](/installation/#data-storage)config.yml</code>.
 
 <div class="tgpy-code-block">
@@ -45,7 +48,8 @@ You can use the following functions to parse and run code.
 async parse_code(text: str) -> ParseResult(is_code: bool, original: str, transformed: str, tree: AST | None)
 ```
 
-<p class="code-label">Checks if the given text is code and gives AST and other info</p>
+Checks if the given text is code and gives AST and other info
+{.code-label}
 
 ### Parse a message
 
@@ -53,7 +57,8 @@ async parse_code(text: str) -> ParseResult(is_code: bool, original: str, transfo
 parse_tgpy_message(message: Message) -> MessageParseResult(is_tgpy_message: bool, code: str | None, result: str | None)
 ```
 
-<p class="code-label">Splits Telethon message object into TGPy code and result (if present)</p>
+Splits Telethon message object into TGPy code and result (if present)
+{.code-label}
 
 ### Run code
 
@@ -61,4 +66,5 @@ parse_tgpy_message(message: Message) -> MessageParseResult(is_tgpy_message: bool
 async tgpy_eval(code: str, message: Message = None, *, filename: str = None) -> EvalResult(result: Any, output: str)
 ```
 
-<p class="code-label">Runs code and gets the result and the output</p>
+Runs code and gets the result and the output
+{.code-label}

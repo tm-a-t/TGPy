@@ -2,8 +2,18 @@
     background-color: var(--md-code-bg-color);
 }
 
+.tgpy-code-block--wrap pre {
+    white-space: pre-line;
+}
+
 .tgpy-code-block > hr {
     margin: -1em 0;
+}
+
+.tgpy-code-block > div:last-child > pre > code:before {
+    content: 'TGPy> ';
+    display: inline;
+    font-weight: 700;
 }
 
 .code-label {

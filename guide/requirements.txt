@@ -1,2 +1,5 @@
 mkdocs-material
 mkdocs-git-revision-date-localized-plugin
+mkdocs-redirects
+pillow
+cairosvg

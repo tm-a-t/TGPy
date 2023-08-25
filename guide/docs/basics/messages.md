@@ -1,3 +1,7 @@
+---
+description: You can send and edit messages from your TGPy code through Telethon methods. Learn Telethon basics to control Telegram messages, users and chats.
+---
+
 # Messages
 
 ## Telegram objects
@@ -62,7 +66,7 @@ chat.
 The new message object can be used later:
 
 ```python
-hello = await msg.respond("Hello")  # (1)
+hello = await msg.respond("Hello")  # (1)!
 await hello.edit("Hiiiiiiiiii")
 ```
 

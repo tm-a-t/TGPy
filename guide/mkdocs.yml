@@ -1,18 +1,22 @@
-site_name: TGPy Guide
+site_name: TGPy Docs
 site_description: 'TGPy, a tool for running Python code snippets right in your Telegram messages'
 site_url: https://tgpy.tmat.me/
 repo_url: https://github.com/tm-a-t/TGPy
 repo_name: tm-a-t/TGPy
 edit_uri: edit/master/guide/docs/
+watch: [ ../README.md ]
 theme:
   name: material
-  logo: assets/TGPy.png
+  logo: assets/icon.png
+  favicon: assets/icon.png
   features:
+    - content.action.edit
     - content.code.annotate
     - content.code.copy
-    - content.action.edit
+    - content.tabs.link
     - navigation.instant
     - navigation.sections
+    - navigation.tabs
     - navigation.footer
     - search.suggest
     - search.highlight
@@ -34,62 +38,89 @@ theme:
       quote: octicons/quote-16
   font:
     text: Cantarell
-    code: IBM Plex Mono
+    code: Red Hat Mono
   palette:
     - scheme: default
+      primary: custom
+      accent: custom
       toggle:
         icon: material/weather-sunny
         name: Switch to dark mode
     - scheme: slate
+      primary: custom
+      accent: custom
       toggle:
         icon: material/weather-night
         name: Switch to light mode
 plugins:
+  - redirects:
+      redirect_maps:
+        guide.md: installation.md
+        basics.md: basics/code.md
+        extensibility.md: extensibility/context.md
+        reference.md: reference/builtins.md
+        recipes.md: recipes/about.md
   - search
+  - social
   - git-revision-date-localized:
-        type: timeago
-        enable_creation_date: true
+      type: timeago
+      enable_creation_date: true
 markdown_extensions:
   - toc:
       permalink: true
   - admonition
   - attr_list
   - tables
+  - md_in_html
   - pymdownx.highlight
   - pymdownx.inlinehilite
-  - pymdownx.superfences
   - pymdownx.details
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.mark
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.tilde
+  - pymdownx.snippets:
+      base_path: [ '.', '../README.md' ]
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
 extra:
-  social:
-    - icon: material/youtube
-      link: https://www.youtube.com/watch?v=dQw4w9WgXcQ
-      name: TGPy on YouTube
+  generator: false
 extra_css:
   - stylesheets/custom_theme.css
   - stylesheets/code_blocks.css
-  - stylesheets/extra.css
+  - stylesheets/home.css
+  - stylesheets/recipes.css
 nav:
-  - Introduction: index.md
-  - installation.md
-  - Basics:
-    - basics/code.md
-    - basics/asyncio.md
-    - basics/messages.md
-    - basics/examples.md
-  - Extensibility:
-    - extensibility/context.md
-    - extensibility/modules.md
-    - extensibility/module_examples.md
-    - extensibility/transformers.md
-    - extensibility/api.md
-  - Reference:
-    - reference/builtins.md
-    - reference/module_metadata.md
-    - reference/code_detection.md
-#  - Explanation:
-#    - explanation/how.md
+  - Home: index.md
+  - Guide:
+      - Get started:
+          - installation.md
+      - Basics:
+          - basics/code.md
+          - basics/asyncio.md
+          - basics/messages.md
+          - basics/examples.md
+      - Extensibility:
+          - extensibility/context.md
+          - extensibility/modules.md
+          - extensibility/module_examples.md
+          - extensibility/transformers.md
+          - extensibility/api.md
+      - Reference:
+          - reference/builtins.md
+          - reference/module_metadata.md
+          - reference/code_detection.md
+  - Recipes:
+      - TGPy recipes:
+        - recipes/about.md
+        - recipes/chatgpt.md
+        - recipes/dice.md
+        - recipes/reminders.md
+        - recipes/contacts.md
+        - recipes/editors.md

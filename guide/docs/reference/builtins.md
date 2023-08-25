@@ -1,3 +1,7 @@
+---
+description: Reference on built-in functions and objects.
+---
+
 # Builtins
 
 ## Control functions

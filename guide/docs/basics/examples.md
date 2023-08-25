@@ -1,4 +1,15 @@
+---
+description: These are TGPy code examples that use simple features. Copy an example and send it somewhere to run!
+---
+
 # Examples
+
+Copy an example and send it somewhere to run!
+
+These examples show how you can use TGPy in various ways.
+When you get used to it, you will be able to quickly write code snippets for your needs.
+
+By the way, if you want to delete the code message before running the code, start it with `#!python await msg.delete()`.
 
 ## Sending messages
 
@@ -8,11 +19,6 @@
 text = 'ha' * 20
 await msg.respond(text)
 ```
-
-!!! Tip
-
-    If you want to delete the code snippet message in advance, start your message with 
-    `#!python await msg.delete()`
 
 ### Countdown
 
@@ -36,7 +42,7 @@ import asyncio
 text = 'Hello World'
 message = await msg.respond('...')
 for i in range(len(text)):
-    await message.edit(text[:i+1] + '|')
+    await message.edit(text[:i + 1] + '|')
     await asyncio.sleep(0.5)
 ```
 
@@ -50,7 +56,7 @@ await client.send_message('Example Chat', message)
 return 'Sent the message'
 ```
 
-## Other Telegram features
+## More Telegram features
 
 ### Download a picture or file
 
@@ -72,7 +78,7 @@ return
 Delete all messages starting with the message you‘re replying to and ending with the current message:
 
 === "From all users"
-    
+
     ```python
     messages = await client.get_messages(
         msg.chat,

@@ -1,3 +1,7 @@
+---
+description: You can use TGPy Context object to refer to the active TGPy message, disable showing the output, or check if the code is running from a module.
+---
+
 # Context data
 
 The `ctx` object stores some information about the context of running the code.

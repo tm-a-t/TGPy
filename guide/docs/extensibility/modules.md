@@ -1,3 +1,7 @@
+---
+description: Modules help you keep functions, classes, or constants when TGPy restarts.
+---
+
 # Modules
 
 You may want to define functions, classes, or constants to reuse later. If you want to keep them when TGPy restarts,
@@ -26,7 +30,7 @@ Alternatively, you can add a module from a string with `#!python modules.add(nam
         ```
         <hr>
         ```
-        TGPy> None
+        None
         ```
         </div>
     
@@ -39,7 +43,7 @@ Alternatively, you can add a module from a string with `#!python modules.add(nam
         ```
         <hr>
         ```
-        TGPy> Added module 'square'.
+        Added module 'square'.
         The module will be executed every time TGPy starts.
         ```
         </div>

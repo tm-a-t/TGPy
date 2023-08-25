@@ -1,3 +1,7 @@
+---
+description: TGPy runs code when you send it to any chat. It also supports all Python capabilities and has features for convenient usage.
+---
+
 # Running code
 
 ## How to use TGPy
@@ -10,7 +14,7 @@ Open any chat, type some Python code and send it. It’s that simple.
 ```
 <hr>
 ```
-TGPy> 4
+4
 ```
 </div>
 
@@ -23,13 +27,14 @@ s
 ```
 <hr>
 ```
-TGPy> 4950
+4950
 ```
 </div>
 
 If you edit your message, TGPy will recalculate the result.
 
-When TGPy mistakes your plain-text message for code, type [`cancel`](/reference/code_detection/#cancel-evaluation) to fix that.
+When TGPy mistakes your plain-text message for code, type [`cancel`](/reference/code_detection/#cancel-evaluation) to
+fix that.
 
 !!! tip
 
@@ -51,7 +56,7 @@ return x
 ```
 <hr>
 ```
-TGPy> 4
+4
 ```
 </div>
 
@@ -65,7 +70,7 @@ x + 20
 ```
 <hr>
 ```
-TGPy> [70, 30]
+[70, 30]
 ```
 </div>
 
@@ -77,7 +82,7 @@ print('Hello World!')
 ```
 <hr>
 ```
-TGPy> Hello World!
+Hello World!
 ```
 </div>
 
@@ -89,6 +94,6 @@ Exceptions are also shown right in the message.
 
 ## More tips
 
-- TGPy saves the defined variables, so you use them in further messages 
+- TGPy saves the defined variables, so you use them in further messages
 - The `_` variable contains the result of the previous message
 - Edit the message to rerun it
