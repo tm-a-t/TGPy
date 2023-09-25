@@ -2,6 +2,18 @@
 
 <!--next-version-placeholder-->
 
+## v0.10.0 (2023-09-25)
+
+### Feature
+
+* **Telethon:** Layer 164 ([`2d0c186`](https://github.com/tm-a-t/TGPy/commit/2d0c1865fad08c8ee1f511f6749a22ede7374641))
+
+### Documentation
+
+* Revert narrowing container ([`bb0bff9`](https://github.com/tm-a-t/TGPy/commit/bb0bff98b058041a62f45fed260bf1f42ce32900))
+* Recipes and new homepage ([`28e8eba`](https://github.com/tm-a-t/TGPy/commit/28e8ebae6f57642ce2dea7a70d4bd0bcfee94dc0))
+* Fix transformer example ([`8007b25`](https://github.com/tm-a-t/TGPy/commit/8007b2587046550937cc63f7e5cd66f86e928f29))
+
 ## v0.9.7 (2023-07-23)
 ### Fix
 * Consistent colors in setup across all terminals ([`faa625b`](https://github.com/tm-a-t/TGPy/commit/faa625bd2f4543b08ea7af361c8217cf006303d2))
