@@ -40,7 +40,7 @@ PyYAML = "^6.0"
 aiorun = "^2022.4.1"
 rich = "^12.5.1"
 appdirs = "^1.4.4"
-telethon-v1-24 = "^1.24.9"
+telethon-v1-24 = "^1.24.10"
 cryptg-anyos = "^0.4.1"
 
 [tool.poetry.dev-dependencies]
