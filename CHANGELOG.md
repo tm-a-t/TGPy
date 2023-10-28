@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.12.0 (2023-10-28)
+
+### Feature
+
+* **Telethon:** Update to layer 166 ([`a18dc0d`](https://github.com/tm-a-t/TGPy/commit/a18dc0d663362b50dfe7827ebac6ea2971220248))
+
 ## v0.11.0 (2023-09-29)
 
 ### Feature
