@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.12.1 (2023-10-28)
+
+### Fix
+
+* **Telethon:** New layer fix ([`8145bd3`](https://github.com/tm-a-t/TGPy/commit/8145bd3c58371e047114e834e2fbdba2de7ec575))
+
 ## v0.12.0 (2023-10-28)
 
 ### Feature
