@@ -19,7 +19,7 @@
         buildTgpy = (pkgs: 
           let 
            inherit (poetry2nix.lib.mkPoetry2Nix { inherit pkgs; }) mkPoetryApplication;
-          in mkPoetryApplication rec { 
+          in builtins.trace "Not all features are supported due to the nature of nix" mkPoetryApplication rec { 
             projectDir = ./.; 
             preferWheels = true;
           }
