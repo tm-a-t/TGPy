@@ -130,3 +130,22 @@ Instructions are coming.
 
 Config, session, and modules are stored in `~/.config/tgpy` directory (unless you’re using Docker.) 
 You can change this path via `TGPY_DATA` environment variable.
+
+## Using proxy
+
+If you require proxy to connect to Telegram, do the following:
+
+1. Launch TGPy and provide api_id and api_hash, then quit.
+2. Open `config.yml` file (see Data storage above) and add your proxy settings here:
+   ```yaml
+   core:
+       api_hash: ...
+       api_id: ...
+       proxy:
+           proxy_type: socks5
+           addr: ...
+           port: ...
+           username: ...
+           password: ...
+   ```
+3. Run TGPy normally

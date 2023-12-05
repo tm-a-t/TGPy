@@ -60,6 +60,7 @@ def create_client():
         system_version=platform.platform(),
         lang_code='en',
         system_lang_code='en-US',
+        proxy=config.get('core.proxy', None),
     )
     client.parse_mode = 'html'
     return client

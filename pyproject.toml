@@ -42,6 +42,7 @@ rich = "^12.5.1"
 appdirs = "^1.4.4"
 telethon-v1-24 = "^1.24.12"
 cryptg-anyos = "^0.4.1"
+python-socks = {extras = ["asyncio"], version = "^2.4.3"}
 
 [tool.poetry.dev-dependencies]
 python-semantic-release = "^7.31.2"
