@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.13.0 (2023-12-05)
+
+### Feature
+
+* Support proxy ([`cd6bc90`](https://github.com/tm-a-t/TGPy/commit/cd6bc9086a818c45ee129ace88a0662980ad6c92))
+
 ## v0.12.1 (2023-10-28)
 
 ### Fix
