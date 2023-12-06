@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.13.1 (2023-12-06)
+
+### Fix
+
+* Use official cryptg (prebuilt wheels for Python 3.12), bump telethon (fixes usage of Draft), set minimum python version to 3.10 ([`9e49739`](https://github.com/tm-a-t/TGPy/commit/9e497391f83dc6b333a6752f221d1221ea3d6cdb))
+
 ## v0.13.0 (2023-12-05)
 
 ### Feature
