@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.13.2 (2023-12-10)
+
+### Fix
+
+* Update telethon (fix draft constructor), update all dependencies ([`a2b6064`](https://github.com/tm-a-t/TGPy/commit/a2b60641af3a0cab9fef08e95e07447b6c61432a))
+
 ## v0.13.1 (2023-12-06)
 
 ### Fix
