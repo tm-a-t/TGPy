@@ -37,10 +37,10 @@ src_paths = ["tgpy"]
 [tool.poetry.dependencies]
 python = "^3.10"
 PyYAML = "^6.0"
-aiorun = "^2022.4.1"
+aiorun = "^2023.7.2"
 rich = "^12.5.1"
 appdirs = "^1.4.4"
-telethon-v1-24 = "^1.24.13"
+telethon-v1-24 = "^1.24.14"
 python-socks = {extras = ["asyncio"], version = "^2.4.3"}
 cryptg = "^0.4.0"
 
