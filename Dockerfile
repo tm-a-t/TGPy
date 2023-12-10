@@ -20,14 +20,15 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 
 COPY . .
 RUN sed -i "s/\(COMMIT_HASH *= *\).*/\1'$(git rev-parse HEAD)'/" tgpy/version.py
+RUN rm -rf .git guide poetry.lock pyproject.toml .dockerignore .gitignore README.md
 
 FROM base as runner
 COPY --from=builder /venv /venv
 ENV PATH="/venv/bin:$PATH"
 
-COPY --from=builder /app/tgpy tgpy
+COPY --from=builder /app /app
 
 ENV TGPY_DATA=/data
 VOLUME /data
 
-ENTRYPOINT ["/venv/bin/python", "-m", "tgpy"]
+ENTRYPOINT ["/app/entrypoint.sh"]
