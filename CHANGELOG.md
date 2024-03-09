@@ -2,6 +2,16 @@
 
 <!--next-version-placeholder-->
 
+## v0.14.0 (2024-03-09)
+
+### Feature
+
+* **docker:** Run specified commands on container creation. This feature can be used for example to persist installed packages between updates ([`456f503`](https://github.com/tm-a-t/TGPy/commit/456f5035ef8f0900750acee2a901cfdcea2e28b6))
+
+### Fix
+
+* Tgpy error when editing MessageService, e.g. when deleting all messages in pm or beating your high score in games ([`5d6fb5e`](https://github.com/tm-a-t/TGPy/commit/5d6fb5e9f0b6556163c90c327a4d2ac6afe62b96))
+
 ## v0.13.2 (2023-12-10)
 
 ### Fix
