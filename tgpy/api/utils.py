@@ -7,7 +7,9 @@ import socket
 import tokenize
 from io import BytesIO
 
+from telethon import events
 from telethon.tl.custom import Message
+from telethon.tl.types import MessageService
 
 import tgpy
 from tgpy.utils import REPO_ROOT, RunCmdException, execute_in_repo_root, run_cmd
@@ -87,8 +89,11 @@ async def try_await(func, *args, **kwargs):
     return res
 
 
-def outgoing_messages_filter(m: Message):
-    return m.out and not m.forward and not m.via_bot
+def outgoing_messages_filter(e: events.NewMessage.Event | events.MessageEdited.Event):
+    m: Message = e.message
+    return (
+        m.out and not m.forward and not m.via_bot and not isinstance(m, MessageService)
+    )
 
 
 def tokenize_string(s: str) -> list[tokenize.TokenInfo] | None:
