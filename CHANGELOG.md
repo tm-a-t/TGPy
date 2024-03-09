@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.14.1 (2024-03-09)
+
+### Fix
+
+* Use cryptg-anyos again, because there are no official cp312-aarch64 binaries ([`50ca341`](https://github.com/tm-a-t/TGPy/commit/50ca3417c3bd3418bd66a02c52f35e5cf7d83b11))
+
 ## v0.14.0 (2024-03-09)
 
 ### Feature
