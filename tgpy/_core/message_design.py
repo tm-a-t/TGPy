@@ -9,7 +9,7 @@ from telethon.tl.types import (
     MessageEntityTextUrl,
 )
 
-from tgpy import app
+from tgpy import app, reactions_fix
 
 TITLE = 'TGPy>'
 RUNNING_TITLE = 'TGPy running>'
@@ -92,7 +92,9 @@ async def edit_message(
     text = str(''.join(x + ('\n' if i == 1 else '\n\n') for i, x in enumerate(parts)))
     if len(text) > 4096:
         text = text[:4095] + '…'
-    return await message.edit(text, formatting_entities=entities, link_preview=False)
+    res = await message.edit(text, formatting_entities=entities, link_preview=False)
+    reactions_fix.update_hash(res, in_memory=False)
+    return res
 
 
 def get_title_entity(message: Message) -> MessageEntityTextUrl | None:
