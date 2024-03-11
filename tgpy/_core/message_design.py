@@ -12,6 +12,7 @@ from telethon.tl.types import (
 from tgpy import app
 
 TITLE = 'TGPy>'
+RUNNING_TITLE = 'TGPy running>'
 OLD_TITLE_URL = 'https://github.com/tm-a-t/TGPy'
 TITLE_URL = 'https://tgpy.tmat.me/'
 FORMATTED_ERROR_HEADER = f'<b><a href="{TITLE_URL}">TGPy error&gt;</a></b>'
@@ -40,9 +41,10 @@ class Utf16CodepointsWrapper(str):
 async def edit_message(
     message: Message,
     code: str,
-    result: str,
+    result: str = '',
     traceback: str = '',
     output: str = '',
+    is_running: bool = False,
 ) -> Message:
     if not result and output:
         result = output
@@ -51,7 +53,10 @@ async def edit_message(
         result = traceback
         traceback = ''
 
-    title = Utf16CodepointsWrapper(TITLE)
+    if is_running:
+        title = Utf16CodepointsWrapper(RUNNING_TITLE)
+    else:
+        title = Utf16CodepointsWrapper(TITLE)
     parts = [
         Utf16CodepointsWrapper(code.strip()),
         Utf16CodepointsWrapper(f'{title} {str(result).strip()}'),
@@ -64,9 +69,10 @@ async def edit_message(
 
     entities = []
     offset = 0
-    for p in parts:
+    for i, p in enumerate(parts):
         entities.append(MessageEntityCode(offset, len(p)))
-        offset += len(p) + 2
+        newline_cnt = 1 if i == 1 else 2
+        offset += len(p) + newline_cnt
 
     entities[0] = MessageEntityPre(entities[0].offset, entities[0].length, 'python')
     entities[1].offset += len(title) + 1
@@ -83,7 +89,7 @@ async def edit_message(
         ),
     ]
 
-    text = str('\n\n'.join(parts))
+    text = str(''.join(x + ('\n' if i == 1 else '\n\n') for i, x in enumerate(parts)))
     if len(text) > 4096:
         text = text[:4095] + '…'
     return await message.edit(text, formatting_entities=entities, link_preview=False)
