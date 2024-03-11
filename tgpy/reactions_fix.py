@@ -42,7 +42,7 @@ def check_hash(message: Message) -> ReactionsFixResult:
     return ReactionsFixResult.evaluate
 
 
-def update_hash(message: Message, *, in_memory: bool = False) -> None:
+def update_hash(message: Message | None, *, in_memory: bool = False) -> None:
     if not message:
         return
     if in_memory:
