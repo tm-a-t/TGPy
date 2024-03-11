@@ -1,3 +1,5 @@
+import asyncio
+import time
 from dataclasses import dataclass
 from typing import Any
 
@@ -5,6 +7,7 @@ from telethon.tl.custom import Message
 
 import tgpy.api
 from tgpy import app
+from tgpy._core import message_design
 from tgpy._core.meval import _meval
 from tgpy.api.parse_code import parse_code
 from tgpy.utils import FILENAME_PREFIX, numid
@@ -17,6 +20,46 @@ constants: dict[str, Any] = {}
 class EvalResult:
     result: Any
     output: str
+
+
+class Flusher:
+    _code: str
+    _message: Message | None
+    _flushed_output: str
+    _flush_timer: asyncio.Task | None
+    _finished: bool
+
+    def __init__(self, code: str, message: Message | None):
+        self._code = code
+        self._message = message
+        self._flushed_output = ''
+        self._flush_timer = None
+        self._finished = False
+
+    async def _wait_and_flush(self):
+        await asyncio.sleep(3)
+        await message_design.edit_message(
+            self._message,
+            self._code,
+            output=self._flushed_output,
+            is_running=True,
+        )
+        self._flush_timer = None
+
+    def flush_handler(self):
+        if not self._message or self._finished:
+            return
+        # noinspection PyProtectedMember
+        self._flushed_output = app.ctx._output
+        if self._flush_timer:
+            # flush already scheduled, will print the latest output
+            return
+        self._flush_timer = asyncio.create_task(self._wait_and_flush())
+
+    def set_finished(self):
+        if self._flush_timer:
+            self._flush_timer.cancel()
+        self._finished = True
 
 
 async def tgpy_eval(
@@ -32,8 +75,13 @@ async def tgpy_eval(
         else:
             raise ValueError('Invalid code provided')
 
+    if message:
+        await message_design.edit_message(message, code, is_running=True)
+
+    flusher = Flusher(code, message)
+
     # noinspection PyProtectedMember
-    app.ctx._init_stdout()
+    app.ctx._init_stdio(flusher.flush_handler)
     kwargs = {'msg': message}
     if message:
         # noinspection PyProtectedMember
@@ -50,13 +98,16 @@ async def tgpy_eval(
         else:
             kwargs['orig'] = None
 
-    new_variables, result = await _meval(
-        parsed,
-        filename,
-        tgpy.api.variables,
-        **tgpy.api.constants,
-        **kwargs,
-    )
+    try:
+        new_variables, result = await _meval(
+            parsed,
+            filename,
+            tgpy.api.variables,
+            **tgpy.api.constants,
+            **kwargs,
+        )
+    finally:
+        flusher.set_finished()
     if '__all__' in new_variables:
         new_variables = {
             k: v for k, v in new_variables.items() if k in new_variables['__all__']
@@ -66,7 +117,7 @@ async def tgpy_eval(
     # noinspection PyProtectedMember
     return EvalResult(
         result=result,
-        output=app.ctx._stdout,
+        output=app.ctx._output,
     )
 
 
