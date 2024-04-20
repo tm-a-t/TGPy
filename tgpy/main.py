@@ -14,7 +14,7 @@ from yaml import YAMLError
 
 from tgpy import app
 from tgpy._handlers import add_handlers
-from tgpy.api import DATA_DIR, MODULES_DIR, config
+from tgpy.api import DATA_DIR, MODULES_DIR, WORKDIR, config
 from tgpy.modules import run_modules, serialize_module
 from tgpy.utils import SESSION_FILENAME, create_config_dirs
 
@@ -158,6 +158,7 @@ def migrate_config():
 
 async def _async_main():
     create_config_dirs()
+    os.chdir(WORKDIR)
     migrate_hooks_to_modules()
 
     config.load()

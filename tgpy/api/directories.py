@@ -4,7 +4,7 @@ from pathlib import Path
 import appdirs
 
 if env_tgpy_data := os.getenv('TGPY_DATA'):
-    DATA_DIR = Path(env_tgpy_data)
+    DATA_DIR = Path(env_tgpy_data).absolute()
 else:
     # noinspection PyTypeChecker
     DATA_DIR = Path(appdirs.user_config_dir('tgpy', appauthor=False))
