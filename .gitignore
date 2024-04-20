@@ -13,3 +13,5 @@ config.yaml
 
 guide/site
 guide/.cache
+
+.direnv/

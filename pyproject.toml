@@ -44,10 +44,17 @@ telethon-v1-24 = "^1.24.14"
 python-socks = {extras = ["asyncio"], version = "^2.4.3"}
 cryptg-anyos = "^0.4.1"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 python-semantic-release = "^7.31.2"
 black = "^22.6.0"
 isort = "^5.10.1"
+
+[tool.poetry.group.guide.dependencies]
+mkdocs-material = "^9.5.18"
+mkdocs-git-revision-date-localized-plugin = "^1.2.4"
+mkdocs-redirects = "^1.2.1"
+pillow = "^10.3.0"
+cairosvg = "^2.7.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
