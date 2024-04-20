@@ -78,7 +78,7 @@ async def run_modules():
             await module.run()
         except Exception:
             logger.error(f'Error during running module {module.name!r}')
-            logger.error(''.join(format_traceback()))
+            logger.error(format_traceback()[1])
             continue
 
 

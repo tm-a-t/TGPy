@@ -44,9 +44,12 @@ async def edit_message(
     traceback: str = '',
     output: str = '',
 ) -> Message:
-    if result is None and output:
+    if not result and output:
         result = output
         output = ''
+    if not result and traceback:
+        result = traceback
+        traceback = ''
 
     title = Utf16CodepointsWrapper(TITLE)
     parts = [
