@@ -1896,13 +1896,13 @@ files = [
 
 [[package]]
 name = "telethon-v1-24"
-version = "1.24.14"
+version = "1.24.16"
 description = "Updated fork of 1.24 branch of Telethon, primarily used by TGPy"
 optional = false
 python-versions = ">=3.5"
 files = [
-    {file = "Telethon-v1.24-1.24.14.tar.gz", hash = "sha256:81f8c464d4ab97589284acc907647a5b61b50a2053dedba22717fa7473b08ee6"},
-    {file = "Telethon_v1.24-1.24.14-py3-none-any.whl", hash = "sha256:37f9142d675994f8f11ba219c3fd3c71062aa224a8b5c1fac04adf0501a1d2a8"},
+    {file = "Telethon-v1.24-1.24.16.tar.gz", hash = "sha256:40703962764d4d0e1b30bf06ab6b49ca4624252d891555e4e07430c62d410c83"},
+    {file = "Telethon_v1.24-1.24.16-py3-none-any.whl", hash = "sha256:cd8c2c49372f8a680176159b6844e72b5fa50319a90d208318bc2bed3206c47a"},
 ]
 
 [package.dependencies]
@@ -2120,4 +2120,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "4979ca98026b272dbaa4191b148d412fd0c3c246bdeaf458d6674fbf78051563"
+content-hash = "4fab35780c57fceba24f26527a6166135f3d5ee169206d008ed2fe465f52ee0c"
