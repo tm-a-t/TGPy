@@ -87,6 +87,9 @@ jobs:
         with:
           path: .venv
           key: app-${{ runner.os }}-python-${{ env.pythonLocation }}-${{ hashFiles('poetry.lock') }}
+      - name: Install dependencies
+        run: poetry install
+        if: steps.load-cache.outputs.cache-hit != 'true'
 
       - name: Release
         shell: bash
