@@ -2,6 +2,20 @@
 
 <!--next-version-placeholder-->
 
+## v0.15.0 (2024-04-28)
+
+### Feature
+
+* **Telethon:** Layer 179 ([`010f4ef`](https://github.com/tm-a-t/TGPy/commit/010f4ef4b17b40f46a99119777f216d1ee79debd))
+* Cd to DATA_DIR/workdir on tgpy start ([`f51dc84`](https://github.com/tm-a-t/TGPy/commit/f51dc8477ba116ad9132dd2a65c0f7630415c357))
+* Real time progress feedback ([`8e85d7a`](https://github.com/tm-a-t/TGPy/commit/8e85d7a585f89c9c1dc0eba498390ad475e7c439))
+* Stop running message execution on `cancel`, add `stop` command to only stop execution without blacklisting the message ([`547c1c6`](https://github.com/tm-a-t/TGPy/commit/547c1c6d158e113f9ca63c8d0b87eb69a527d6af))
+* Truncate exceptions ([#39](https://github.com/tm-a-t/TGPy/issues/39)) ([`739fbbc`](https://github.com/tm-a-t/TGPy/commit/739fbbcdc2f96ed54a10620f87049b0107c14cc6))
+
+### Documentation
+
+* Reset page scale back to normal ([`20ec126`](https://github.com/tm-a-t/TGPy/commit/20ec1266f03d9f5d0e87deba93bfdf1d43cb1b5d))
+
 ## v0.14.1 (2024-03-09)
 
 ### Fix
