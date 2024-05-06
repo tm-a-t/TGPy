@@ -30,7 +30,7 @@ def restart(msg: str | None = 'Restarted successfully'):
         priority=0,
     )
     module.save()
-    os.execl(sys.executable, sys.executable, '-m', 'tgpy', *sys.argv[1:])
+    os.execl(sys.executable, sys.executable, *sys.argv)
 
 
 __all__ = ['restart']
