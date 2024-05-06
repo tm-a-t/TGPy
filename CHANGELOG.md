@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v0.15.1 (2024-05-06)
+
+### Fix
+
+* Config is no longer erased when it fails to save. Also, the config is saved synchronously now ([`df539a3`](https://github.com/tm-a-t/TGPy/commit/df539a3dd32d73528e9800e2efe7b2099a5aa4a4))
+* Restart now works correctly when tgpy is not in PYTHONPATH (e.g. in a container) ([`16d3830`](https://github.com/tm-a-t/TGPy/commit/16d383079b1bd48dabad8c7c562e5835f595d915))
+* The correct data directory is now used when TGPY_DATA is set to a relative path and restart is called ([`f483d6c`](https://github.com/tm-a-t/TGPy/commit/f483d6c1e9b0c1bc0f79f0a31f477637d163d696))
+
 ## v0.15.0 (2024-04-28)
 
 ### Feature

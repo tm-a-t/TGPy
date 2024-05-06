@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tgpy"
-version = "0.15.0"
+version = "0.15.1"
 description = "Run Python code right in your Telegram messages"
 authors = ["tmat <a@tmat.me>", "vanutp <hello@vanutp.dev>", "ntonee <a12286@yandex.com>"]
 license = "MIT"
