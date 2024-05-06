@@ -49,12 +49,8 @@ class Config:
         except FileNotFoundError:
             self.__data = {}
 
-    def _save(self):
-        with open(CONFIG_FILENAME, 'w') as file:
-            yaml.safe_dump(self.__data, file)
-
     def save(self):
-        Thread(target=self._save).start()
+        CONFIG_FILENAME.write_text(yaml.safe_dump(self.__data))
 
 
 config = Config()
