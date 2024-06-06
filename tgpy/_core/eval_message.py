@@ -1,5 +1,6 @@
 import asyncio
 from asyncio import Task
+from contextvars import copy_context
 
 from telethon.errors import MessageIdInvalidError
 from telethon.tl.custom import Message
@@ -13,7 +14,8 @@ running_messages: dict[tuple[int, int], Task] = {}
 
 
 async def eval_message(code: str, message: Message) -> Message | None:
-    task = asyncio.create_task(tgpy_eval(code, message, filename=None))
+    eval_ctx = copy_context()
+    task = asyncio.create_task(tgpy_eval(code, message, filename=None), context=eval_ctx)
     running_messages[(message.chat_id, message.id)] = task
     # noinspection PyBroadException
     try:
@@ -27,7 +29,7 @@ async def eval_message(code: str, message: Message) -> Message | None:
         output = ''
         exc, constants['exc'] = format_traceback()
     else:
-        if app.ctx.is_manual_output:
+        if eval_ctx.run(lambda: app.ctx.is_manual_output):
             return
         result = convert_result(eval_result.result)
         output = eval_result.output

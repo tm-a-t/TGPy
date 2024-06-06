@@ -47,7 +47,7 @@ class Flusher:
         self._flush_timer = None
 
     def flush_handler(self):
-        if not self._message or self._finished:
+        if not self._message or self._finished or app.ctx.is_manual_output:
             return
         # noinspection PyProtectedMember
         self._flushed_output = app.ctx._output
