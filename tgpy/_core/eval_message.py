@@ -15,7 +15,9 @@ running_messages: dict[tuple[int, int], Task] = {}
 
 async def eval_message(code: str, message: Message) -> Message | None:
     eval_ctx = copy_context()
-    task = asyncio.create_task(tgpy_eval(code, message, filename=None), context=eval_ctx)
+    task = asyncio.create_task(
+        tgpy_eval(code, message, filename=None), context=eval_ctx
+    )
     running_messages[(message.chat_id, message.id)] = task
     # noinspection PyBroadException
     try:
