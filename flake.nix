@@ -47,16 +47,24 @@
           default = self'.packages.tgpy;
         };
 
-        devShells.default = ((inputs.poetry2nix.lib.mkPoetry2Nix { inherit pkgs; }).mkPoetryEnv {
-          projectDir = ./.;
-          preferWheels = true;
-          groups = [ "dev" "guide" ];
-        }).overrideAttrs (old: {
-          nativeBuildInputs = with pkgs; [
-            poetry
-            python3Packages.python-lsp-server
-          ];
-        });
+        devShells.default =
+          let
+            poetry2nix = inputs.poetry2nix.lib.mkPoetry2Nix { inherit pkgs; };
+          in
+          (poetry2nix.mkPoetryEnv {
+            projectDir = ./.;
+            preferWheels = true;
+            groups = [ "dev" "guide" ];
+            overrides = poetry2nix.overrides.withDefaults (final: prev: {
+              cairocffi = pkgs.python3Packages.cairocffi;
+              mkdocs-material = pkgs.python3Packages.mkdocs-material;
+            });
+          }).overrideAttrs (old: {
+            nativeBuildInputs = with pkgs; [
+              poetry
+              python3Packages.python-lsp-server
+            ];
+          });
 
         formatter = pkgs.nixpkgs-fmt;
       };
