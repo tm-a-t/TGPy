@@ -149,3 +149,7 @@ If you require proxy to connect to Telegram, do the following:
            password: ...
    ```
 3. Run TGPy normally
+
+## API secrets as environment variables
+
+It's possible to provide Telegram API ID and hash through environment variables `TGPY_API_ID` and `TGPY_API_HASH`.
