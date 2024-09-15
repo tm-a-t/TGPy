@@ -1,8 +1,8 @@
 {
-  description = "Run Python code snippets within your Telegram messages";
+  description = "Description for the project";
 
   inputs = {
-    flake-utils.url = "github:numtide/flake-utils";
+    flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     poetry2nix = {
       url = "github:nix-community/poetry2nix";
@@ -10,43 +10,53 @@
     };
   };
 
-  outputs =
-    { self
-    , nixpkgs
-    , flake-utils
-    , ...
-    }@inputs:
-    {
-      lib.mkTgpy =
-        { system ? null
-        , pkgs ? import nixpkgs { inherit system; }
-        , poetry2nix ? inputs.poetry2nix.lib.mkPoetry2Nix { inherit pkgs; }
-        }: poetry2nix.mkPoetryApplication {
-          projectDir = ./.;
-          preferWheels = true;
-        };
-    } //
-    flake-utils.lib.eachDefaultSystem (
-      system:
-      let
-        pkgs = import nixpkgs { inherit system; };
-        poetry2nix = inputs.poetry2nix.lib.mkPoetry2Nix { inherit pkgs; };
-      in
-      {
-        packages = rec {
-          tgpy = self.lib.mkTgpy { inherit system; };
-          default = tgpy;
+  outputs = inputs@{ nixpkgs, flake-parts, ... }:
+    let
+      readMetadata = { lib }: (
+        let pyproject = builtins.fromTOML (
+          builtins.readFile ./pyproject.toml
+        ); in
+        (with pyproject.tool.poetry; {
+          inherit description;
+          homepage = documentation;
+          license = lib.meta.getLicenseFromSpdxId license;
+        })
+      );
+    in
+    flake-parts.lib.mkFlake { inherit inputs; } rec {
+      flake = {
+        lib.mkTgpy =
+          { system ? null
+          , pkgs ? import nixpkgs { inherit system; }
+          , poetry2nix ? inputs.poetry2nix.lib.mkPoetry2Nix { inherit pkgs; }
+          }: poetry2nix.mkPoetryApplication {
+            projectDir = ./.;
+            preferWheels = true;
+            meta = readMetadata { lib = pkgs.lib; };
+          };
+      };
+
+      systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
+      perSystem = { self', inputs', pkgs, ... }: {
+        packages = {
+          tgpy = flake.lib.mkTgpy {
+            inherit pkgs;
+          };
+          default = self'.packages.tgpy;
         };
 
-        devShells.default = (poetry2nix.mkPoetryEnv {
+        devShells.default = ((inputs'.poetry2nix.lib.mkPoetry2nix { inherit pkgs; }).mkPoetryEnv {
           projectDir = ./.;
           preferWheels = true;
+          groups = [ "dev" "guide" ];
         }).overrideAttrs (old: {
           nativeBuildInputs = with pkgs; [
             poetry
             python3Packages.python-lsp-server
           ];
         });
-      }
-    );
+
+        formatter = pkgs.nixpkgs-fmt;
+      };
+    };
 }
