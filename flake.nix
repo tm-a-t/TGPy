@@ -63,6 +63,7 @@
             nativeBuildInputs = with pkgs; [
               poetry
               python3Packages.python-lsp-server
+              python3Packages.mkdocs
             ];
           });
 
