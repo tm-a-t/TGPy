@@ -54,17 +54,19 @@
           (poetry2nix.mkPoetryEnv {
             projectDir = ./.;
             preferWheels = true;
-            groups = [ "dev" "guide" ];
-            overrides = poetry2nix.overrides.withDefaults (final: prev: {
-              cairocffi = pkgs.python3Packages.cairocffi;
-              mkdocs-material = pkgs.python3Packages.mkdocs-material;
-            });
+            groups = [ "dev" ];
           }).overrideAttrs (old: {
             nativeBuildInputs = with pkgs; [
               poetry
               python3Packages.python-lsp-server
-              python3Packages.mkdocs
-            ];
+            ] ++ (with pkgs.python3Packages; [
+              mkdocs
+              mkdocs-material
+              mkdocs-redirects
+              mkdocs-git-revision-date-localized-plugin
+              cairosvg
+              pillow
+            ]);
           });
 
         formatter = pkgs.nixpkgs-fmt;
