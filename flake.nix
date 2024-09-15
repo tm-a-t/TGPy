@@ -1,8 +1,8 @@
 {
-  description = "Run Python code snippets within your Telegram messages";
+  description = "Run Python code right in your Telegram messages";
 
   inputs = {
-    flake-utils.url = "github:numtide/flake-utils";
+    flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     poetry2nix = {
       url = "github:nix-community/poetry2nix";
@@ -10,52 +10,66 @@
     };
   };
 
-  outputs =
-    {
-      self,
-      nixpkgs,
-      flake-utils,
-      poetry2nix,
-    }:
-    flake-utils.lib.eachDefaultSystem (
-      system:
-      let
-        pkgs = import nixpkgs { inherit system; };
-        p2n = poetry2nix.lib.mkPoetry2Nix { inherit pkgs; };
-
-        buildTgpy =
-          pkgs:
-          dev:
-          builtins.trace "Not all features are supported due to the nature of nix" p2n.mkPoetryApplication {
+  outputs = inputs@{ nixpkgs, flake-parts, ... }:
+    let
+      readMetadata = { lib }: (
+        let
+          pyproject = builtins.fromTOML (
+            builtins.readFile ./pyproject.toml
+          );
+        in
+        (with pyproject.tool.poetry; {
+          inherit description;
+          homepage = documentation;
+          license = lib.meta.getLicenseFromSpdxId license;
+        })
+      );
+    in
+    flake-parts.lib.mkFlake { inherit inputs; } rec {
+      flake = {
+        lib.mkTgpy =
+          { system ? null
+          , pkgs ? import nixpkgs { inherit system; }
+          , poetry2nix ? inputs.poetry2nix.lib.mkPoetry2Nix { inherit pkgs; }
+          }: poetry2nix.mkPoetryApplication {
             projectDir = ./.;
             preferWheels = true;
-            groups = if dev then [ "dev" "guide" ] else [];
+            meta = readMetadata { lib = pkgs.lib; };
           };
+      };
 
-        buildTgpyImage =
-          pkgs:
-          pkgs.dockerTools.buildLayeredImage {
-            name = "tgpy_image";
-            contents = [ (buildTgpy pkgs false) ];
-            created = "now";
-            config = {
-              Cmd = [ "tgpy" ];
-            };
-          };
-      in
-      {
+      systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
+      perSystem = { self', pkgs, ... }: {
         packages = {
-          tgpy = buildTgpy pkgs false;
-          tgpyImage = buildTgpyImage pkgs;
-          tgpyImage-aarch64Linux = buildTgpyImage pkgs.pkgsCross.aarch64-multiplatform;
-          tgpyImage-x86_64Linux = buildTgpyImage pkgs.pkgsCross.gnu64;
-          default = self.packages.${system}.tgpy;
+          tgpy = flake.lib.mkTgpy {
+            inherit pkgs;
+          };
+          default = self'.packages.tgpy;
         };
 
-        devShells.default = pkgs.mkShell {
-          inputsFrom = [ (buildTgpy pkgs true) ];
-          packages = [ pkgs.poetry ];
-        };
-      }
-    );
+        devShells.default =
+          let
+            poetry2nix = inputs.poetry2nix.lib.mkPoetry2Nix { inherit pkgs; };
+          in
+          (poetry2nix.mkPoetryEnv {
+            projectDir = ./.;
+            preferWheels = true;
+            groups = [ "dev" ];
+          }).overrideAttrs (old: {
+            nativeBuildInputs = with pkgs; [
+              poetry
+              python3Packages.python-lsp-server
+            ] ++ (with pkgs.python3Packages; [
+              mkdocs
+              mkdocs-material
+              mkdocs-redirects
+              mkdocs-git-revision-date-localized-plugin
+              cairosvg
+              pillow
+            ]);
+          });
+
+        formatter = pkgs.nixpkgs-fmt;
+      };
+    };
 }
