@@ -13,9 +13,11 @@
   outputs = inputs@{ nixpkgs, flake-parts, ... }:
     let
       readMetadata = { lib }: (
-        let pyproject = builtins.fromTOML (
-          builtins.readFile ./pyproject.toml
-        ); in
+        let
+          pyproject = builtins.fromTOML (
+            builtins.readFile ./pyproject.toml
+          );
+        in
         (with pyproject.tool.poetry; {
           inherit description;
           homepage = documentation;
@@ -37,7 +39,7 @@
       };
 
       systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
-      perSystem = { self', inputs', pkgs, ... }: {
+      perSystem = { self', pkgs, ... }: {
         packages = {
           tgpy = flake.lib.mkTgpy {
             inherit pkgs;
