@@ -1,7 +1,7 @@
 import asyncio
 import functools
 import logging
-import os.path
+import os
 import platform
 import subprocess
 import sys
@@ -33,6 +33,14 @@ async def ainput(prompt: str, password: bool = False):
     )
 
 
+def get_api_id() -> str | None:
+    return os.getenv('TGPY_API_ID') or config.get('core.api_id')
+
+
+def get_api_hash() -> str | None:
+    return os.getenv('TGPY_API_HASH') or config.get('core.api_hash')
+
+
 def create_client():
     device_model = None
     if sys.platform == 'linux':
@@ -54,8 +62,8 @@ def create_client():
 
     client = TelegramClient(
         str(SESSION_FILENAME),
-        config.get('core.api_id'),
-        config.get('core.api_hash'),
+        get_api_id(),
+        get_api_hash(),
         device_model=device_model,
         system_version=platform.platform(),
         lang_code='en',
@@ -163,7 +171,7 @@ async def _async_main():
 
     config.load()
     migrate_config()
-    if not (config.get('core.api_id') and config.get('core.api_hash')):
+    if not (get_api_id() and get_api_hash()):
         await initial_setup()
 
     logger.info('Starting TGPy...')
