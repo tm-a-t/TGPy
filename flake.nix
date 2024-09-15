@@ -1,5 +1,5 @@
 {
-  description = "Description for the project";
+  description = "Run Python code right in your Telegram messages";
 
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
@@ -45,7 +45,7 @@
           default = self'.packages.tgpy;
         };
 
-        devShells.default = ((inputs'.poetry2nix.lib.mkPoetry2nix { inherit pkgs; }).mkPoetryEnv {
+        devShells.default = ((inputs.poetry2nix.lib.mkPoetry2Nix { inherit pkgs; }).mkPoetryEnv {
           projectDir = ./.;
           preferWheels = true;
           groups = [ "dev" "guide" ];
