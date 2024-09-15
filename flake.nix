@@ -11,51 +11,32 @@
   };
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      flake-utils,
-      poetry2nix,
+    { self
+    , nixpkgs
+    , flake-utils
+    , poetry2nix
     }:
     flake-utils.lib.eachDefaultSystem (
       system:
       let
         pkgs = import nixpkgs { inherit system; };
         p2n = poetry2nix.lib.mkPoetry2Nix { inherit pkgs; };
-
-        buildTgpy =
-          pkgs:
-          dev:
-          builtins.trace "Not all features are supported due to the nature of nix" p2n.mkPoetryApplication {
-            projectDir = ./.;
-            preferWheels = true;
-            groups = if dev then [ "dev" "guide" ] else [];
-          };
-
-        buildTgpyImage =
-          pkgs:
-          pkgs.dockerTools.buildLayeredImage {
-            name = "tgpy_image";
-            contents = [ (buildTgpy pkgs false) ];
-            created = "now";
-            config = {
-              Cmd = [ "tgpy" ];
-            };
-          };
       in
       {
-        packages = {
-          tgpy = buildTgpy pkgs false;
-          tgpyImage = buildTgpyImage pkgs;
-          tgpyImage-aarch64Linux = buildTgpyImage pkgs.pkgsCross.aarch64-multiplatform;
-          tgpyImage-x86_64Linux = buildTgpyImage pkgs.pkgsCross.gnu64;
-          default = self.packages.${system}.tgpy;
+        packages = rec {
+          tgpy = p2n.mkPoetryApplication {
+            projectDir = ./.;
+            preferWheels = true;
+          };
+          default = tgpy;
         };
 
-        devShells.default = pkgs.mkShell {
-          inputsFrom = [ (buildTgpy pkgs true) ];
-          packages = [ pkgs.poetry ];
-        };
+        devShells.default = (p2n.mkPoetryEnv {
+          projectDir = ./.;
+          preferWheels = true;
+        }).overrideAttrs (old: {
+          nativeBuildInputs = [ pkgs.poetry ];
+        });
       }
     );
 }
