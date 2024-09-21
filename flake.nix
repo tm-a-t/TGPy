@@ -26,15 +26,37 @@
       );
     in
     flake-parts.lib.mkFlake { inherit inputs; } rec {
-      flake = {
+      flake = rec {
+        lib.mkPackageRequirements =
+          { overrides, requirements }:
+          overrides.extend (final: prev:
+            builtins.mapAttrs (package: reqs:
+              (builtins.getAttr package prev).overridePythonAttrs (old: {
+                buildInputs = (old.buildInputs or [ ]) ++ (builtins.map (pkg: prev.${pkg}) reqs);
+              })
+            ) requirements
+          );
         lib.mkTgpy =
           { system ? null
           , pkgs ? import nixpkgs { inherit system; }
           , poetry2nix ? inputs.poetry2nix.lib.mkPoetry2Nix { inherit pkgs; }
           }: poetry2nix.mkPoetryApplication {
             projectDir = ./.;
-            preferWheels = true;
+            preferWheels = false;
             meta = readMetadata { lib = pkgs.lib; };
+            overrides = lib.mkPackageRequirements {
+              overrides = poetry2nix.defaultPoetryOverrides.extend (self: super: {
+                cryptg-anyos = super.cryptg-anyos.override {
+                  preferWheel = true;
+                };
+                nh3 = import ./nix/nh3overrides.nix { inherit self super pkgs; };
+              });
+              requirements = {
+                telethon-v1-24 = [ "setuptools" ];
+                pipreqs = [ "setuptools" ];
+                python-semantic-release = [ "setuptools" ];
+              };
+            };
           };
       };
 
