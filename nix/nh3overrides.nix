@@ -1,4 +1,4 @@
-{ self, super, pkgs }:
+{ super, pkgs, ... }:
 super.nh3.overridePythonAttrs (old: {
   cargoDeps = pkgs.rustPlatform.fetchCargoTarball {
     inherit (old) src;
@@ -8,9 +8,7 @@ super.nh3.overridePythonAttrs (old: {
   buildInputs = old.buildInputs or [ ] ++ (pkgs.lib.optionals super.stdenv.isDarwin [
     pkgs.libiconv
   ]);
-  nativeBuildInputs = old.nativeBuildInputs or [ ] ++ [
-    self.setuptools-rust
-  ] ++ (with pkgs.rustPlatform; [
+  nativeBuildInputs = old.nativeBuildInputs or [ ] ++ (with pkgs.rustPlatform; [
     cargoSetupHook
     maturinBuildHook
     pkgs.cargo
