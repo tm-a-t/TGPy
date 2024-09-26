@@ -14,7 +14,11 @@ class MessageParseResult:
 
 def parse_tgpy_message(message: Message) -> MessageParseResult:
     e = get_title_entity(message)
-    if not e:
+    if (
+        not e
+        # Likely a `TGPy error>` message
+        or e.offset == 0
+    ):
         return MessageParseResult(False, None, None)
     msg_text = Utf16CodepointsWrapper(message.raw_text)
     code = msg_text[: e.offset].strip()
