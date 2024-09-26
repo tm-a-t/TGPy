@@ -2,6 +2,22 @@
 
 <!--next-version-placeholder-->
 
+## v0.16.0 (2024-09-26)
+
+### Feature
+
+* Telegram API ID and hash now can be loaded from environment ([`9c22347`](https://github.com/tm-a-t/TGPy/commit/9c223473c507257d25a77ecea566d830965d7c8f))
+
+### Fix
+
+* Parse_tgpy_message no longer returns positive result for `TGPy error>` messages ([`818e47d`](https://github.com/tm-a-t/TGPy/commit/818e47dce360240b29e51676633d276480d9b8f8))
+* Sending `cancel` in comments and topics now works correctly. Fix `cancel` throwing error when the message is not a TGPy message ([`1d3ba1a`](https://github.com/tm-a-t/TGPy/commit/1d3ba1ab583f7408f9f2854d22bfcf7fc7e96ae7))
+* Ctx.is_manual_output is fixed ([`2e591f5`](https://github.com/tm-a-t/TGPy/commit/2e591f5ff84dd4434356772005e65474371acd55))
+
+### Documentation
+
+* Describe loading of API secrets from env in guide ([`eb2a023`](https://github.com/tm-a-t/TGPy/commit/eb2a0230d4e0096d74781579dc9682f7ed9effd9))
+
 ## v0.15.1 (2024-05-06)
 
 ### Fix
