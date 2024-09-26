@@ -8,6 +8,7 @@ import re
 
 from telethon import TelegramClient
 from telethon.tl.custom import Message
+from telethon.tl.types import MessageActionTopicCreate, MessageService
 
 import tgpy.api
 from tgpy import Context, reactions_fix
@@ -22,11 +23,13 @@ CANCEL_RGX = re.compile(r'(?i)^(cancel|сфтсуд)$')
 INTERRUPT_RGX = re.compile(r'(?i)^(stop|ыещз)$')
 
 
-async def cancel_message(message: Message, permanent: bool = True) -> None:
+async def cancel_message(message: Message, permanent: bool = True) -> bool:
     parsed = tgpy.api.parse_tgpy_message(message)
 
     if task := running_messages.get((message.chat_id, message.id)):
         task.cancel()
+    if not parsed.is_tgpy_message:
+        return False
     message = await message.edit(parsed.code)
 
     if permanent:
@@ -36,12 +39,37 @@ async def cancel_message(message: Message, permanent: bool = True) -> None:
     else:
         reactions_fix.update_hash(message)
 
+    return True
+
 
 async def handle_cancel(message: Message, permanent: bool = True):
-    target: Message = await message.get_reply_message()
+    target: Message | None = await message.get_reply_message()
+    thread_id = None
+
+    if (
+        target
+        and target.fwd_from
+        and target.fwd_from.from_id == target.from_id
+        and target.fwd_from.saved_from_peer == target.from_id
+    ):
+        # Message from bound channel. Probably sent cancel from comments.
+        # Searching for messages to cancel only in this comment thread
+        thread_id = target.id
+        target = None
+
+    if (
+        target
+        and isinstance(target, MessageService)
+        and isinstance(target.action, MessageActionTopicCreate)
+    ):
+        # Message sent to a topic (without replying to any other message).
+        # Searching for messages to cancel only in this topic
+        thread_id = target.id
+        target = None
+
     if not target:
         async for msg in client.iter_messages(
-            message.chat_id, max_id=message.id, limit=10
+            message.chat_id, max_id=message.id, reply_to=thread_id, limit=10
         ):
             if not msg.out:
                 continue
@@ -53,8 +81,8 @@ async def handle_cancel(message: Message, permanent: bool = True):
     if not target:
         return
 
-    await cancel_message(target, permanent)
-    await message.delete()
+    if await cancel_message(target, permanent):
+        await message.delete()
 
 
 async def handle_comment(message: Message):
