@@ -29,6 +29,7 @@ ENV PATH="/venv/bin:$PATH"
 COPY --from=builder /app /app
 
 ENV TGPY_DATA=/data
+ENV PYTHONPATH=/app
 VOLUME /data
 
 ENTRYPOINT ["/app/entrypoint.sh"]
