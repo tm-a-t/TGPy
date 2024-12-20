@@ -1,24 +1,49 @@
-[tool.poetry]
+[project]
 name = "tgpy"
 version = "0.16.0"
 description = "Run Python code right in your Telegram messages"
-authors = ["tmat <a@tmat.me>", "vanutp <hello@vanutp.dev>", "ntonee <a12286@yandex.com>"]
-license = "MIT"
+readme = "README.md"
+requires-python = ">=3.10,<4"
+license = { file = "LICENSE" }
+classifiers = [
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Development Status :: 4 - Beta",
+]
+authors = [
+    { name = "tmat", email = "a@tmat.me" },
+    { name = "vanutp", email = "hello@vanutp.dev" },
+    { name = "ntonee", email = "a12286@yandex.com" },
+]
+dependencies = [
+    "PyYAML~=6.0",
+    "aiorun~=2023.7.2",
+    "rich~=13.7.1",
+    "appdirs~=1.4.4",
+    "telethon-v1-24~=1.24.16",
+    "python-socks[asyncio]~=2.4.3",
+    "cryptg-anyos~=0.4.1",
+]
+
+[dependency-groups]
+dev = ["black~=22.6.0", "isort~=5.10.1"]
+guide = [
+    "mkdocs-material~=9.5.18",
+    "mkdocs-git-revision-date-localized-plugin~=1.2.4",
+    "mkdocs-redirects~=1.2.1",
+    "pillow~=10.3.0",
+    "cairosvg~=2.7.1",
+]
+
+[project.urls]
 documentation = "https://tgpy.tmat.me/"
 repository = "https://github.com/tm-a-t/TGPy/"
-readme = "README.md"
-classifiers = [
-    "Operating System :: OS Independent"
-]
 
-[tool.poetry.scripts]
-tgpy = 'tgpy.main:main'
+[project.scripts]
+tgpy = "tgpy.main:main"
 
 [tool.semantic_release]
-version_variable = [
-    "tgpy/version.py:__version__",
-    "pyproject.toml:version"
-]
+version_variable = ["tgpy/version.py:__version__", "pyproject.toml:version"]
 branch = "master"
 upload_to_repository = true
 upload_to_release = true
@@ -34,28 +59,9 @@ include = '/tgpy/.*\.pyi?$'
 profile = "black"
 src_paths = ["tgpy"]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-PyYAML = "^6.0"
-aiorun = "^2023.7.2"
-rich = "^12.5.1"
-appdirs = "^1.4.4"
-telethon-v1-24 = "^1.24.16"
-python-socks = {extras = ["asyncio"], version = "^2.4.3"}
-cryptg-anyos = "^0.4.1"
-
-[tool.poetry.group.dev.dependencies]
-python-semantic-release = "^7.31.2"
-black = "^22.6.0"
-isort = "^5.10.1"
-
-[tool.poetry.group.guide.dependencies]
-mkdocs-material = "^9.5.18"
-mkdocs-git-revision-date-localized-plugin = "^1.2.4"
-mkdocs-redirects = "^1.2.1"
-pillow = "^10.3.0"
-cairosvg = "^2.7.1"
+[tool.poetry.group.release.dependencies]
+python-semantic-release = "^9.15.2"
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["flit-core>=3.4,<4"]
+build-backend = "flit_core.buildapi"

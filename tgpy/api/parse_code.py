@@ -27,7 +27,8 @@ def _is_node_unknown_variable(node: ast.AST, locs: dict) -> bool:
 
 def _is_node_suspicious_binop(node: ast.AST, locs: dict) -> bool:
     """Check if AST node can be an operand of binary operation (ast.BinOp, ast.Compare, ast.BoolOp)
-    with operands which do not pass _is_node_unknown_variable check, or is such operation"""
+    with operands which do not pass _is_node_unknown_variable check, or is such operation
+    """
     if _is_node_unknown_variable(node, locs):
         return True
     if not isinstance(node, (ast.BoolOp, ast.BinOp, ast.Compare)):
