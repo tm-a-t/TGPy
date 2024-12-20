@@ -2,42 +2,41 @@ name: Lint & release project
 on:
   push:
     paths:
-      - 'pyproject.toml'
-      - 'poetry.lock'
-      - 'tgpy/**'
-      - '.github/workflows/main.yml'
-      - '.github/workflows/docker.yml'
+      - "pyproject.toml"
+      - "poetry.lock"
+      - "tgpy/**"
+      - ".github/workflows/main.yml"
+      - ".github/workflows/docker.yml"
   pull_request:
     paths:
-      - 'pyproject.toml'
-      - 'poetry.lock'
-      - 'tgpy/**'
-      - '.github/workflows/main.yml'
-      - '.github/workflows/docker.yml'
+      - "pyproject.toml"
+      - "poetry.lock"
+      - "tgpy/**"
+      - ".github/workflows/main.yml"
+      - ".github/workflows/docker.yml"
   workflow_dispatch: {}
 
 jobs:
-  Lint:
+  lint:
     runs-on: ubuntu-latest
+    name: Lint
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-        with:
-          python-version: '3.10'
-      - name: Install poetry
-        shell: bash
-        run: |
-          pip install poetry
-          poetry config virtualenvs.in-project true
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - uses: nicknovitski/nix-develop@9be7cfb4b10451d3390a75dc18ad0465bed4932a
 
       - name: Load dependency cache
         id: load-cache
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: .venv
           key: app-${{ runner.os }}-python-${{ env.pythonLocation }}-${{ hashFiles('poetry.lock') }}
+
       - name: Install dependencies
-        run: poetry install
+        run: |
+          poetry config virtualenvs.in-project true
+          poetry install
         if: steps.load-cache.outputs.cache-hit != 'true'
 
       - name: Check code style
@@ -63,67 +62,97 @@ jobs:
           git commit -m "style: reformat [skip ci]"
           git push
 
-  Release:
+  release:
+    name: Release
+    needs: lint
     concurrency: release
-    needs: Lint
     if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-python@v2
-        with:
-          python-version: '3.10'
-      - name: Install poetry
-        shell: bash
-        run: |
-          pip install poetry
-          poetry config virtualenvs.in-project true
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - uses: nicknovitski/nix-develop@9be7cfb4b10451d3390a75dc18ad0465bed4932a
 
       - name: Load dependency cache
         id: load-cache
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: .venv
           key: app-${{ runner.os }}-python-${{ env.pythonLocation }}-${{ hashFiles('poetry.lock') }}
+
       - name: Install dependencies
-        run: poetry install
+        run: |
+          poetry config virtualenvs.in-project true
+          poetry install --with release
         if: steps.load-cache.outputs.cache-hit != 'true'
 
-      - name: Release
-        shell: bash
+      - name: Create a release
+        id: release-version
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           source .venv/bin/activate
           git config --global user.name "github-actions"
           git config --global user.email "action@github.com"
-          export GH_TOKEN="${GITHUB_TOKEN}"
-          export REPOSITORY_USERNAME="__token__"
-          export REPOSITORY_PASSWORD="${PYPI_TOKEN}"
-          python -m semantic_release publish -D commit_author="github-actions <action@github.com>"
+          python -m semantic_release version
+          echo "version-tag=$(python -m semantic_release version --print-tag)" >> $GITHUB_OUTPUT
+
+      - name: Publish package distributions to GitHub Releases
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TAG: ${{ steps.release-version.outputs.version-tag }}
+        run: |
+          source .venv/bin/activate
+          python -m semantic_release -v publish --tag $GH_TAG
+
+      - name: Store the distribution packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
 
       - name: Save release commit hash
         id: release-commit-hash
-        run: echo "::set-output name=release-commit-hash::$(git rev-parse HEAD)"
+        run: echo "release-commit-hash=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
     outputs:
       release-commit-hash: ${{ steps.release-commit-hash.outputs.release-commit-hash }}
 
-  Build-dev-docker:
-    needs: Lint
+  publish-to-pypi:
+    name: Publish Python distribution to PyPI
+    needs: release
+    runs-on: ubuntu-latest
+
+    environment:
+      name: pypi
+      url: https://pypi.org/p/tgpy
+
+    steps:
+      - name: Download all the dists
+        uses: actions/download-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
+      - name: Publish distribution to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_TOKEN }}
+
+  build-dev-docker:
+    needs: lint
     name: Build dev docker image
     if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref != 'refs/heads/master'
     uses: ./.github/workflows/docker.yml
     secrets: inherit
 
-  Build-release-docker:
+  build-release-docker:
     name: Build release docker image
-    needs: Release
+    needs: release
     if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/master'
     uses: ./.github/workflows/docker.yml
     with:
-      commit-hash: ${{ needs.Release.outputs.release-commit-hash }}
+      commit-hash: ${{ needs.release.outputs.release-commit-hash }}
     secrets: inherit
-
