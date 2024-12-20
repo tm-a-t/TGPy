@@ -4,6 +4,7 @@ setting/removing reaction sometimes triggers message edit event.
 This bug/feature introduces a security vulnerability in TGPy,
 because message reevaluation can be triggered by other users.
 """
+
 import base64
 import json
 from enum import Enum
