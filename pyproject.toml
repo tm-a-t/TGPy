@@ -43,13 +43,10 @@ repository = "https://github.com/tm-a-t/TGPy/"
 tgpy = "tgpy.main:main"
 
 [tool.semantic_release]
-version_variable = ["tgpy/version.py:__version__", "pyproject.toml:version"]
-branch = "master"
-upload_to_repository = true
-upload_to_release = true
+version_variables = ["tgpy/version.py:__version__", "pyproject.toml:version"]
 build_command = """sed -i "s/\\(IS_DEV_BUILD *= *\\).*/\\1False/" tgpy/version.py && poetry build"""
-commit_subject = 'chore(release): v{version} [skip ci]'
-commit_message = ''
+commit_message = 'chore(release): v{version} [skip ci]'
+commit_author = "github-actions <action@github.com>"
 
 [tool.black]
 skip-string-normalization = true
