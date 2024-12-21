@@ -23,9 +23,9 @@ pkgs.poetry.overridePythonAttrs (old: {
     hash = "sha256-tBim3dlKdkcvWWGavHpv52HAZX1FvPh2S+FTKPMrZVs=";
   };
 
-  propagatedBuildInputs = builtins.map (
+  dependencies = builtins.map (
     x: if x.pname or "" == "poetry-core" then poetry-core else x
-  ) old.propagatedBuildInputs;
+  ) old.dependencies;
 
   pythonRelaxDeps = [
     "dulwich"
