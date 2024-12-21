@@ -7,16 +7,16 @@ RUN apt-get update  \
     && apt-get install -y git  \
     && rm -rf /var/lib/apt/lists/*
 
-ENV PIP_DISABLE_PIP_VERSION_CHECK=1 \
-    POETRY_VERSION=1.3.2
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1
 
 RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install poetry==$POETRY_VERSION
+    pip install git+https://github.com/python-poetry/poetry.git@625f42ef96f8321f4e1649f38e39e71cd2b09f3e \
+    && pip install poetry-plugin-export
 RUN python -m venv /venv
 
-COPY pyproject.toml poetry.lock ./
+COPY pyproject.toml poetry.lock LICENSE ./
 RUN --mount=type=cache,target=/root/.cache/pip \
-    poetry export -f requirements.txt | /venv/bin/pip install -r /dev/stdin
+    poetry export -o /tmp/requirements.txt && /venv/bin/pip install -r /tmp/requirements.txt
 
 COPY . .
 RUN sed -i "s/\(COMMIT_HASH *= *\).*/\1'$(git rev-parse HEAD)'/" tgpy/version.py
