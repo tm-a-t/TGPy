@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v0.17.1 (2024-12-21)
+
+### Bug Fixes
+
+- **build**: Fix docker build
+  ([`8afb6f6`](https://github.com/tm-a-t/TGPy/commit/8afb6f6b0cede378bb8c6d4d3fef7a8c130cd967))
+
+
 ## v0.17.0 (2024-12-21)
 
 ### Bug Fixes
@@ -25,6 +33,9 @@
 
 - Format .nix files
   ([`bac06a8`](https://github.com/tm-a-t/TGPy/commit/bac06a8dc7da0362983809870d83e30539b868d8))
+
+- **release**: V0.17.0 [skip ci]
+  ([`f3ca16f`](https://github.com/tm-a-t/TGPy/commit/f3ca16f24b56d56e787c79933c5e0db36fdf8a42))
 
 ### Features
 
