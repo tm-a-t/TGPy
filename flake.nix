@@ -11,7 +11,12 @@
   };
 
   outputs =
-    inputs@{ self, flake-parts, pyproject-nix, ... }:
+    inputs@{
+      self,
+      flake-parts,
+      pyproject-nix,
+      ...
+    }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [
         "x86_64-linux"
@@ -21,20 +26,25 @@
       ];
 
       perSystem =
-        { config, pkgs, lib, ... }:
+        {
+          config,
+          pkgs,
+          lib,
+          ...
+        }:
         let
           project = pyproject-nix.lib.project.loadPyproject {
             pyproject = lib.pipe ./pyproject.toml [
               lib.readFile
-              (lib.replaceStrings ["cryptg-anyos"] ["cryptg"])
+              (lib.replaceStrings [ "cryptg-anyos" ] [ "cryptg" ])
               builtins.fromTOML
             ];
           };
           python = pkgs.python3.override {
             packageOverrides = import ./nix/mkPackageOverrides.nix { inherit pkgs; };
           };
-          packageAttrs = import ./nix/mkPackageAttrs.nix { 
-            inherit pkgs project python; 
+          packageAttrs = import ./nix/mkPackageAttrs.nix {
+            inherit pkgs project python;
             rev = self.rev or null;
           };
         in
