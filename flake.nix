@@ -11,7 +11,7 @@
   };
 
   outputs =
-    inputs@{ flake-parts, pyproject-nix, ... }:
+    inputs@{ self, flake-parts, pyproject-nix, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [
         "x86_64-linux"
@@ -33,7 +33,10 @@
           python = pkgs.python3.override {
             packageOverrides = import ./nix/mkPackageOverrides.nix { inherit pkgs; };
           };
-          packageAttrs = import ./nix/mkPackageAttrs.nix { inherit pkgs project python; };
+          packageAttrs = import ./nix/mkPackageAttrs.nix { 
+            inherit pkgs project python; 
+            rev = self.rev or null;
+          };
         in
         {
           packages = {
