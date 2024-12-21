@@ -17,11 +17,11 @@ authors = [
 ]
 dependencies = [
     "PyYAML~=6.0",
-    "aiorun~=2023.7.2",
-    "rich~=13.7.1",
+    "aiorun>=2024.5.1",
+    "rich~=13.8.1",
     "appdirs~=1.4.4",
     "telethon-v1-24~=1.24.16",
-    "python-socks[asyncio]~=2.4.3",
+    "python-socks[asyncio]~=2.5.3",
     "cryptg-anyos~=0.4.1",
 ]
 

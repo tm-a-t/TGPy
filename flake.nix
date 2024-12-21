@@ -21,28 +21,23 @@
       ];
 
       perSystem =
-        { config, pkgs, ... }:
+        { config, pkgs, lib, ... }:
         let
           project = pyproject-nix.lib.project.loadPyproject {
-            projectRoot = ./.;
+            pyproject = lib.pipe ./pyproject.toml [
+              lib.readFile
+              (lib.replaceStrings ["cryptg-anyos"] ["cryptg"])
+              builtins.fromTOML
+            ];
           };
           python = pkgs.python3.override {
             packageOverrides = import ./nix/mkPackageOverrides.nix { inherit pkgs; };
           };
-          packageAttrs = project.renderers.buildPythonPackage { inherit python; };
+          packageAttrs = import ./nix/mkPackageAttrs.nix { inherit pkgs project python; };
         in
         {
           packages = {
-            tgpy = python.pkgs.buildPythonPackage (
-              packageAttrs
-              // {
-                meta = {
-                  license = pkgs.lib.licenses.mit;
-                  homepage = "https://tgpy.tmat.me/";
-                  pythonImportsCheck = [ "tgpy" ];
-                };
-              }
-            );
+            tgpy = python.pkgs.buildPythonPackage packageAttrs;
             default = config.packages.tgpy;
           };
 

@@ -9,16 +9,10 @@ self: super: {
     };
     doCheck = false;
   });
-  cryptg-anyos = super.cryptg.overridePythonAttrs (old: rec {
-    version = "0.4.1";
-    pname = "cryptg-anyos";
-    src = super.fetchPypi {
-      inherit version pname;
-      hash = "sha256-pXY0CfdZRDjgID78STTDrvm1wUj4z1AooUBtrSG09Qo=";
-    };
-    cargoDeps = pkgs.rustPlatform.fetchCargoTarball {
-      inherit src;
-      hash = "sha256-AqSVFOB9Lfvk9h3GtoYlEOXBEt7YZYLhCDNKM9upQ2U=";
-    };
+  mkdocs-git-revision-date-localized-plugin = super.mkdocs-git-revision-date-localized-plugin.overridePythonAttrs (old: {
+    pyproject = true;
+    format = null;
+
+    dependencies = old.propagatedBuildInputs ++ [ super.setuptools-scm ];
   });
 }
