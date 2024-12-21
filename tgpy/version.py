@@ -1,3 +1,3 @@
-__version__ = '0.16.0'
-IS_DEV_BUILD = True
+__version__ = '0.17.0'
+IS_DEV_BUILD = False
 COMMIT_HASH = None
