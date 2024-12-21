@@ -9,10 +9,12 @@ self: super: {
     };
     doCheck = false;
   });
-  mkdocs-git-revision-date-localized-plugin = super.mkdocs-git-revision-date-localized-plugin.overridePythonAttrs (old: {
-    pyproject = true;
-    format = null;
+  mkdocs-git-revision-date-localized-plugin =
+    super.mkdocs-git-revision-date-localized-plugin.overridePythonAttrs
+      (old: {
+        pyproject = true;
+        format = null;
 
-    dependencies = old.propagatedBuildInputs ++ [ super.setuptools-scm ];
-  });
+        dependencies = old.propagatedBuildInputs ++ [ super.setuptools-scm ];
+      });
 }
