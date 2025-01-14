@@ -18,21 +18,11 @@ authors = [
 dependencies = [
     "PyYAML~=6.0",
     "aiorun>=2024.5.1",
-    "rich~=13.8.1",
-    "appdirs~=1.4.4",
-    "telethon-v1-24~=1.24.16",
-    "python-socks[asyncio]~=2.5.3",
-    "cryptg-anyos~=0.4.1",
-]
-
-[dependency-groups]
-dev = ["black~=22.6.0", "isort~=5.10.1"]
-guide = [
-    "mkdocs-material~=9.5.18",
-    "mkdocs-git-revision-date-localized-plugin~=1.2.4",
-    "mkdocs-redirects~=1.2.1",
-    "pillow~=10.3.0",
-    "cairosvg~=2.7.1",
+    "rich~=13.8",
+    "appdirs~=1.4",
+    "telethon-v1-24~=1.24",
+    "python-socks[asyncio]~=2.5",
+    "cryptg-anyos~=0.4",
 ]
 
 [project.urls]
@@ -41,6 +31,20 @@ repository = "https://github.com/tm-a-t/TGPy/"
 
 [project.scripts]
 tgpy = "tgpy.main:main"
+
+[tool.poetry.group.dev.dependencies]
+black = "^22.6" 
+isort = "^5.10"
+
+[tool.poetry.group.guide.dependencies]
+mkdocs-material = "^9.5"
+mkdocs-git-revision-date-localized-plugin = "^1.2"
+mkdocs-redirects = "^1.2"
+pillow = "^10.3"
+cairosvg = "^2.7"
+
+[tool.poetry.group.release.dependencies]
+python-semantic-release = "^9.15"
 
 [tool.semantic_release]
 version_variables = ["tgpy/version.py:__version__", "pyproject.toml:version"]
@@ -56,9 +60,6 @@ include = '/tgpy/.*\.pyi?$'
 profile = "black"
 src_paths = ["tgpy"]
 
-[tool.poetry.group.release.dependencies]
-python-semantic-release = "^9.15.2"
-
 [build-system]
-requires = ["flit-core>=3.4,<4"]
+requires = ["flit-core~=3.4"]
 build-backend = "flit_core.buildapi"

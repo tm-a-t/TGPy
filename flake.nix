@@ -56,16 +56,10 @@
 
           devShells.default = pkgs.mkShell {
             packages = [
-              (pkgs.callPackage ./nix/poetry-master.nix { })
-              (python.withPackages (
-                project.renderers.withPackages {
-                  inherit python;
-                  groups = [
-                    "dev"
-                    "guide"
-                  ];
-                }
-              ))
+              pkgs.poetry
+              pkgs.black
+              pkgs.isort
+              (python.withPackages (project.renderers.withPackages { inherit python; }))
             ];
           };
 

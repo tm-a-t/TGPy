@@ -18,11 +18,25 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: DeterminateSystems/nix-installer-action@main
-      - uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Install poetry
+        run: pipx install poetry~=2.0
+
+      - name: Load dependency cache
+        id: load-cache
+        uses: actions/cache@v4
+        with:
+          path: .venv
+          key: app-${{ runner.os }}-python-${{ env.pythonLocation }}-${{ hashFiles('poetry.lock') }}
+
+      - name: Install dependencies
+        run: |
+          poetry config virtualenvs.in-project true
+          poetry install --with guide
+        if: steps.load-cache.outputs.cache-hit != 'true'
 
       - name: Build
-        run: nix develop -c mkdocs build
+        run: poetry run mkdocs build
 
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v3.0
