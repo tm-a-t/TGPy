@@ -10,7 +10,7 @@ RUN apt-get update  \
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1
 
 RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install git+https://github.com/python-poetry/poetry.git@625f42ef96f8321f4e1649f38e39e71cd2b09f3e \
+    pip install poetry~=2.0 \
     && pip install poetry-plugin-export
 RUN python -m venv /venv
 
