@@ -1,13 +1,11 @@
 name: Build & deploy guide
-
 on:
   push:
     paths:
-      - 'guide/**'
-      - '.github/workflows/guide.yml'
+      - "guide/**"
+      - ".github/workflows/guide.yml"
   pull_request:
   workflow_dispatch:
-
 jobs:
   deploy:
     name: Build & deploy guide
@@ -15,35 +13,29 @@ jobs:
     defaults:
       run:
         working-directory: guide
-
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
       - name: Install poetry
         run: pipx install poetry~=2.0
-
       - name: Load dependency cache
         id: load-cache
         uses: actions/cache@v4
         with:
           path: .venv
           key: app-${{ runner.os }}-python-${{ env.pythonLocation }}-${{ hashFiles('poetry.lock') }}
-
       - name: Install dependencies
         run: |
           poetry config virtualenvs.in-project true
           poetry install --with guide
         if: steps.load-cache.outputs.cache-hit != 'true'
-
       - name: Build
         run: poetry run mkdocs build
-
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v3.0
         with:
-          publish-dir: './guide/site'
+          publish-dir: "./guide/site"
           production-branch: master
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: "Deploy from GitHub Actions"
@@ -53,4 +45,3 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         timeout-minutes: 1
-

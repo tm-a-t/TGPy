@@ -1,10 +1,10 @@
 site_name: TGPy Docs
-site_description: 'TGPy, a tool for running Python code snippets right in your Telegram messages'
+site_description: "TGPy, a tool for running Python code snippets right in your Telegram messages"
 site_url: https://tgpy.tmat.me/
 repo_url: https://github.com/tm-a-t/TGPy
 repo_name: tm-a-t/TGPy
 edit_uri: edit/master/guide/docs/
-watch: [ ../README.md ]
+watch: [../README.md]
 theme:
   name: material
   logo: assets/icon.png
@@ -85,7 +85,7 @@ markdown_extensions:
       alternate_style: true
   - pymdownx.tilde
   - pymdownx.snippets:
-      base_path: [ '.', '../README.md' ]
+      base_path: [".", "../README.md"]
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
@@ -118,9 +118,9 @@ nav:
           - reference/code_detection.md
   - Recipes:
       - TGPy recipes:
-        - recipes/about.md
-        - recipes/chatgpt.md
-        - recipes/dice.md
-        - recipes/reminders.md
-        - recipes/contacts.md
-        - recipes/editors.md
+          - recipes/about.md
+          - recipes/chatgpt.md
+          - recipes/dice.md
+          - recipes/reminders.md
+          - recipes/contacts.md
+          - recipes/editors.md
