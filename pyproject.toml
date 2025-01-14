@@ -6,23 +6,23 @@ readme = "README.md"
 requires-python = ">=3.10,<4"
 license = { file = "LICENSE" }
 classifiers = [
-    "Operating System :: OS Independent",
-    "Programming Language :: Python",
-    "Development Status :: 4 - Beta",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Development Status :: 4 - Beta",
 ]
 authors = [
-    { name = "tmat", email = "a@tmat.me" },
-    { name = "vanutp", email = "hello@vanutp.dev" },
-    { name = "ntonee", email = "a12286@yandex.com" },
+  { name = "tmat", email = "a@tmat.me" },
+  { name = "vanutp", email = "hello@vanutp.dev" },
+  { name = "ntonee", email = "a12286@yandex.com" },
 ]
 dependencies = [
-    "PyYAML~=6.0",
-    "aiorun>=2024.5.1",
-    "rich~=13.8",
-    "appdirs~=1.4",
-    "telethon-v1-24~=1.24",
-    "python-socks[asyncio]~=2.5",
-    "cryptg-anyos~=0.4",
+  "PyYAML~=6.0",
+  "aiorun>=2024.5.1",
+  "rich~=13.8",
+  "appdirs~=1.4",
+  "telethon-v1-24~=1.24",
+  "python-socks[asyncio]~=2.5",
+  "cryptg-anyos~=0.4",
 ]
 
 [project.urls]
@@ -33,7 +33,7 @@ repository = "https://github.com/tm-a-t/TGPy/"
 tgpy = "tgpy.main:main"
 
 [tool.poetry.group.dev.dependencies]
-black = "^22.6" 
+black = "^22.6"
 isort = "^5.10"
 
 [tool.poetry.group.guide.dependencies]
