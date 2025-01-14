@@ -22,9 +22,9 @@ jobs:
     name: Lint
     steps:
       - uses: actions/checkout@v4
-      - uses: DeterminateSystems/nix-installer-action@main
-      - uses: DeterminateSystems/magic-nix-cache-action@main
-      - uses: nicknovitski/nix-develop@9be7cfb4b10451d3390a75dc18ad0465bed4932a
+
+      - name: Install poetry
+        run: pipx install poetry~=2.0
 
       - name: Load dependency cache
         id: load-cache
@@ -36,7 +36,7 @@ jobs:
       - name: Install dependencies
         run: |
           poetry config virtualenvs.in-project true
-          poetry install
+          poetry install --with dev
         if: steps.load-cache.outputs.cache-hit != 'true'
 
       - name: Check code style
@@ -72,9 +72,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: DeterminateSystems/nix-installer-action@main
-      - uses: DeterminateSystems/magic-nix-cache-action@main
-      - uses: nicknovitski/nix-develop@9be7cfb4b10451d3390a75dc18ad0465bed4932a
+
+      - name: Install poetry
+        run: pipx install poetry~=2.0
 
       - name: Load dependency cache
         id: load-cache
