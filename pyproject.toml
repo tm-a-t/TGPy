@@ -33,8 +33,7 @@ repository = "https://github.com/tm-a-t/TGPy/"
 tgpy = "tgpy.main:main"
 
 [tool.poetry.group.dev.dependencies]
-black = "^22.6"
-isort = "^5.10"
+ruff = "^0.9"
 
 [tool.poetry.group.guide.dependencies]
 mkdocs-material = "^9.5"
@@ -52,13 +51,15 @@ build_command = """sed -i "s/\\(IS_DEV_BUILD *= *\\).*/\\1False/" tgpy/version.p
 commit_message = 'chore(release): v{version} [skip ci]'
 commit_author = "github-actions <action@github.com>"
 
-[tool.black]
-skip-string-normalization = true
-include = '/tgpy/.*\.pyi?$'
+[tool.ruff]
+preview = true
+builtins = ["ctx", "client", "restart"]
 
-[tool.isort]
-profile = "black"
-src_paths = ["tgpy"]
+[tool.ruff.lint]
+extend-select = ["I"]
+
+[tool.ruff.format]
+quote-style = "single"
 
 [build-system]
 requires = ["flit-core~=3.4"]

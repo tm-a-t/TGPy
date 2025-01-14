@@ -1,7 +1,7 @@
 """
-    name: update
-    origin: tgpy://builtin_module/update
-    priority: 700
+name: update
+origin: tgpy://builtin_module/update
+priority: 700
 """
 
 import sys
@@ -19,7 +19,7 @@ def update():
     old_version = get_running_version()
 
     if running_in_docker():
-        return 'Can\'t update a docker container'
+        return "Can't update a docker container"
 
     if installed_as_package():
         update_args = [sys.executable, '-m', 'pip', 'install', '-U', 'tgpy']
