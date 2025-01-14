@@ -8,8 +8,10 @@
       treefmt = {
         projectRootFile = "flake.nix";
         programs = {
-          black.enable = true;
-          isort.enable = true;
+          ruff = {
+            check = true;
+            format = true;
+          };
 
           nixfmt.enable = true;
           shfmt.enable = true;
@@ -23,8 +25,8 @@
         };
 
         settings.formatter = {
-          black.priority = 1;
-          isort.priority = 2;
+          ruff-check.priority = 1;
+          ruff-format.priority = 2;
         };
 
         settings.excludes =

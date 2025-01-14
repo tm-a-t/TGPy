@@ -92,7 +92,7 @@ async def initial_setup():
     console.print()
     console.print('[bold #7f8c8d on #ffffff] Step 1 of 2 ')
     console.print(
-        '│ TGPy uses Telegram API, so you\'ll need to register your Telegram app.\n'
+        "│ TGPy uses Telegram API, so you'll need to register your Telegram app.\n"
         '│  [#1abc9c]1.[/] Go to https://my.telegram.org\n'
         '│  [#1abc9c]2.[/] Login with your Telegram account\n'
         '│  [#1abc9c]3.[/] Go to "API development tools"\n'

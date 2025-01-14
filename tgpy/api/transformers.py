@@ -60,7 +60,7 @@ class _TransformerStore(Generic[TF]):
             self._by_name[key] = value
         else:
             raise TypeError(
-                f'only `obj[str] = func` and `obj[int] = (str, func)` syntaxes are supported'
+                'only `obj[str] = func` and `obj[int] = (str, func)` syntaxes are supported'
             )
 
     def add(self, name: str, func: TF):

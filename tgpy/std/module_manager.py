@@ -1,7 +1,7 @@
 """
-    name: module_manager
-    origin: tgpy://builtin_module/module_manager
-    priority: 800
+name: module_manager
+origin: tgpy://builtin_module/module_manager
+priority: 800
 """
 
 from datetime import datetime
@@ -47,10 +47,10 @@ class ModulesObject:
         module.save()
 
         return dedent(
-            f'''
+            f"""
             Added module {name!r}.
             Module's code will be executed every time TGPy starts.
-            '''
+            """
         )
 
     def remove(self, name) -> str:
@@ -66,19 +66,19 @@ class ModulesObject:
         )
         if not lst:
             return dedent(
-                '''
+                """
                 You have no modules.
                 Learn about modules at https://tgpy.tmat.me/modules.
-                '''
+                """
             )
         return dedent(
-            '''
+            """
             Your modules:
             {}
             
             Change modules with `modules.add(name)` and `modules.remove(name)`.
             Learn more at https://tgpy.tmat.me/modules.
-            '''
+            """
         ).format(lst)
 
     def __iter__(self):

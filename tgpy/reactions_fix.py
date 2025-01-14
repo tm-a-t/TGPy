@@ -33,9 +33,10 @@ class ReactionsFixResult(Enum):
 
 def check_hash(message: Message) -> ReactionsFixResult:
     content_hash = get_content_hash(message)
-    saved_hash = in_memory_hashes.get(
-        (message.chat_id, message.id)
-    ) or tgpy.api.config.get(CONFIG_BASE_KEY + f'.{message.chat_id}.{message.id}')
+    saved_hash = in_memory_hashes.get((
+        message.chat_id,
+        message.id,
+    )) or tgpy.api.config.get(CONFIG_BASE_KEY + f'.{message.chat_id}.{message.id}')
     if not saved_hash:
         return ReactionsFixResult.show_warning
     if saved_hash == content_hash:

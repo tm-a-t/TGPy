@@ -1,7 +1,5 @@
 import sys
-import tokenize
 import traceback
-from io import BytesIO
 
 from telethon.tl import TLObject
 
@@ -14,7 +12,7 @@ def convert_result(result):
 
 
 def format_traceback() -> tuple[str, str]:
-    exc_type, exc_value, exc_traceback = sys.exc_info()
+    _, exc_value, exc_traceback = sys.exc_info()
     exc_traceback = exc_traceback.tb_next.tb_next
     te = traceback.TracebackException(
         type(exc_value), exc_value, exc_traceback, compact=True

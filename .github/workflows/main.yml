@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@main
       - name: Run flake check
-        run: nix flake check
+        run: nix flake check -L
   release:
     name: Release
     needs: lint

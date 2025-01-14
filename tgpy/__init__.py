@@ -3,7 +3,7 @@ import logging
 from telethon import TelegramClient
 
 from tgpy.context import Context
-from tgpy.version import __version__
+from tgpy.version import __version__  # noqa: F401
 
 logging.basicConfig(
     format='[%(asctime)s] [%(name)s] [%(levelname)s] %(message)s',

@@ -1,7 +1,7 @@
 """
-    name: prevent_eval
-    origin: tgpy://builtin_module/prevent_eval
-    priority: 400
+name: prevent_eval
+origin: tgpy://builtin_module/prevent_eval
+priority: 400
 """
 
 import re

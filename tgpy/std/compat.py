@@ -1,7 +1,7 @@
 """
-    name: compat
-    origin: tgpy://builtin_module/compat
-    priority: 800
+name: compat
+origin: tgpy://builtin_module/compat
+priority: 800
 """
 
 import sys

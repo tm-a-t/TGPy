@@ -58,8 +58,7 @@
 
             devShells.default = pkgs.mkShell {
               packages = [
-                pkgs.poetry
-                pkgs.black
+                pkgs.ruff
                 pkgs.isort
                 (python.withPackages (self.lib.project.renderers.withPackages { inherit python; }))
               ];

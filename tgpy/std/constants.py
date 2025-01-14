@@ -1,7 +1,7 @@
 """
-    name: constants
-    origin: tgpy://builtin_module/constants
-    priority: 100
+name: constants
+origin: tgpy://builtin_module/constants
+priority: 100
 """
 
 import tgpy.api
