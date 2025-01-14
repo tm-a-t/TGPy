@@ -1,18 +1,18 @@
 .author {
-    font-size: 1rem;
-    margin-bottom: 4.75rem;
-    font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 4.75rem;
+  font-weight: 700;
 }
 
-h1+.author {
-    margin-top: -1rem;
+h1 + .author {
+  margin-top: -1rem;
 }
 
 .author img {
-    border-radius: 50%;
-    width: 1.75rem;
-    position: relative;
-    top: .5rem;
-    margin-right: .3rem;
-    margin-left: .05rem;
+  border-radius: 50%;
+  width: 1.75rem;
+  position: relative;
+  top: 0.5rem;
+  margin-right: 0.3rem;
+  margin-left: 0.05rem;
 }
