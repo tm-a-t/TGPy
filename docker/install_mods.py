@@ -24,7 +24,7 @@ def main():
             p = Popen(command, shell=True)
             p.wait()
             if p.returncode != 0:
-                logger.info("Running setup command failed")
+                logger.info('Running setup command failed')
 
 
 if __name__ == '__main__':

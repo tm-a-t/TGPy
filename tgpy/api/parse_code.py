@@ -49,8 +49,7 @@ def _ignore_node_simple(node: ast.AST, locs: dict) -> bool:
     """Check if message is constant or unknown variable"""
     return (
         # Messages like "python", "123" or "example.com"
-        isinstance(node, ast.Constant)
-        or _is_node_unknown_variable(node, locs)
+        isinstance(node, ast.Constant) or _is_node_unknown_variable(node, locs)
     )
 
 

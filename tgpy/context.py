@@ -83,4 +83,4 @@ class Context:
         _is_manual_output.set(value)
 
     def __str__(self):
-        return f'<Context(is_manual_output, is_module, msg)>'
+        return '<Context(is_manual_output, is_module, msg)>'

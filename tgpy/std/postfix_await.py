@@ -1,7 +1,7 @@
 """
-    name: postfix_await
-    origin: tgpy://builtin_module/postfix_await
-    priority: 300
+name: postfix_await
+origin: tgpy://builtin_module/postfix_await
+priority: 300
 """
 
 import ast
