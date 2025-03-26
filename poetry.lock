@@ -1624,14 +1624,14 @@ files = [
 
 [[package]]
 name = "telethon-v1-24"
-version = "1.24.18"
+version = "1.24.19"
 description = "Updated fork of 1.24 branch of Telethon, primarily used by TGPy"
 optional = false
 python-versions = ">=3.5"
 groups = ["main"]
 files = [
-    {file = "Telethon-v1.24-1.24.18.tar.gz", hash = "sha256:ad582e9ea307a4e2e3461219ed17ee813aebbf5dfa62d4e5a9af42bd63b21256"},
-    {file = "Telethon_v1.24-1.24.18-py3-none-any.whl", hash = "sha256:2d689dcbac2e84ad42cfac99f6fcc4e98d8574369fd66200e63568c463027bfc"},
+    {file = "telethon_v1_24-1.24.19-py3-none-any.whl", hash = "sha256:6cf04cd20ec5c107e9b3c99efd14d443bc7e1a3b7acc9951176beba9307f1199"},
+    {file = "telethon_v1_24-1.24.19.tar.gz", hash = "sha256:90effb47cc463220a30c79e2c4b292e860f13f7dbb1c0e259f1fdd943dd0f04a"},
 ]
 
 [package.dependencies]

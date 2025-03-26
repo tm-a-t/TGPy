@@ -1,11 +1,11 @@
 { pkgs }:
 self: super: {
   telethon-v1-24 = super.telethon.overridePythonAttrs (old: rec {
-    version = "1.24.18";
-    pname = "Telethon-v1.24";
+    version = "1.24.19";
+    pname = "telethon_v1_24";
     src = pkgs.fetchPypi {
       inherit version pname;
-      hash = "sha256-rVgunqMHpOLjRhIZ7RfugTrrv136YtTlqa9CvWOyElY=";
+      hash = "sha256-kO/7R8xGMiCjDHnixLKS6GDxP327HA4lnx/dlD3Q8Eo=";
     };
     doCheck = false;
   });
