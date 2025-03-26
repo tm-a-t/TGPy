@@ -13,6 +13,7 @@ from telethon.tl.types import MessageActionTopicCreate, MessageService
 import tgpy.api
 from tgpy import Context, reactions_fix
 from tgpy._core.eval_message import running_messages
+from tgpy.api.utils import outgoing_messages_filter
 
 client: TelegramClient
 ctx: Context
@@ -71,14 +72,14 @@ async def handle_cancel(message: Message, permanent: bool = True):
         async for msg in client.iter_messages(
             message.chat_id, max_id=message.id, reply_to=thread_id, limit=10
         ):
-            if not msg.out:
+            if not outgoing_messages_filter(msg):
                 continue
             parsed = tgpy.api.parse_tgpy_message(msg)
             if parsed.is_tgpy_message:
                 target = msg
                 break
 
-    if not target:
+    if not target or not outgoing_messages_filter(target):
         return
 
     if await cancel_message(target, permanent):

@@ -89,8 +89,13 @@ async def try_await(func, *args, **kwargs):
     return res
 
 
-def outgoing_messages_filter(e: events.NewMessage.Event | events.MessageEdited.Event):
-    m: Message = e.message
+def outgoing_messages_filter(
+    e: events.NewMessage.Event | events.MessageEdited.Event | Message,
+) -> bool:
+    if isinstance(e, Message):
+        m = e
+    else:
+        m = e.message
     return (
         m.out and not m.forward and not m.via_bot and not isinstance(m, MessageService)
     )
