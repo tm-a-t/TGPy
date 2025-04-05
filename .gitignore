@@ -1,4 +1,6 @@
 .idea/
+*.iml
+.vscode/
 venv/
 
 **/__pycache__/
