@@ -2,6 +2,7 @@
 
 import ast
 import inspect
+import sys
 from collections import deque
 from copy import deepcopy
 from importlib.abc import SourceLoader
@@ -170,6 +171,7 @@ async def _meval(
     comp = compile(mod, filename, 'exec')
     loader = MevalLoader(parsed.original, comp, filename)
     py_module = module_from_spec(spec_from_loader(filename, loader, origin=filename))
+    sys.modules[filename] = py_module
     loader.exec_module(py_module)
 
     new_locs, ret = await getattr(py_module, 'tmp')(**kwargs)
