@@ -40,11 +40,7 @@ class AwaitTransformer(ast.NodeTransformer):
             return node
 
 
-def ast_trans(tree: ast.AST) -> ast.AST:
-    return AwaitTransformer().visit(tree)
-
-
 tgpy.api.code_transformers.add('postfix_await', code_trans)
-tgpy.api.ast_transformers.add('postfix_await', ast_trans)
+tgpy.api.ast_transformers.add('postfix_await', AwaitTransformer)
 
 __all__ = []

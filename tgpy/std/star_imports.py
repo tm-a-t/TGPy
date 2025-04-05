@@ -33,10 +33,6 @@ class StarImportsTransformer(ast.NodeTransformer):
         return node
 
 
-def ast_transformer(tree: ast.AST) -> ast.AST:
-    return StarImportsTransformer().visit(tree)
-
-
-tgpy.api.ast_transformers.add('star_imports', ast_transformer)
+tgpy.api.ast_transformers.add('star_imports', StarImportsTransformer)
 
 __all__ = []
