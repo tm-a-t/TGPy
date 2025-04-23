@@ -1,6 +1,6 @@
 site_name: TGPy Docs
 site_description: "TGPy, a tool for running Python code snippets right in your Telegram messages"
-site_url: https://tgpy.tmat.me/
+site_url: https://tgpy.dev/
 repo_url: https://github.com/tm-a-t/TGPy
 repo_name: tm-a-t/TGPy
 edit_uri: edit/master/guide/docs/

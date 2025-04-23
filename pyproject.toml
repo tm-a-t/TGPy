@@ -26,7 +26,7 @@ dependencies = [
 ]
 
 [project.urls]
-documentation = "https://tgpy.tmat.me/"
+documentation = "https://tgpy.dev/"
 repository = "https://github.com/tm-a-t/TGPy/"
 
 [project.scripts]

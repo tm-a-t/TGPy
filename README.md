@@ -6,13 +6,13 @@
 [![PyPI](https://img.shields.io/pypi/v/tgpy?style=flat-square&color=9B59B6)](https://pypi.org/project/tgpy/)
 [![Docker Image Version (latest semver)](https://img.shields.io/docker/v/tgpy/tgpy?style=flat-square&label=docker&sort=semver&color=9B59B6)](https://hub.docker.com/r/tgpy/tgpy)
 [![Open issues](https://img.shields.io/github/issues-raw/tm-a-t/TGPy?style=flat-square)](https://github.com/tm-a-t/TGPy/issues)
-[![Docs](https://img.shields.io/website?style=flat-square&label=docs&url=https%3A%2F%2Ftgpy.tmat.me)](https://tgpy.tmat.me/)
+[![Docs](https://img.shields.io/website?style=flat-square&label=docs&url=https%3A%2F%2Ftgpy.dev)](https://tgpy.dev/)
 
 <br>
 
-Guide: https://tgpy.tmat.me/guide
+Guide: https://tgpy.dev/guide
 
-Recipes: https://tgpy.tmat.me/recipes
+Recipes: https://tgpy.dev/recipes
 
 Discussion: https://t.me/tgpy_flood
 
@@ -44,9 +44,9 @@ docker run -it --rm -v /tgpy_data:/data tgpy/tgpy
 
 Then follow instructions to connect your Telegram account. 
 
-More on installation: [https://tgpy.tmat.me/installation](https://tgpy.tmat.me/installation)
+More on installation: [https://tgpy.dev/installation](https://tgpy.dev/installation)
 
-Next, learn TGPy basics: [https://tgpy.tmat.me/basics](https://tgpy.tmat.me/basics)
+Next, learn TGPy basics: [https://tgpy.dev/basics](https://tgpy.dev/basics)
 
 ## Use Cases
 

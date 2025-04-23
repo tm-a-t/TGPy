@@ -68,7 +68,7 @@ class ModulesObject:
             return dedent(
                 """
                 You have no modules.
-                Learn about modules at https://tgpy.tmat.me/modules.
+                Learn about modules at https://tgpy.dev/modules.
                 """
             )
         return dedent(
@@ -77,7 +77,7 @@ class ModulesObject:
             {}
             
             Change modules with `modules.add(name)` and `modules.remove(name)`.
-            Learn more at https://tgpy.tmat.me/modules.
+            Learn more at https://tgpy.dev/modules.
             """
         ).format(lst)
 

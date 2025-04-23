@@ -22,7 +22,7 @@ let
     ];
     meta = {
       license = pkgs.lib.licenses.mit;
-      homepage = "https://tgpy.tmat.me/";
+      homepage = "https://tgpy.dev/";
       pythonImportsCheck = [ "tgpy" ];
     };
   };
