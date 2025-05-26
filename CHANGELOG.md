@@ -1,6 +1,69 @@
 # CHANGELOG
 
 
+## v0.18.0 (2025-05-26)
+
+### Bug Fixes
+
+- Inspect.getsource now works properly. Fixes #55
+  ([`24217a7`](https://github.com/tm-a-t/TGPy/commit/24217a7aed79ac7113d83af8a7aad7895c304912))
+
+- Modules docs url
+  ([`96663ac`](https://github.com/tm-a-t/TGPy/commit/96663ac822b4d59f14d9846f124f1b8a15125c41))
+
+- Replying cancel to a message from another user no longer produces an error. Fixes #50
+  ([`99c8e09`](https://github.com/tm-a-t/TGPy/commit/99c8e09de61605f86670f64773a5391c61cb0891))
+
+### Build System
+
+- Use upstream poetry
+  ([`6102229`](https://github.com/tm-a-t/TGPy/commit/6102229676a90974f4fdefbe8477c5b319831be5))
+
+- ci: use poetry dependency groups - build: loosen dependency requirements
+
+- **docker**: Install poetry 2.0 from pypi
+  ([`6af4028`](https://github.com/tm-a-t/TGPy/commit/6af40282c5a472f956b68f7ca404999756889403))
+
+### Chores
+
+- Add .vscode and *.iml to .gitignore
+  ([`7bfef78`](https://github.com/tm-a-t/TGPy/commit/7bfef78919def6e18e07582e27dc4440704d6bf4))
+
+### Code Style
+
+- **python**: Replace black and isort with ruff
+  ([`460afcb`](https://github.com/tm-a-t/TGPy/commit/460afcb7ac745001bac88a65ede7c9ea2256be0f))
+
+Co-authored-by: Gleb Smirnov <glebsmirnov0708@gmail.com>
+
+### Continuous Integration
+
+- **fmt**: Use nix and treefmt for formatting and CI
+  ([`b2f19e9`](https://github.com/tm-a-t/TGPy/commit/b2f19e956baca3e66aa467519ab76dd52377115b))
+
+### Documentation
+
+- Fix creation/modification dates
+  ([`61f30b9`](https://github.com/tm-a-t/TGPy/commit/61f30b9c6bc734dbb245868f5193ee8d9afb1275))
+
+### Features
+
+- Add fixes for Apple and Android clients to std. Closes #54
+  ([`3369104`](https://github.com/tm-a-t/TGPy/commit/3369104cdce8badcdfcf111e06000cc59989c4ef))
+
+- Add star import fix to std
+  ([`0fcac58`](https://github.com/tm-a-t/TGPy/commit/0fcac585e148b37514f5a678e2997c64c91998d8))
+
+- Allow ast transformers to be NodeTransformer subclasses
+  ([`835600b`](https://github.com/tm-a-t/TGPy/commit/835600bf3e81c260f238b1cfff7b545fd202d251))
+
+- Tgpy.dev 🥺
+  ([`cbc35e8`](https://github.com/tm-a-t/TGPy/commit/cbc35e8449e59bbf0bd78b554a22ed8fa3b646f4))
+
+- **Telethon**: Layer 201
+  ([`17a19a4`](https://github.com/tm-a-t/TGPy/commit/17a19a488efbbea8389d4403684c3b2f07028894))
+
+
 ## v0.17.1 (2024-12-21)
 
 ### Bug Fixes
@@ -34,9 +97,6 @@
 - Format .nix files
   ([`bac06a8`](https://github.com/tm-a-t/TGPy/commit/bac06a8dc7da0362983809870d83e30539b868d8))
 
-- **release**: V0.17.0 [skip ci]
-  ([`f3ca16f`](https://github.com/tm-a-t/TGPy/commit/f3ca16f24b56d56e787c79933c5e0db36fdf8a42))
-
 ### Features
 
 - Switch to PEP621 compliant pyproject.toml and pyproject.nix
@@ -59,11 +119,6 @@
 - Sending `cancel` in comments and topics now works correctly. Fix `cancel` throwing error when the
   message is not a TGPy message
   ([`1d3ba1a`](https://github.com/tm-a-t/TGPy/commit/1d3ba1ab583f7408f9f2854d22bfcf7fc7e96ae7))
-
-### Chores
-
-- **release**: V0.16.0 [skip ci]
-  ([`2a99f05`](https://github.com/tm-a-t/TGPy/commit/2a99f0534f67beb9a6ff47d2a5da9bedeb7e76d1))
 
 ### Code Style
 
@@ -95,18 +150,8 @@
   called
   ([`f483d6c`](https://github.com/tm-a-t/TGPy/commit/f483d6c1e9b0c1bc0f79f0a31f477637d163d696))
 
-### Chores
-
-- **release**: V0.15.1 [skip ci]
-  ([`55b555f`](https://github.com/tm-a-t/TGPy/commit/55b555f65bb7c1943a7fee694ebb8b73cd1c0e7d))
-
 
 ## v0.15.0 (2024-04-28)
-
-### Chores
-
-- **release**: V0.15.0 [skip ci]
-  ([`36f9a64`](https://github.com/tm-a-t/TGPy/commit/36f9a6493482997746139e8cc0f00d02ea4e6b33))
 
 ### Continuous Integration
 
@@ -157,11 +202,6 @@ When stdout.flush() or stderr.flush() is called, the current output will be disp
 - Use cryptg-anyos again, because there are no official cp312-aarch64 binaries
   ([`50ca341`](https://github.com/tm-a-t/TGPy/commit/50ca3417c3bd3418bd66a02c52f35e5cf7d83b11))
 
-### Chores
-
-- **release**: V0.14.1 [skip ci]
-  ([`81aeb16`](https://github.com/tm-a-t/TGPy/commit/81aeb166424926a3cceb5422afddee83fbaf7250))
-
 
 ## v0.14.0 (2024-03-09)
 
@@ -175,11 +215,6 @@ When stdout.flush() or stderr.flush() is called, the current output will be disp
 
 - Build docker image on python 3.12
   ([`eec91a9`](https://github.com/tm-a-t/TGPy/commit/eec91a92699f619c2972d6add13dd717236f9345))
-
-### Chores
-
-- **release**: V0.14.0 [skip ci]
-  ([`0b9d488`](https://github.com/tm-a-t/TGPy/commit/0b9d488fb6811481421bb25446fe482e10a9d085))
 
 ### Features
 
@@ -195,11 +230,6 @@ When stdout.flush() or stderr.flush() is called, the current output will be disp
 - Update telethon (fix draft constructor), update all dependencies
   ([`a2b6064`](https://github.com/tm-a-t/TGPy/commit/a2b60641af3a0cab9fef08e95e07447b6c61432a))
 
-### Chores
-
-- **release**: V0.13.2 [skip ci]
-  ([`212069c`](https://github.com/tm-a-t/TGPy/commit/212069cbcb8ee97a83f30e9e2a3a26564f4389f2))
-
 
 ## v0.13.1 (2023-12-06)
 
@@ -209,18 +239,8 @@ When stdout.flush() or stderr.flush() is called, the current output will be disp
   minimum python version to 3.10
   ([`9e49739`](https://github.com/tm-a-t/TGPy/commit/9e497391f83dc6b333a6752f221d1221ea3d6cdb))
 
-### Chores
-
-- **release**: V0.13.1 [skip ci]
-  ([`ff2f8f0`](https://github.com/tm-a-t/TGPy/commit/ff2f8f046a602344c8582690338aa93aabd35dcf))
-
 
 ## v0.13.0 (2023-12-05)
-
-### Chores
-
-- **release**: V0.13.0 [skip ci]
-  ([`2613a75`](https://github.com/tm-a-t/TGPy/commit/2613a754a449535d65da30e5f2a50900cb95c19b))
 
 ### Features
 
@@ -235,18 +255,8 @@ When stdout.flush() or stderr.flush() is called, the current output will be disp
 - **Telethon**: New layer fix
   ([`8145bd3`](https://github.com/tm-a-t/TGPy/commit/8145bd3c58371e047114e834e2fbdba2de7ec575))
 
-### Chores
-
-- **release**: V0.12.1 [skip ci]
-  ([`000dda1`](https://github.com/tm-a-t/TGPy/commit/000dda195f87ec7fbca0eb5716c6521b50440411))
-
 
 ## v0.12.0 (2023-10-28)
-
-### Chores
-
-- **release**: V0.12.0 [skip ci]
-  ([`75cbfa9`](https://github.com/tm-a-t/TGPy/commit/75cbfa9dcaf8484e51d1b318dadf60c752a6f35c))
 
 ### Features
 
@@ -256,11 +266,6 @@ When stdout.flush() or stderr.flush() is called, the current output will be disp
 
 ## v0.11.0 (2023-09-29)
 
-### Chores
-
-- **release**: V0.11.0 [skip ci]
-  ([`0fcbbe6`](https://github.com/tm-a-t/TGPy/commit/0fcbbe68920ed412d9646a5a4444c99280e789b9))
-
 ### Features
 
 - **Telethon**: Fixes for the new layer and many more fixes from upstream
@@ -268,11 +273,6 @@ When stdout.flush() or stderr.flush() is called, the current output will be disp
 
 
 ## v0.10.0 (2023-09-25)
-
-### Chores
-
-- **release**: V0.10.0 [skip ci]
-  ([`b44a3cc`](https://github.com/tm-a-t/TGPy/commit/b44a3cc7912f73d4f832fdc472d63a2274911173))
 
 ### Documentation
 
@@ -304,11 +304,6 @@ Co-authored-by: Artyom Ivanov <tmat.ivanov@gmail.com>
 - Consistent colors in setup across all terminals
   ([`faa625b`](https://github.com/tm-a-t/TGPy/commit/faa625bd2f4543b08ea7af361c8217cf006303d2))
 
-### Chores
-
-- **release**: V0.9.7 [skip ci]
-  ([`4bb459a`](https://github.com/tm-a-t/TGPy/commit/4bb459ad12667e3f52046e638e9cda42721d3923))
-
 
 ## v0.9.6 (2023-06-01)
 
@@ -316,11 +311,6 @@ Co-authored-by: Artyom Ivanov <tmat.ivanov@gmail.com>
 
 - Strip device model
   ([`a775cc5`](https://github.com/tm-a-t/TGPy/commit/a775cc5a6415e92d023c421578f31bdd57a7a88d))
-
-### Chores
-
-- **release**: V0.9.6 [skip ci]
-  ([`77bed85`](https://github.com/tm-a-t/TGPy/commit/77bed85e287482d29574bf6b3ba46f14c106085a))
 
 
 ## v0.9.5 (2023-06-01)
@@ -330,11 +320,6 @@ Co-authored-by: Artyom Ivanov <tmat.ivanov@gmail.com>
 - Try to fix session termination issue by setting device_model and system_version to real values
   from the system
   ([`44e1c3d`](https://github.com/tm-a-t/TGPy/commit/44e1c3d8faf17f52ec289c3b6c69ae44ed75271e))
-
-### Chores
-
-- **release**: V0.9.5 [skip ci]
-  ([`0ccf228`](https://github.com/tm-a-t/TGPy/commit/0ccf228390dcb0535a80938ba1b03daf8679c2f6))
 
 
 ## v0.9.4 (2023-05-05)
@@ -346,11 +331,6 @@ Co-authored-by: Artyom Ivanov <tmat.ivanov@gmail.com>
 
 - Initial setup prompts now work properly
   ([`8713dff`](https://github.com/tm-a-t/TGPy/commit/8713dff2f216bdadb9b07269c68f909b6867f681))
-
-### Chores
-
-- **release**: V0.9.4 [skip ci]
-  ([`1794a21`](https://github.com/tm-a-t/TGPy/commit/1794a21575bb247d0102a1195cdc3c89bac8a0ca))
 
 ### Code Style
 
@@ -370,11 +350,6 @@ Co-authored-by: Artyom Ivanov <tmat.ivanov@gmail.com>
 - Deleting message no longer produces an error
   ([`ef317d9`](https://github.com/tm-a-t/TGPy/commit/ef317d98b9e817843eca8f0756147855217ccb3b))
 
-### Chores
-
-- **release**: V0.9.3 [skip ci]
-  ([`ac07b46`](https://github.com/tm-a-t/TGPy/commit/ac07b46282af07a0409bb8442a8e542eba76dcfc))
-
 
 ## v0.9.2 (2023-02-25)
 
@@ -382,11 +357,6 @@ Co-authored-by: Artyom Ivanov <tmat.ivanov@gmail.com>
 
 - Message editing bug
   ([`3d1d566`](https://github.com/tm-a-t/TGPy/commit/3d1d566864381ea939143fae3fad607e03b5a548))
-
-### Chores
-
-- **release**: V0.9.2 [skip ci]
-  ([`c1ac624`](https://github.com/tm-a-t/TGPy/commit/c1ac624893fc6e2af31c01456510b1d07bdde8c8))
 
 
 ## v0.9.1 (2023-02-25)
@@ -401,9 +371,6 @@ Co-authored-by: Artyom Ivanov <tmat.ivanov@gmail.com>
 - Fix changelog
   ([`87438a4`](https://github.com/tm-a-t/TGPy/commit/87438a4b8a36317b0f36708559f09e3d668cb1ce))
 
-- **release**: V0.9.1 [skip ci]
-  ([`f95640d`](https://github.com/tm-a-t/TGPy/commit/f95640d3d228b2428c103a46bb6afd882f572077))
-
 
 ## v0.9.0 (2023-02-25)
 
@@ -411,11 +378,6 @@ Co-authored-by: Artyom Ivanov <tmat.ivanov@gmail.com>
 
 - Use python-slim image instead of python-alpine
   ([`a34bd20`](https://github.com/tm-a-t/TGPy/commit/a34bd20e5a6bd97042c446faaa1b567669b6b32f))
-
-### Chores
-
-- **release**: V0.9.0 [skip ci]
-  ([`287f2e1`](https://github.com/tm-a-t/TGPy/commit/287f2e1dbbeca4453c3d7d713f83cacef672459f))
 
 ### Documentation
 
@@ -454,11 +416,6 @@ Co-authored-by: Artyom Ivanov <tmat.ivanov@gmail.com>
   asyncio.create_task
   ([`3584f22`](https://github.com/tm-a-t/TGPy/commit/3584f223064902f8238f35715219289b6a16ea13))
 
-### Chores
-
-- **release**: V0.8.0 [skip ci]
-  ([`c1915aa`](https://github.com/tm-a-t/TGPy/commit/c1915aa9924ac84488bc961e3bc866b742d5e452))
-
 ### Features
 
 - Wrap sys.stdout instead of print to capture output + properly use contextvars
@@ -478,11 +435,6 @@ Co-authored-by: Artyom Ivanov <tmat.ivanov@gmail.com>
 - Use message.raw_text instead of message.text to detect //
   ([`a85b1c8`](https://github.com/tm-a-t/TGPy/commit/a85b1c834135f2b7c251ff8482afbab93f73002e))
 
-### Chores
-
-- **release**: V0.7.0 [skip ci]
-  ([`53269f8`](https://github.com/tm-a-t/TGPy/commit/53269f8a63bd462554e6199ebdc1307eedd01485))
-
 ### Features
 
 - Update dependencies (layer 152)
@@ -501,11 +453,6 @@ Co-authored-by: Artyom Ivanov <tmat.ivanov@gmail.com>
 
 - **docker**: Add /venv/bin to path
   ([`00be149`](https://github.com/tm-a-t/TGPy/commit/00be149b4ce827e97bb31b84f39cfa988a68d1ee))
-
-### Chores
-
-- **release**: V0.6.2 [skip ci]
-  ([`6934c6c`](https://github.com/tm-a-t/TGPy/commit/6934c6c38c3f7ac625fa215d323cb40578fef71c))
 
 ### Documentation
 
@@ -536,9 +483,6 @@ Co-authored-by: Artyom Ivanov <tmat.ivanov@gmail.com>
 - Fix version
   ([`c783bfa`](https://github.com/tm-a-t/TGPy/commit/c783bfa6584190ca3ba07ddab14b029e0044a617))
 
-- **release**: V0.6.1 [skip ci]
-  ([`e3a3a20`](https://github.com/tm-a-t/TGPy/commit/e3a3a20dfea0279bd9b6e987294e420e216c1f06))
-
 ### Code Style
 
 - Reformat [skip ci]
@@ -562,11 +506,6 @@ Co-authored-by: Artyom Ivanov <tmat.ivanov@gmail.com>
 
 - Use cryptg-anyos, which provides prebuilt wheels for musllinux
   ([`7d85c71`](https://github.com/tm-a-t/TGPy/commit/7d85c718e46a1ed3896eaeada4fd2e32cab9b1b3))
-
-### Chores
-
-- **release**: V0.6.0 [skip ci]
-  ([`ffbc4bd`](https://github.com/tm-a-t/TGPy/commit/ffbc4bdd6f8abd6354952ac26cdff8d73a94ee8f))
 
 ### Code Style
 
@@ -610,9 +549,6 @@ Co-authored-by: Artyom Ivanov <tmat.ivanov@gmail.com>
 - Fix readme
   ([`769b903`](https://github.com/tm-a-t/TGPy/commit/769b903cb952687b9c198889256636d5fcf6d2a2))
 
-- **release**: V0.5.1 [skip ci]
-  ([`9371260`](https://github.com/tm-a-t/TGPy/commit/937126086eea249bde5c2b881c3aeb3a97af31d7))
-
 ### Continuous Integration
 
 - Build docker image with proper tgpy version
@@ -653,11 +589,6 @@ however, when TGPy is restarted you will need to edit old messages twice to reev
 
 - Dockerize
   ([`f8cb28d`](https://github.com/tm-a-t/TGPy/commit/f8cb28dd54722c047934e41071cc32ddc6f81cdd))
-
-### Chores
-
-- **release**: V0.5.0 [skip ci]
-  ([`0772d59`](https://github.com/tm-a-t/TGPy/commit/0772d598dc5a1584f474acfa41e5db8fad2f7974))
 
 ### Code Style
 
@@ -766,11 +697,6 @@ however, when TGPy is restarted you will need to edit old messages twice to reev
 - **code detection**: Ignore messages like "fix: fix"
   ([`1b73815`](https://github.com/tm-a-t/TGPy/commit/1b73815928fdbdae3eae1202c01b4b53b9906ba4))
 
-### Chores
-
-- **release**: V0.4.1 [skip ci]
-  ([`4509454`](https://github.com/tm-a-t/TGPy/commit/4509454b9956187a77ffad6ee37c97f861e2e17f))
-
 
 ## v0.4.0 (2022-01-10)
 
@@ -787,11 +713,6 @@ however, when TGPy is restarted you will need to edit old messages twice to reev
 
 - **code detection**: Ignore messages like "cat (no)" and "fix: fix"
   ([`75bb43e`](https://github.com/tm-a-t/TGPy/commit/75bb43eae71f9e024a3e7f299cd0614c860c2457))
-
-### Chores
-
-- **release**: V0.4.0 [skip ci]
-  ([`4cad8b7`](https://github.com/tm-a-t/TGPy/commit/4cad8b781856a94511e34206a981144aa09d4c64))
 
 ### Code Style
 
@@ -845,11 +766,6 @@ however, when TGPy is restarted you will need to edit old messages twice to reev
 
 ## v0.3.0 (2021-12-26)
 
-### Chores
-
-- **release**: V0.3.0 [skip ci]
-  ([`5ff04a8`](https://github.com/tm-a-t/TGPy/commit/5ff04a84abdc92944ef0e4892e4e45f9b6ec8475))
-
 ### Features
 
 - **update**: Show when no updates are available
@@ -863,11 +779,6 @@ however, when TGPy is restarted you will need to edit old messages twice to reev
 - **update**: Try both regular installation and --user installation
   ([`50ffbe9`](https://github.com/tm-a-t/TGPy/commit/50ffbe94da5f8e061326be492f064c891bb63817))
 
-### Chores
-
-- **release**: V0.2.3 [skip ci]
-  ([`81962c1`](https://github.com/tm-a-t/TGPy/commit/81962c13255021379b26f750e3162ce29c67d6a3))
-
 
 ## v0.2.2 (2021-12-26)
 
@@ -875,11 +786,6 @@ however, when TGPy is restarted you will need to edit old messages twice to reev
 
 - **update**: Use --user installation when updating
   ([`1902672`](https://github.com/tm-a-t/TGPy/commit/19026724dbe26e29562e580d187575c774125da8))
-
-### Chores
-
-- **release**: V0.2.2 [skip ci]
-  ([`f1ed375`](https://github.com/tm-a-t/TGPy/commit/f1ed375581f46c53fac4b2d0b8904dc29341e51a))
 
 ### Refactoring
 
@@ -906,9 +812,6 @@ however, when TGPy is restarted you will need to edit old messages twice to reev
 
 - **changelog**: Remove old generated changelog [skip ci]
   ([`e6740e7`](https://github.com/tm-a-t/TGPy/commit/e6740e7978d3f0130db9df91cc7eddd9c2d32859))
-
-- **release**: V0.2.1 [skip ci]
-  ([`665c073`](https://github.com/tm-a-t/TGPy/commit/665c07394ad804b8b4d79d7da31a5d6470f6a18e))
 
 ### Continuous Integration
 
@@ -1024,11 +927,6 @@ A single expr which is unary operator with constant operand is no longer a code!
 
 - Switch to poetry, reanme package to tgpy, fix readme images
   ([`263bbcc`](https://github.com/tm-a-t/TGPy/commit/263bbcca39b02f38d340262fcd5f34a648a5598c))
-
-### Chores
-
-- **release**: V0.2.0 [skip ci]
-  ([`09d4c60`](https://github.com/tm-a-t/TGPy/commit/09d4c6042b663b7dfb43f7bdf124b7539a6420ae))
 
 ### Continuous Integration
 
