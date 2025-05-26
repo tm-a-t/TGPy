@@ -50,7 +50,7 @@ class MevalLoader(SourceLoader):
 
 async def _meval(
     parsed: ParseResult, filename: str, saved_variables: dict, **kwargs
-) -> (dict, Any):
+) -> tuple[dict, Any]:
     kwargs.update(saved_variables)
 
     root = deepcopy(parsed.tree)
