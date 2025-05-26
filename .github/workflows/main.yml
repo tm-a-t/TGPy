@@ -81,6 +81,8 @@ jobs:
     environment:
       name: pypi
       url: https://pypi.org/p/tgpy
+    permissions:
+      id-token: write
     steps:
       - name: Download all the dists
         uses: actions/download-artifact@v4
@@ -89,8 +91,6 @@ jobs:
           path: dist/
       - name: Publish distribution to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          password: ${{ secrets.PYPI_TOKEN }}
   build-dev-docker:
     needs: lint
     name: Build dev docker image
