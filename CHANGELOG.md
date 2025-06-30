@@ -1,6 +1,28 @@
 # CHANGELOG
 
 
+## v0.18.1 (2025-06-30)
+
+### Bug Fixes
+
+- Enforce utf-8 encoding when loading modules. Fixes #59
+  ([#60](https://github.com/tm-a-t/TGPy/pull/60),
+  [`399056c`](https://github.com/tm-a-t/TGPy/commit/399056ce3d0ac49c2a60cfb3766e3d466cedd110))
+
+- Use Get-CimInstance when wmic is not present ([#58](https://github.com/tm-a-t/TGPy/pull/58),
+  [`0091fe1`](https://github.com/tm-a-t/TGPy/commit/0091fe1d382e1da122f61aa5f072630d5a4050ec))
+
+### Code Style
+
+- Fix incorrect type hint
+  ([`7a1bdb6`](https://github.com/tm-a-t/TGPy/commit/7a1bdb65decc4c74b668483eaa4c5a48acfdebd6))
+
+### Continuous Integration
+
+- Use trusted publishing for pypi
+  ([`0384d46`](https://github.com/tm-a-t/TGPy/commit/0384d46bd528e24c78d909e3243ff81d05e1e7e7))
+
+
 ## v0.18.0 (2025-05-26)
 
 ### Bug Fixes
