@@ -62,7 +62,10 @@ def create_client():
             )
         except FileNotFoundError:
             device_model = ' '.join(
-                subprocess.check_output(['powershell', 'Get-CimInstance Win32_ComputerSystem | Select-Object Manufacturer,Model | Format-List'])
+                subprocess.check_output([
+                    'powershell',
+                    'Get-CimInstance Win32_ComputerSystem | Select-Object Manufacturer,Model | Format-List'
+                ])
                 .decode()
                 .replace('Manufacturer : ', '')
                 .replace('Model        : ', '')
