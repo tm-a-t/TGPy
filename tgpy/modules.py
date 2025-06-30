@@ -163,7 +163,7 @@ class Module:
     def save(self):
         filename = get_module_filename(self.name)
 
-        with open(filename, 'w') as f:
+        with open(filename, 'w', encoding='utf-8') as f:
             f.write(serialize_module(self))
 
     async def run(self):
