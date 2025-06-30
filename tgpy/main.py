@@ -52,13 +52,26 @@ def create_client():
             subprocess.check_output('sysctl -n hw.model'.split(' ')).decode().strip()
         )
     elif sys.platform == 'win32':
-        device_model = ' '.join(
-            subprocess.check_output('wmic computersystem get manufacturer,model')
-            .decode()
-            .replace('Manufacturer', '')
-            .replace('Model', '')
-            .split()
-        )
+        try:
+            device_model = ' '.join(
+                subprocess.check_output('wmic computersystem get manufacturer,model')
+                .decode()
+                .replace('Manufacturer', '')
+                .replace('Model', '')
+                .split()
+            )
+        except FileNotFoundError:
+            device_model = ' '.join(
+                subprocess.check_output([
+                    'powershell',
+                    'Get-CimInstance Win32_ComputerSystem | Select-Object Manufacturer,Model | Format-List',
+                ])
+                .decode()
+                .replace('Manufacturer : ', '')
+                .replace('Model        : ', '')
+                .strip()
+                .splitlines()
+            )
 
     client = TelegramClient(
         str(SESSION_FILENAME),
