@@ -64,7 +64,7 @@ def create_client():
             device_model = ' '.join(
                 subprocess.check_output([
                     'powershell',
-                    'Get-CimInstance Win32_ComputerSystem | Select-Object Manufacturer,Model | Format-List'
+                    'Get-CimInstance Win32_ComputerSystem | Select-Object Manufacturer,Model | Format-List',
                 ])
                 .decode()
                 .replace('Manufacturer : ', '')
