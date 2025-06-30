@@ -152,7 +152,7 @@ class Module:
     def load(cls, mod_name: str, filename: str | None = None) -> 'Module':
         if not filename:
             filename = get_module_filename(mod_name)
-        with open(filename, 'r') as f:
+        with open(filename, 'r', encoding='utf-8') as f:
             module = deserialize_module(f.read(), mod_name)
         if module.name != mod_name:
             raise ValueError(
@@ -163,7 +163,7 @@ class Module:
     def save(self):
         filename = get_module_filename(self.name)
 
-        with open(filename, 'w') as f:
+        with open(filename, 'w', encoding='utf-8') as f:
             f.write(serialize_module(self))
 
     async def run(self):
