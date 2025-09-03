@@ -20,7 +20,7 @@ dependencies = [
   "aiorun>=2024.5.1",
   "rich~=13.8",
   "appdirs~=1.4",
-  "telethon-v1-24~=1.24",
+  "telethon-v1-24>=1.24.20",
   "python-socks[asyncio]~=2.5",
   "cryptg-anyos~=0.4",
 ]

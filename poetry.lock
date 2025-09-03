@@ -368,6 +368,8 @@ files = [
     {file = "cryptg_anyos-0.4.1-cp310-cp310-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:7c1f2a72edc0a630649fafd25a4a4cc9e31a141ff5b22de287aee00f9384f811"},
     {file = "cryptg_anyos-0.4.1-cp310-cp310-musllinux_1_1_aarch64.whl", hash = "sha256:200a86f864d668d56fe8fb733c684c93896dfbe82748b1ec5e726b1a4afe9fb7"},
     {file = "cryptg_anyos-0.4.1-cp310-cp310-musllinux_1_1_x86_64.whl", hash = "sha256:aa5ccfe11733f2ef78db5da584d3d8a05601eec3d6bf964bbaed9b1d3c38ea35"},
+    {file = "cryptg_anyos-0.4.1-cp310-cp310-musllinux_1_2_aarch64.whl", hash = "sha256:9ca5724a296ae09b5647283aa2f450ab95ca8887580374c37b09c467f9ccf611"},
+    {file = "cryptg_anyos-0.4.1-cp310-cp310-musllinux_1_2_x86_64.whl", hash = "sha256:34f10b78023daf84dadb618892d87063a44e491f5f0700450f15b761ad841444"},
     {file = "cryptg_anyos-0.4.1-cp310-cp310-win32.whl", hash = "sha256:70eb19a17a6baa5fbd20cef9e9d48e594a01cb713f45b1095242e54c3b515ea7"},
     {file = "cryptg_anyos-0.4.1-cp310-cp310-win_amd64.whl", hash = "sha256:6811f48b194c0a23900bbef95d33b240098739b9d8639b69dad16b7669f1e614"},
     {file = "cryptg_anyos-0.4.1-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:c020a10d134df8d048798288f0ac5e45ebb0e96dce1c3610cf74ad561d6ebad6"},
@@ -377,16 +379,29 @@ files = [
     {file = "cryptg_anyos-0.4.1-cp311-cp311-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:3f73595cb02ec001e11c850dd41577f16afbd11deeaeed7540178545d921b7d7"},
     {file = "cryptg_anyos-0.4.1-cp311-cp311-musllinux_1_1_aarch64.whl", hash = "sha256:bf817c81f29dfdf6f0aea192e8ab3ff8f1fdb4dbb3c7b2ac1efa1544f796ef28"},
     {file = "cryptg_anyos-0.4.1-cp311-cp311-musllinux_1_1_x86_64.whl", hash = "sha256:8ee11122951689b5488c23990fc097eacae3b9747260786ca71b939470c5cc7e"},
+    {file = "cryptg_anyos-0.4.1-cp311-cp311-musllinux_1_2_aarch64.whl", hash = "sha256:3ab85190905c050cfef5db2fb69e9e3f5aac1059d6bcd603571de43e9378981c"},
+    {file = "cryptg_anyos-0.4.1-cp311-cp311-musllinux_1_2_x86_64.whl", hash = "sha256:2e0de046b2256a3bb7e8b8f24f233cdc022e4cb568e4099333be3d0986771545"},
     {file = "cryptg_anyos-0.4.1-cp311-cp311-win32.whl", hash = "sha256:5575b12315ca69f90f555e33edf1edf21cd9ace990e39458ea0a86ecb2765ce5"},
     {file = "cryptg_anyos-0.4.1-cp311-cp311-win_amd64.whl", hash = "sha256:3fe06ec461c28ba172ce452ffddb4feef7c2471edd8ed375a8d36bcfc5217666"},
     {file = "cryptg_anyos-0.4.1-cp312-cp312-macosx_10_9_x86_64.whl", hash = "sha256:53e9fc4b4b35ee431546a91bfce4451e0430b2f80a6063fbfef19243f8ec9164"},
     {file = "cryptg_anyos-0.4.1-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:f542bc5a022cdfc3efec46274d538642cf567ffe2c76b942f2510380be5b6f4f"},
     {file = "cryptg_anyos-0.4.1-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:0b9307a8d47cf2bcfa642f64d9d8781165e466336b60ac9fd9b889f0de09f1af"},
     {file = "cryptg_anyos-0.4.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:2a290c16d561994d98c748164d0b43dc23615385fc53458e4450b617e714be8e"},
+    {file = "cryptg_anyos-0.4.1-cp312-cp312-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:14161ddf76d8347c86c02f5c2b2da5b7e91b27e001886f35e06fd24ca8c5f5af"},
     {file = "cryptg_anyos-0.4.1-cp312-cp312-musllinux_1_1_aarch64.whl", hash = "sha256:4c343468b253f1db2f127e9c0e10062c6d3f556ba973e03abb78db856b249272"},
     {file = "cryptg_anyos-0.4.1-cp312-cp312-musllinux_1_1_x86_64.whl", hash = "sha256:f5f6d510acb74e7154eab06cf2a7f858797b7724b777ed366e008b3198a745b5"},
+    {file = "cryptg_anyos-0.4.1-cp312-cp312-musllinux_1_2_aarch64.whl", hash = "sha256:b47523beef6d7b64736fc254ec39b9b7761c1c8cd4f115e99167017175da9496"},
+    {file = "cryptg_anyos-0.4.1-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:9f4aa3ab7c3c817be6ac2f61b624a98f0c39178ef1ba6c5217a69370f55b05ab"},
     {file = "cryptg_anyos-0.4.1-cp312-cp312-win32.whl", hash = "sha256:3be761f80c58339a307dd92e9adc74407370993142dee1d06d0be076b0f0bf8e"},
     {file = "cryptg_anyos-0.4.1-cp312-cp312-win_amd64.whl", hash = "sha256:3d7811d2f8fc42faf932c239bf5e600dd9f084f3b6cd9c2975574f5a78c73919"},
+    {file = "cryptg_anyos-0.4.1-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:64a591e3b0340dfb6eb5dab0f8faab3cebe36a9cc671c101fb13e097989cd19c"},
+    {file = "cryptg_anyos-0.4.1-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:fd69f7597594b298bbcbec58a5c90b2077eb043eea34a9c0080cb3a591f18a44"},
+    {file = "cryptg_anyos-0.4.1-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:7360ed22222d8f5ff4c2d746ad1cb50476459ed1a51702f46d83bc3b893f8df9"},
+    {file = "cryptg_anyos-0.4.1-cp313-cp313-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:78e531870e746cb44e3fc02e444efb937709479a636aa15849d0e940a9c36c60"},
+    {file = "cryptg_anyos-0.4.1-cp313-cp313-musllinux_1_2_aarch64.whl", hash = "sha256:1bea6b542fcb828e205efe99fbcc0c7721ef2fabdd713a0685f5d78044e48ec3"},
+    {file = "cryptg_anyos-0.4.1-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:badc29dc25a924946c1d3b83a3f15c38af22fa5f3f0336bf223882f3b66d605a"},
+    {file = "cryptg_anyos-0.4.1-cp313-cp313-win32.whl", hash = "sha256:e733e26518a47649c77be916cf7aa73f098105415fa911c848a73fb594819c25"},
+    {file = "cryptg_anyos-0.4.1-cp313-cp313-win_amd64.whl", hash = "sha256:643e8bdb1fedef5b771efbb62cd1263cd9933922b9b9105ab772a20adef46ea6"},
     {file = "cryptg_anyos-0.4.1-cp37-cp37m-macosx_10_9_x86_64.whl", hash = "sha256:720bf5c53307079307d49f71ad07aec40d86303b6a8f0a2afd690bd22d0dc975"},
     {file = "cryptg_anyos-0.4.1-cp37-cp37m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:304f7bdb6eb0d6683ae102c174bf809b860e26d72de76e630e32b1833d3a5ad2"},
     {file = "cryptg_anyos-0.4.1-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:06f53e8f7212f900f0903dc5af5a4e13b3d04b3d4a4964234d18a5a66613fc28"},
@@ -411,10 +426,21 @@ files = [
     {file = "cryptg_anyos-0.4.1-cp39-cp39-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:8d007b0ab9c2d8188df67217c816706ab2f355c90c57e61a6ffb03cc6f4f091a"},
     {file = "cryptg_anyos-0.4.1-cp39-cp39-musllinux_1_1_aarch64.whl", hash = "sha256:2d6fb66a3fd769e1cee2dc67cf1c9e3a6327b6235fda6bf740269bcc0a015d87"},
     {file = "cryptg_anyos-0.4.1-cp39-cp39-musllinux_1_1_x86_64.whl", hash = "sha256:2ef2e723a283249d0f6123123630914f8d7121c5a67f712fec6534afc1a0ecd8"},
+    {file = "cryptg_anyos-0.4.1-cp39-cp39-musllinux_1_2_aarch64.whl", hash = "sha256:dae5df63d3eefe3c67dd2d9758b62493d5e20c4093416ff170698522b0f8c1ca"},
+    {file = "cryptg_anyos-0.4.1-cp39-cp39-musllinux_1_2_x86_64.whl", hash = "sha256:b5ee33a695d808293aa6b3d0dd1510285b9e2f62be32cb61a17d6126f61a9809"},
     {file = "cryptg_anyos-0.4.1-cp39-cp39-win32.whl", hash = "sha256:a47e59e9db54dbe72cc22d7930acfdd2e2ee66846f536d4fb514d41ff5a2a69f"},
     {file = "cryptg_anyos-0.4.1-cp39-cp39-win_amd64.whl", hash = "sha256:8261be77e800a12b8591f75e6296be9bbb5e4c5122f4782941810531005944b7"},
     {file = "cryptg_anyos-0.4.1-pp310-pypy310_pp73-macosx_10_9_x86_64.whl", hash = "sha256:57838ddfadf30693181cf3eee8662003d82674334337e7da5cac93d8fd07359c"},
+    {file = "cryptg_anyos-0.4.1-pp310-pypy310_pp73-macosx_11_0_arm64.whl", hash = "sha256:7c663c4d6aef203b038421a04d5453c7a109e61c592f8365e121515582903550"},
+    {file = "cryptg_anyos-0.4.1-pp310-pypy310_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:1f0c5637f2ca7eb013ce07b5a4201b9cb99551fca2cce5aa70aab5b3b36fdc41"},
+    {file = "cryptg_anyos-0.4.1-pp310-pypy310_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:6cbf5185db09202bc0702f10e99f477d95904479a6c301f83f28c5fffb3d990b"},
+    {file = "cryptg_anyos-0.4.1-pp310-pypy310_pp73-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:676b66b67115c13ba058c7f798ef4a6b88dc7bb5a0a0162964c77ac034d3d3a1"},
     {file = "cryptg_anyos-0.4.1-pp310-pypy310_pp73-win_amd64.whl", hash = "sha256:956cac44a84ed201d916eff0884fd7e896ea2218d424fc434d33361ca4b968c1"},
+    {file = "cryptg_anyos-0.4.1-pp311-pypy311_pp73-macosx_11_0_arm64.whl", hash = "sha256:cb2866d4ecfde0a7658e44544390ac97ecfb465519ecf27aa29787f301800a0f"},
+    {file = "cryptg_anyos-0.4.1-pp311-pypy311_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:66ef8cabf627a268acc9f08d43fba59b3267c84e6ca3be97e7a2651397a3aec6"},
+    {file = "cryptg_anyos-0.4.1-pp311-pypy311_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:2719a36dcfca03422a00f9066a01b06f254d6792ed79673d696c2c3a1a963b86"},
+    {file = "cryptg_anyos-0.4.1-pp311-pypy311_pp73-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:8bf4fd6fe35d92e082175f13bca8251de0aeb16c6a17cd967e028311220fb980"},
+    {file = "cryptg_anyos-0.4.1-pp311-pypy311_pp73-win_amd64.whl", hash = "sha256:996a1ec8050905025181a1f49877e0be32e6bcbff33fe6ef069d4fdd78795b50"},
     {file = "cryptg_anyos-0.4.1-pp37-pypy37_pp73-macosx_10_9_x86_64.whl", hash = "sha256:3e8db00874607ef3f6ceb77b746c0fc05609366f79d47169eaeed84066d69197"},
     {file = "cryptg_anyos-0.4.1-pp37-pypy37_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:6a3a692ac2b22e9a8898d51d6e971d5ff52acc48ed8baa06f58508908d79140f"},
     {file = "cryptg_anyos-0.4.1-pp37-pypy37_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:c67a7812dbcc3e1b4c676be72b0e0fa179094da1b8d58ff0dbef9540650d5d15"},
@@ -426,6 +452,7 @@ files = [
     {file = "cryptg_anyos-0.4.1-pp38-pypy38_pp73-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:396ce6f1450b708c89d6bde4f43a3d7ca87188d50baf0da4507bb2d9f86bfbe0"},
     {file = "cryptg_anyos-0.4.1-pp38-pypy38_pp73-win_amd64.whl", hash = "sha256:becba59a551add46df6c4fe15ce791dfe13f8ee1ce764e9061f730ecd7ff9f9c"},
     {file = "cryptg_anyos-0.4.1-pp39-pypy39_pp73-macosx_10_9_x86_64.whl", hash = "sha256:f4e3569705790fea6cce9a80e91f40756d319bf1aaee83180f288b5c2dad06ba"},
+    {file = "cryptg_anyos-0.4.1-pp39-pypy39_pp73-macosx_11_0_arm64.whl", hash = "sha256:69945dbaa6fa0131431fc8d018e66fa1cc66767775e08a5417689dc22c2b08a1"},
     {file = "cryptg_anyos-0.4.1-pp39-pypy39_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:7a73f419f460c883257186e50aeda3791626cd6b6a08ab3205567efcfe9b1ed0"},
     {file = "cryptg_anyos-0.4.1-pp39-pypy39_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:e54148776bdb07a9745835cf22f49b9a6ba66d672ebf46534bef6b22a4601ea9"},
     {file = "cryptg_anyos-0.4.1-pp39-pypy39_pp73-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:5b9309661a0ebc131928163b1bfe5f050928e77755018f89137f274dd48862b2"},
@@ -1624,14 +1651,14 @@ files = [
 
 [[package]]
 name = "telethon-v1-24"
-version = "1.24.19"
+version = "1.24.20"
 description = "Updated fork of 1.24 branch of Telethon, primarily used by TGPy"
 optional = false
 python-versions = ">=3.5"
 groups = ["main"]
 files = [
-    {file = "telethon_v1_24-1.24.19-py3-none-any.whl", hash = "sha256:6cf04cd20ec5c107e9b3c99efd14d443bc7e1a3b7acc9951176beba9307f1199"},
-    {file = "telethon_v1_24-1.24.19.tar.gz", hash = "sha256:90effb47cc463220a30c79e2c4b292e860f13f7dbb1c0e259f1fdd943dd0f04a"},
+    {file = "telethon_v1_24-1.24.20-py3-none-any.whl", hash = "sha256:89921f165e14fe33f6f0b8dadb25eae96c31b2e77db20c00c1984add669e6587"},
+    {file = "telethon_v1_24-1.24.20.tar.gz", hash = "sha256:9a9b931a589932e82a06527fb5e02b0e54b259c5da1c53a41119d227e061b6e9"},
 ]
 
 [package.dependencies]
@@ -1760,4 +1787,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10,<4"
-content-hash = "5d942fcd259afd7b4663f54fecac0f151ee8544105863063c6c5fa427d105106"
+content-hash = "a351afaa179434cc6a6a73f04db5a62404d0e7a67cb3c5fa2185620f09d97246"
