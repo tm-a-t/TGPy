@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v0.19.1 (2025-09-03)
+
+### Bug Fixes
+
+- **Telethon**: Fix layer update
+  ([`4e4ff18`](https://github.com/tm-a-t/TGPy/commit/4e4ff18e17a1c1dcd9a1fd0aee2e5b3c00b5b7db))
+
+
 ## v0.19.0 (2025-09-03)
 
 ### Features
