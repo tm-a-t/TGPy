@@ -1,6 +1,6 @@
 [project]
 name = "tgpy"
-version = "0.18.1"
+version = "0.19.0"
 description = "Run Python code right in your Telegram messages"
 readme = "README.md"
 requires-python = ">=3.10,<4"

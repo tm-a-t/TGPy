@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v0.19.0 (2025-09-03)
+
+### Features
+
+- **Telethon**: Layer 214
+  ([`d0baf57`](https://github.com/tm-a-t/TGPy/commit/d0baf57829d3ed4312b32add85a8b54acc92aa29))
+
+
 ## v0.18.1 (2025-06-30)
 
 ### Bug Fixes
