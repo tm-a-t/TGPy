@@ -17,7 +17,7 @@
   outputs =
     inputs@{ self, flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } (
-      { lib, ... }:
+      { ... }:
       {
         imports = [
           ./nix/treefmt.nix
@@ -30,40 +30,23 @@
           "aarch64-darwin"
         ];
 
-        flake.lib.project = inputs.pyproject-nix.lib.project.loadPyproject {
-          pyproject = lib.pipe ./pyproject.toml [
-            lib.readFile
-            (lib.replaceStrings [ "cryptg-anyos" ] [ "cryptg" ])
-            builtins.fromTOML
-          ];
-        };
-
         perSystem =
-          { config, pkgs, ... }:
+          { config, system, ... }:
           let
-            python = pkgs.python3.override {
-              packageOverrides = import ./nix/mkPackageOverrides.nix { inherit pkgs; };
-            };
-            packageAttrs = import ./nix/mkPackageAttrs.nix {
-              inherit (self.lib) project;
-              inherit pkgs python;
-              rev = self.rev or null;
-            };
+            inherit
+              (import ./default.nix {
+                inherit system inputs;
+              })
+              package
+              shell
+              ;
           in
           {
             packages = {
-              tgpy = python.pkgs.buildPythonPackage packageAttrs;
+              tgpy = package;
               default = config.packages.tgpy;
             };
-
-            devShells.default = pkgs.mkShell {
-              packages = [
-                pkgs.poetry
-                pkgs.ruff
-                pkgs.isort
-                (python.withPackages (self.lib.project.renderers.withPackages { inherit python; }))
-              ];
-            };
+            devShells.default = shell;
           };
       }
     );
