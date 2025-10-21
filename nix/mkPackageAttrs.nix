@@ -2,18 +2,17 @@
   pkgs,
   project,
   python,
-  rev,
+  rev ? null,
 }:
 let
-  postPatch =
-    ''
-      substituteInPlace pyproject.toml \
-        --replace-fail "cryptg-anyos" "cryptg"
-    ''
-    + pkgs.lib.optionalString (rev != null) ''
-      substituteInPlace tgpy/version.py \
-        --replace-fail "COMMIT_HASH = None" "COMMIT_HASH = \"${rev}\""
-    '';
+  postPatch = ''
+    substituteInPlace pyproject.toml \
+      --replace-fail "cryptg-anyos" "cryptg"
+  ''
+  + pkgs.lib.optionalString (rev != null) ''
+    substituteInPlace tgpy/version.py \
+      --replace-fail "COMMIT_HASH = None" "COMMIT_HASH = \"${rev}\""
+  '';
   newAttrs = {
     src = ./..;
     inherit postPatch;
