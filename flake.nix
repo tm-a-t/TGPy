@@ -2,7 +2,10 @@
   description = "Run Python code right in your Telegram messages";
 
   inputs = {
-    flake-parts.url = "github:hercules-ci/flake-parts";
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     pyproject-nix = {
       url = "github:pyproject-nix/pyproject.nix";
