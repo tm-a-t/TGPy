@@ -29,25 +29,24 @@
           ruff-format.priority = 2;
         };
 
-        settings.excludes =
-          [
-            "*.md"
+        settings.excludes = [
+          "*.md"
 
-            "*.png"
-            "*.jpg"
-            "*.mp4"
+          "*.png"
+          "*.jpg"
+          "*.mp4"
 
-            "LICENSE"
+          "LICENSE"
 
-            "Dockerfile"
-            ".dockerignore"
+          "Dockerfile"
+          ".dockerignore"
 
-            ".gitignore"
-            "*.lock"
-          ]
-          ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
-            "*.toml"
-          ];
+          ".gitignore"
+          "*.lock"
+        ]
+        ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
+          "*.toml"
+        ];
       };
     };
 }

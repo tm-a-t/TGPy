@@ -18,6 +18,7 @@ let
     inherit postPatch;
     pythonRelaxDeps = [
       "cryptg"
+      "rich"
     ];
     meta = {
       license = pkgs.lib.licenses.mit;
