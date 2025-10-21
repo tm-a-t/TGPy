@@ -17,3 +17,4 @@ guide/site
 guide/.cache
 
 .direnv/
+.envrc
