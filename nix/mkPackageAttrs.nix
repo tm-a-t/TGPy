@@ -24,6 +24,7 @@ let
       license = pkgs.lib.licenses.mit;
       homepage = "https://tgpy.dev/";
       pythonImportsCheck = [ "tgpy" ];
+      mainProgram = "tgpy";
     };
   };
 in
