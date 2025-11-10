@@ -18,9 +18,9 @@ authors = [
 dependencies = [
   "PyYAML~=6.0",
   "aiorun>=2024.5.1",
-  "rich~=13.8",
+  "rich~=14.0",
   "appdirs~=1.4",
-  "telethon-v1-24>=1.24.21",
+  "telethon>=1.24.21",
   "python-socks[asyncio]~=2.5",
   "cryptg-anyos~=0.4",
 ]
