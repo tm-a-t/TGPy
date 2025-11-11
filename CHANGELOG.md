@@ -1,6 +1,37 @@
 # CHANGELOG
 
 
+## v0.19.2 (2025-11-11)
+
+### Bug Fixes
+
+- Set meta.mainProgram
+  ([`36bea54`](https://github.com/tm-a-t/TGPy/commit/36bea547ad652d3cc79a3261161e530e08fd6415))
+
+### Build System
+
+- Update some dependencies
+  ([`c641ed4`](https://github.com/tm-a-t/TGPy/commit/c641ed466b37df861feabff89b46b9b7fa33d119))
+
+- update `rich` to 14.0 - stop using downstream version of `telethon`
+
+- **nix**: Make flakes optional
+  ([`022116c`](https://github.com/tm-a-t/TGPy/commit/022116cd3a7daac042090128aeff9016ba3ae8bd))
+
+- **nix**: Update flake.lock
+  ([`9cc9f44`](https://github.com/tm-a-t/TGPy/commit/9cc9f44168854953662964a5391d6224ec08a663))
+
+### Chores
+
+- Move .envrc to .gitignore
+  ([`4b264b0`](https://github.com/tm-a-t/TGPy/commit/4b264b0f7132290e8cac6ec987e9cb3f03dbb0c5))
+
+- Update inputs, reformat
+  ([`5a43990`](https://github.com/tm-a-t/TGPy/commit/5a439904d58c4343eba05116945a847447e2061f))
+
+nixfmt is finally 1.0 and there are some changes in formatting which affect our files a bit
+
+
 ## v0.19.1 (2025-09-03)
 
 ### Bug Fixes
