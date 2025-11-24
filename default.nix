@@ -12,14 +12,19 @@
       builtins.fromTOML
     ];
   },
+  withPackages ? ps: [ ],
 }:
 let
   python = pkgs.python3.override {
     packageOverrides = import ./nix/mkPackageOverrides.nix { inherit pkgs; };
   };
-  packageAttrs = import ./nix/mkPackageAttrs.nix {
+  packageAttrsNoPackages = import ./nix/mkPackageAttrs.nix {
     inherit project;
     inherit pkgs python;
+  };
+  packageAttrs = packageAttrsNoPackages // {
+    propagatedBuildInputs =
+      (packageAttrsNoPackages.propagatedBuildInputs or [ ]) ++ (withPackages pkgs.python3Packages);
   };
 in
 {
