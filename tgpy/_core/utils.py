@@ -1,14 +1,15 @@
 import sys
 import traceback
+from typing import Any
 
 from telethon.tl import TLObject
 
 
-def convert_result(result):
+def convert_result(result: Any) -> str:
     if isinstance(result, TLObject):
-        result = result.stringify()
-
-    return result
+        return result.stringify()
+    else:
+        return str(result)
 
 
 def format_traceback() -> tuple[str, str]:
