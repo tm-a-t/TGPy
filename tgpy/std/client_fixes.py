@@ -15,3 +15,5 @@ tgpy.api.code_transformers.add(
     'apple_fix', lambda x: DOUBLE_QUOTE_RE.sub('"', SINGLE_QUOTE_RE.sub("'", x))
 )
 tgpy.api.code_transformers.add('android_fix', lambda x: x.replace('\u00a0', ' '))
+
+__all__ = []
