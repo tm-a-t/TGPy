@@ -54,31 +54,10 @@ async def _meval(
     kwargs.update(saved_variables)
 
     root = deepcopy(parsed.tree)
-    ret_name = '_ret'
-    ok = False
-    while True:
-        if ret_name in kwargs.keys():
-            ret_name = '_' + ret_name
-            continue
-        for node in ast.walk(root):
-            if isinstance(node, ast.Name) and node.id == ret_name:
-                ret_name = '_' + ret_name
-                break
-            ok = True
-        if ok:
-            break
 
     code = root.body
     if not code:
         return {}, None
-
-    # _ret = []
-    ret_decl = ast.Assign(
-        targets=[ast.Name(id=ret_name, ctx=ast.Store())],
-        value=ast.List(elts=[], ctx=ast.Load()),
-    )
-    ast.fix_missing_locations(ret_decl)
-    code.insert(0, ret_decl)
 
     # __import__('builtins').locals()
     get_locals = ast.Call(
@@ -95,58 +74,43 @@ async def _meval(
         keywords=[],
     )
 
-    if not any(isinstance(node, ast.Return) for node in shallow_walk(root)):
-        for i in range(len(code)):
-            if (
-                not isinstance(code[i], ast.Expr)
-                or i != len(code) - 1
-                and isinstance(code[i].value, ast.Call)
-            ):
-                continue
+    for node in shallow_walk(root):
+        if not isinstance(node, ast.Return):
+            continue
 
-            # replace ... with _ret.append(...)
-            code[i] = ast.copy_location(
-                ast.Expr(
-                    ast.Call(
-                        func=ast.Attribute(
-                            value=ast.Name(id=ret_name, ctx=ast.Load()),
-                            attr='append',
-                            ctx=ast.Load(),
-                        ),
-                        args=[code[i].value],
-                        keywords=[],
-                    )
-                ),
-                code[-1],
-            )
-    else:
-        for node in shallow_walk(root):
-            if not isinstance(node, ast.Return):
-                continue
-
-            # replace return ... with return (__import__('builtins').locals(), [...])
-            node.value = ast.Tuple(
-                elts=[
-                    get_locals,
-                    ast.List(
-                        elts=[node.value or ast.Constant(value='None')], ctx=ast.Load()
-                    ),
-                ],
-                ctx=ast.Load(),
-            )
-
-    # return (__import__('builtins').locals(), _ret)
-    code.append(
-        ast.copy_location(
+        # replace return ... with return (__import__('builtins').locals(), ...)
+        node.value = ast.Tuple(
+            elts=[
+                get_locals,
+                node.value or ast.Constant(value='None'),
+            ],
+            ctx=ast.Load(),
+        )
+    
+    if isinstance(code[-1], ast.Expr):
+        # replace last Expr(...) with return (__import__('builtins').locals(), ...) 
+        code[-1] = ast.copy_location(
             ast.Return(
                 value=ast.Tuple(
-                    elts=[get_locals, ast.Name(id=ret_name, ctx=ast.Load())],
+                    elts=[get_locals, code[-1].value],
                     ctx=ast.Load(),
                 )
             ),
             code[-1],
         )
-    )
+    else:
+        # if not Expr, append return (__import__('builtins').locals(), None)
+        code.append(
+            ast.copy_location(
+                ast.Return(
+                    value=ast.Tuple(
+                        elts=[get_locals, ast.Constant(value='None')],
+                        ctx=ast.Load(),
+                    )
+                ),
+                code[-1],
+            )
+        )
 
     args = []
     for a in list(map(lambda x: ast.arg(x, None), kwargs.keys())):
@@ -176,16 +140,11 @@ async def _meval(
 
     new_locs, ret = await getattr(py_module, 'tmp')(**kwargs)
     for loc in list(new_locs):
-        if (loc in kwargs or loc == ret_name) and loc not in saved_variables:
+        if loc in kwargs and loc not in saved_variables:
             new_locs.pop(loc)
 
-    ret = [await el if inspect.isawaitable(el) else el for el in ret]
-    ret = [el for el in ret if el is not None]
-
-    if len(ret) == 1:
-        ret = ret[0]
-    elif not ret:
-        ret = None
+    if inspect.isawaitable(ret):
+        ret = await ret
 
     new_locs['_'] = ret
     return new_locs, ret
