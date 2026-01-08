@@ -86,9 +86,9 @@ async def _meval(
             ],
             ctx=ast.Load(),
         )
-    
+
     if isinstance(code[-1], ast.Expr):
-        # replace last Expr(...) with return (__import__('builtins').locals(), ...) 
+        # replace last Expr(...) with return (__import__('builtins').locals(), ...)
         code[-1] = ast.copy_location(
             ast.Return(
                 value=ast.Tuple(
