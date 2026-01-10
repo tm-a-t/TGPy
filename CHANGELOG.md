@@ -1,6 +1,24 @@
 # CHANGELOG
 
 
+## v0.20.0 (2026-01-10)
+
+### Bug Fixes
+
+- Properly handle all returned data types
+  ([`62b30e4`](https://github.com/tm-a-t/TGPy/commit/62b30e4b30720afe525e8160997d74482c0d10b3))
+
+### Build System
+
+- **nix**: Allow adding python packages
+  ([`21ed28e`](https://github.com/tm-a-t/TGPy/commit/21ed28ef1e64a9c429e663371e5e42c35a3a99b5))
+
+### Features
+
+- Suppress output if the last token is a semicolon
+  ([`83e7690`](https://github.com/tm-a-t/TGPy/commit/83e769073eec4ec6898af44fcf468e0efe98f4c6))
+
+
 ## v0.19.2 (2025-11-11)
 
 ### Bug Fixes
