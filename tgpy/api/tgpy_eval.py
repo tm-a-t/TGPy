@@ -113,6 +113,9 @@ async def tgpy_eval(
         }
     tgpy.api.variables.update(new_variables)
 
+    if parsed.quiet:
+        result = None
+
     # noinspection PyProtectedMember
     return EvalResult(
         result=result,

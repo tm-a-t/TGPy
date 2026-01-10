@@ -1,5 +1,6 @@
 import ast
 import logging
+import tokenize
 from dataclasses import dataclass
 
 import tgpy.api
@@ -16,6 +17,7 @@ class ParseResult:
     transformed: str = ''
     tree: ast.AST | None = None
     exc: Exception | None = None
+    quiet: bool = False
 
 
 def _is_node_unknown_variable(node: ast.AST, locs: dict) -> bool:
@@ -114,7 +116,26 @@ async def parse_code(text: str, ignore_simple: bool = True) -> ParseResult:
     for node in ast.walk(tree):
         if isinstance(node, ast.Name) and node.id == 'orig':
             result.uses_orig = True
-            return result
+            break
+
+    # If the last token is a semicolon, then the output should be suppressed (like in IPython)
+    # see: https://github.com/ipython/ipython/blob/28d9b9c5aa9bf595eb8a0cfac1dcdd551ff5e91a/IPython/core/displayhook.py#L100
+    tokens = tgpy.api.tokenize_string(result.transformed)
+    if tokens is None:
+        raise RuntimeError(
+            "Tokenization failed, even though ast.parse() did not. This shouldn't be possible!"
+        )
+    for token in reversed(tokens):
+        if token.type in (
+            tokenize.ENDMARKER,
+            tokenize.NL,
+            tokenize.NEWLINE,
+            tokenize.COMMENT,
+        ):
+            continue
+        if token.type == tokenize.OP and token.string == ';':
+            result.quiet = True
+        break
 
     return result
 
