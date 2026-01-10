@@ -17,6 +17,8 @@
 
 - Suppress output if the last token is a semicolon
   ([`83e7690`](https://github.com/tm-a-t/TGPy/commit/83e769073eec4ec6898af44fcf468e0efe98f4c6))
+- Remove multireturn
+  ([`5ab0901`](https://github.com/tm-a-t/TGPy/commit/5ab09013411e140c73b562f032582676c1d47c35))
 
 
 ## v0.19.2 (2025-11-11)
