@@ -78,33 +78,33 @@ async def _meval(
         if not isinstance(node, ast.Return):
             continue
 
-        # replace return ... with return (__import__('builtins').locals(), ...)
+        # replace return ... with return (..., __import__('builtins').locals())
         node.value = ast.Tuple(
             elts=[
-                get_locals,
                 node.value or ast.Constant(value='None'),
+                get_locals,
             ],
             ctx=ast.Load(),
         )
 
     if isinstance(code[-1], ast.Expr):
-        # replace last Expr(...) with return (__import__('builtins').locals(), ...)
+        # replace last Expr(...) with return (..., __import__('builtins').locals())
         code[-1] = ast.copy_location(
             ast.Return(
                 value=ast.Tuple(
-                    elts=[get_locals, code[-1].value],
+                    elts=[code[-1].value, get_locals],
                     ctx=ast.Load(),
                 )
             ),
             code[-1],
         )
     else:
-        # if not Expr, append return (__import__('builtins').locals(), None)
+        # if not Expr, append return (None, __import__('builtins').locals())
         code.append(
             ast.copy_location(
                 ast.Return(
                     value=ast.Tuple(
-                        elts=[get_locals, ast.Constant(value='None')],
+                        elts=[ast.Constant(value='None'), get_locals],
                         ctx=ast.Load(),
                     )
                 ),
@@ -138,7 +138,7 @@ async def _meval(
     sys.modules[filename] = py_module
     loader.exec_module(py_module)
 
-    new_locs, ret = await getattr(py_module, 'tmp')(**kwargs)
+    ret, new_locs = await getattr(py_module, 'tmp')(**kwargs)
     for loc in list(new_locs):
         if loc in kwargs and loc not in saved_variables:
             new_locs.pop(loc)
