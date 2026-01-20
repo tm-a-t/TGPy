@@ -5,9 +5,11 @@ from typing import Any
 from telethon.tl import TLObject
 
 
-def convert_result(result: Any) -> str:
+def convert_result(result: Any) -> str | None:
     if isinstance(result, TLObject):
         return result.stringify()
+    elif result is None:
+        return None
     else:
         return str(result)
 

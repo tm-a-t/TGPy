@@ -41,7 +41,7 @@ class Utf16CodepointsWrapper(str):
 async def edit_message(
     message: Message,
     code: str,
-    result: str = '',
+    result: str | None = '',
     traceback: str = '',
     output: str = '',
     is_running: bool = False,
