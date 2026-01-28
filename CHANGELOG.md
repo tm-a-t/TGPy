@@ -1,6 +1,32 @@
 # CHANGELOG
 
 
+## v0.20.1 (2026-01-28)
+
+### Bug Fixes
+
+- Don't show None result when there is output
+  ([`3e8d622`](https://github.com/tm-a-t/TGPy/commit/3e8d622436b9acc9959e6c3eb93cc85923d5702c))
+
+### Build System
+
+- Update docker image to python 3.13
+  ([`4978e80`](https://github.com/tm-a-t/TGPy/commit/4978e8018ed5b1fd520a65f3cb9d831d4943f4d6))
+
+### Chores
+
+- Change element order in internal return tuple
+  ([`140870b`](https://github.com/tm-a-t/TGPy/commit/140870bb90e22f7cd28407a2fc66d498e42ec8b1))
+
+- Fix changelog [skip ci]
+  ([`d926442`](https://github.com/tm-a-t/TGPy/commit/d926442b8b313ae89e183390033680512a194b88))
+
+### Continuous Integration
+
+- Fix workflow_dispatch trigger
+  ([`6a95a9c`](https://github.com/tm-a-t/TGPy/commit/6a95a9c0e95a0ddb8f0624d0245ca7b2613bd7a6))
+
+
 ## v0.20.0 (2026-01-10)
 
 ### Bug Fixes
@@ -17,8 +43,6 @@
 
 - Suppress output if the last token is a semicolon
   ([`83e7690`](https://github.com/tm-a-t/TGPy/commit/83e769073eec4ec6898af44fcf468e0efe98f4c6))
-- Remove multireturn
-  ([`5ab0901`](https://github.com/tm-a-t/TGPy/commit/5ab09013411e140c73b562f032582676c1d47c35))
 
 
 ## v0.19.2 (2025-11-11)
