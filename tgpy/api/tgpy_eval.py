@@ -1,4 +1,5 @@
 import asyncio
+from contextvars import Context, copy_context
 from dataclasses import dataclass
 from typing import Any
 
@@ -18,7 +19,7 @@ constants: dict[str, Any] = {}
 @dataclass
 class EvalResult:
     result: Any
-    output: str
+    output: str | None
 
 
 class Flusher:
@@ -61,11 +62,12 @@ class Flusher:
         self._finished = True
 
 
-async def tgpy_eval(
+async def _tgpy_eval(
     code: str,
     message: Message | None = None,
     *,
     filename: str | None = None,
+    wrap_stdio: bool = True,
 ) -> EvalResult:
     parsed = await parse_code(code, ignore_simple=False)
     if not parsed.is_code:
@@ -79,8 +81,9 @@ async def tgpy_eval(
 
     flusher = Flusher(code, message)
 
-    # noinspection PyProtectedMember
-    app.ctx._init_stdio(flusher.flush_handler)
+    if wrap_stdio:
+        # noinspection PyProtectedMember
+        app.ctx._init_stdio(flusher.flush_handler)
     kwargs = {'msg': message}
     if message:
         # noinspection PyProtectedMember
@@ -120,6 +123,21 @@ async def tgpy_eval(
     return EvalResult(
         result=result,
         output=app.ctx._output,
+    )
+
+
+async def tgpy_eval(
+    code: str,
+    message: Message | None = None,
+    *,
+    filename: str | None = None,
+    wrap_stdio: bool = True,
+    ctx: Context | None = None,
+) -> EvalResult:
+    eval_ctx = ctx or copy_context()
+    return await asyncio.create_task(
+        _tgpy_eval(code, message, filename=filename, wrap_stdio=wrap_stdio),
+        context=eval_ctx,
     )
 
 

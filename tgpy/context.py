@@ -67,7 +67,9 @@ class Context:
         _flush_handler.set(flush_handler)
 
     @property
-    def _output(self) -> str:
+    def _output(self) -> str | None:
+        if _stderr.get(None) is None or _stdout.get(None) is None:
+            return None
         stderr = cleanup_erases(_stderr.get().getvalue())
         stdout = cleanup_erases(_stdout.get().getvalue())
         if stderr and stderr[-1] != '\n':

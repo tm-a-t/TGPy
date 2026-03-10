@@ -173,6 +173,7 @@ class Module:
             self.code,
             message=None,
             filename=self.origin,
+            wrap_stdio=False,
         )
         if self.once:
             delete_module_file(self.name)

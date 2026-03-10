@@ -15,9 +15,7 @@ running_messages: dict[tuple[int, int], Task] = {}
 
 async def eval_message(code: str, message: Message) -> Message | None:
     eval_ctx = copy_context()
-    task = asyncio.create_task(
-        tgpy_eval(code, message, filename=None), context=eval_ctx
-    )
+    task = asyncio.create_task(tgpy_eval(code, message, filename=None, ctx=eval_ctx))
     running_messages[(message.chat_id, message.id)] = task
     # noinspection PyBroadException
     try:
@@ -32,9 +30,9 @@ async def eval_message(code: str, message: Message) -> Message | None:
         exc, constants['exc'] = format_traceback()
     else:
         if eval_ctx.run(lambda: app.ctx.is_manual_output):
-            return
+            return None
         result = convert_result(eval_result.result)
-        output = eval_result.output
+        output = eval_result.output or ''
         exc = ''
         constants['exc'] = None
     finally:
