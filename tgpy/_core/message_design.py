@@ -7,6 +7,7 @@ from telethon.tl.types import (
     MessageEntityCode,
     MessageEntityPre,
     MessageEntityTextUrl,
+    TypeMessageEntity,
 )
 
 from tgpy import app, reactions_fix
@@ -27,52 +28,60 @@ async def edit_message(
     output: str = '',
     is_running: bool = False,
 ) -> Message:
-    if not result and output:
-        result = output
-        output = ''
-    if not result and traceback:
-        result = traceback
-        traceback = ''
+    output_parts = [result, output, traceback]
+    if not result and any(output_parts):
+        # if result is None, but there is output/traceback, don't show None
+        output_parts.pop(0)
+    output_parts = [str(x) for x in output_parts]
+    output_parts = [x for x in output_parts if x.strip()]
+    # make sure there are no trailing spaces
+    for i in range(len(output_parts) - 1, -1, -1):
+        if not output_parts[i].rstrip():
+            output_parts.pop(i)
+        else:
+            output_parts[i] = output_parts[i].rstrip()
+            break
 
-    if is_running:
-        title = Utf16CodepointsWrapper(RUNNING_TITLE)
-    else:
-        title = Utf16CodepointsWrapper(TITLE)
-    parts = [
-        Utf16CodepointsWrapper(code.strip()),
-        Utf16CodepointsWrapper(f'{title} {str(result).strip()}'),
+    parts: list[tuple[str, list[type[TypeMessageEntity]]]] = [
+        (code.strip(), [MessageEntityPre]),
+        ('\n\n', []),
+        (
+            RUNNING_TITLE if is_running else TITLE,
+            [MessageEntityBold, MessageEntityTextUrl],
+        ),
     ]
-    parts += [
-        Utf16CodepointsWrapper(part)
-        for part in (output.strip(), traceback.strip())
-        if part
-    ]
+    if output_parts:
+        parts.append((' ', []))
+        parts.extend([
+            (part + ('\n' if i != len(output_parts) - 1 else ''), [MessageEntityCode])
+            for i, part in enumerate(output_parts)
+        ])
 
     entities = []
     offset = 0
-    for i, p in enumerate(parts):
-        entities.append(MessageEntityCode(offset, len(p)))
-        newline_cnt = 1 if i == 1 else 2
-        offset += len(p) + newline_cnt
+    for i, (part, ent_classes) in enumerate(parts):
+        part = Utf16CodepointsWrapper(part)
+        for ent_cls in ent_classes:
+            if ent_cls is MessageEntityPre:
+                entities.append(MessageEntityPre(offset, len(part), 'python'))
+            elif ent_cls is MessageEntityBold or ent_cls is MessageEntityCode:
+                entities.append(ent_cls(offset, len(part)))
+            elif ent_cls is MessageEntityTextUrl:
+                entities.append(MessageEntityTextUrl(offset, len(part), TITLE_URL))
+            else:
+                raise ValueError(f'Unknown entity class {ent_cls}')
+        offset += len(part)
 
-    entities[0] = MessageEntityPre(entities[0].offset, entities[0].length, 'python')
-    entities[1].offset += len(title) + 1
-    entities[1].length -= len(title) + 1
-    entities[1:1] = [
-        MessageEntityBold(
-            len(parts[0]) + 2,
-            len(title),
-        ),
-        MessageEntityTextUrl(
-            len(parts[0]) + 2,
-            len(title),
-            TITLE_URL,
-        ),
-    ]
-
-    text = str(''.join(x + ('\n' if i == 1 else '\n\n') for i, x in enumerate(parts)))
+    text = str(''.join(part for part, _ in parts))
     if len(text) > 4096:
         text = text[:4095] + '…'
+    for ent in entities:
+        if ent.offset >= 4096:
+            ent.offset = 0
+            ent.length = 0
+        elif ent.offset + ent.length > 4096:
+            ent.length = 4096 - ent.offset
+
     res = await message.edit(text, formatting_entities=entities, link_preview=False)
     reactions_fix.update_hash(res, in_memory=False)
     return res

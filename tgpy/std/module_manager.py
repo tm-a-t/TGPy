@@ -103,7 +103,7 @@ class ModulesObject:
             Added {'and executed ' if do_eval else ''}module {module.name!r}.
             Module's code will be executed every time TGPy starts.
             """
-        )
+        ).strip()
 
     async def share(self, name: str) -> str | None:
         if name not in self:
@@ -141,16 +141,20 @@ class ModulesObject:
                 You have no modules.
                 Learn about modules at https://tgpy.dev/extensibility/modules.
                 """
-            )
-        return dedent(
-            """
+            ).strip()
+        return (
+            dedent(
+                """
             Your modules:
             {}
             
             Change modules with `modules.add(name)` and `modules.remove(name)`.
             Learn more at https://tgpy.dev/extensibility/modules.
             """
-        ).format(lst)
+            )
+            .format(lst)
+            .strip()
+        )
 
     def __iter__(self):
         return (mod.name for mod in get_user_modules())

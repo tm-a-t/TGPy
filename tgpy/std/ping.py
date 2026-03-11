@@ -16,7 +16,7 @@ def ping():
         Running on {get_user()}@{get_hostname()}
         Version: {get_running_version()}
         """
-    )
+    ).strip()
 
 
 __all__ = ['ping']
