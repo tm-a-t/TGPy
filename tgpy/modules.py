@@ -96,6 +96,7 @@ def serialize_module(module: Union['Module', dict]) -> str:
         module_dict = dataclasses.asdict(module)
     else:
         module_dict = module
+    module_dict.pop('using_fallback_metadata', None)
     module_code = DOCSTRING_RGX.sub('', module_dict.pop('code')).strip()
     module_dict.update(module_dict.get('extra', {}))
     module_dict.pop('extra', None)
@@ -106,7 +107,9 @@ def serialize_module(module: Union['Module', dict]) -> str:
     )
 
 
-def deserialize_module(data: str, name: str) -> 'Module':
+def deserialize_module(
+    data: str, name: str, *, warn_on_no_metadata: bool = False
+) -> 'Module':
     docstring_match = DOCSTRING_RGX.search(data)
     fallback_metadata: dict[str, Any] = {
         'name': name,
@@ -124,9 +127,12 @@ def deserialize_module(data: str, name: str) -> 'Module':
                 f'Error loading metadata of module {name!r}, stripping metadata'
             )
             module_dict = fallback_metadata
+            module_dict['using_fallback_metadata'] = False
     else:
         module_dict = fallback_metadata
-        logger.warning(f'No metadata found in module {name!r}')
+        module_dict['using_fallback_metadata'] = False
+        if warn_on_no_metadata:
+            logger.warning(f'No metadata found in module {name!r}')
     # to support debugging properly, module code is the whole file
     module_dict['code'] = data
     field_names = {x.name for x in dataclasses.fields(Module)}
@@ -147,13 +153,14 @@ class Module:
     priority: int
     once: bool = False
     extra: dict = dataclasses.field(default_factory=dict)
+    using_fallback_metadata: bool = False
 
     @classmethod
     def load(cls, mod_name: str, filename: str | None = None) -> 'Module':
         if not filename:
             filename = get_module_filename(mod_name)
         with open(filename, 'r', encoding='utf-8') as f:
-            module = deserialize_module(f.read(), mod_name)
+            module = deserialize_module(f.read(), mod_name, warn_on_no_metadata=True)
         if module.name != mod_name:
             raise ValueError(
                 f'Invalid module name. Expected: {mod_name!r}, found: {module.name!r}'
@@ -171,7 +178,6 @@ class Module:
         app.ctx._set_is_module(True)
         await tgpy_eval(
             self.code,
-            message=None,
             filename=self.origin,
             wrap_stdio=False,
         )
