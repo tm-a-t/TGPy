@@ -5,6 +5,7 @@ from .parse_tgpy_message import parse_tgpy_message
 from .tgpy_eval import constants, tgpy_eval, variables
 from .transformers import ast_transformers, code_transformers, exec_hooks
 from .utils import (
+    Utf16CodepointsWrapper,
     get_hostname,
     get_installed_version,
     get_running_version,
@@ -48,4 +49,5 @@ __all__ = [
     'outgoing_messages_filter',
     'tokenize_string',
     'untokenize_to_string',
+    'Utf16CodepointsWrapper',
 ]

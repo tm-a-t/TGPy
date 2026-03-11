@@ -112,6 +112,26 @@ def untokenize_to_string(tokens: list[tokenize.TokenInfo]) -> str:
     return tokenize.untokenize(tokens).decode('utf-8')
 
 
+class Utf16CodepointsWrapper(str):
+    def __len__(self):
+        return len(self.encode('utf-16-le')) // 2
+
+    def __getitem__(self, item):
+        s = self.encode('utf-16-le')
+        if isinstance(item, slice):
+            item = slice(
+                item.start * 2 if item.start else None,
+                item.stop * 2 if item.stop else None,
+                item.step * 2 if item.step else None,
+            )
+            s = s[item]
+        elif isinstance(item, int):
+            s = s[item * 2 : item * 2 + 2]
+        else:
+            raise TypeError(f'{type(item)} is not supported')
+        return s.decode('utf-16-le')
+
+
 __all__ = [
     'get_installed_version',
     'get_running_version',
@@ -123,4 +143,5 @@ __all__ = [
     'outgoing_messages_filter',
     'tokenize_string',
     'untokenize_to_string',
+    'Utf16CodepointsWrapper',
 ]

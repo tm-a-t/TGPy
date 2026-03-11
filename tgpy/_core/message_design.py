@@ -10,32 +10,13 @@ from telethon.tl.types import (
 )
 
 from tgpy import app, reactions_fix
+from tgpy.api.utils import Utf16CodepointsWrapper
 
 TITLE = 'TGPy>'
 RUNNING_TITLE = 'TGPy running>'
 OLD_TITLE_URLS = ['https://github.com/tm-a-t/TGPy', 'https://tgpy.tmat.me/']
 TITLE_URL = 'https://tgpy.dev/'
 FORMATTED_ERROR_HEADER = f'<b><a href="{TITLE_URL}">TGPy error&gt;</a></b>'
-
-
-class Utf16CodepointsWrapper(str):
-    def __len__(self):
-        return len(self.encode('utf-16-le')) // 2
-
-    def __getitem__(self, item):
-        s = self.encode('utf-16-le')
-        if isinstance(item, slice):
-            item = slice(
-                item.start * 2 if item.start else None,
-                item.stop * 2 if item.stop else None,
-                item.step * 2 if item.step else None,
-            )
-            s = s[item]
-        elif isinstance(item, int):
-            s = s[item * 2 : item * 2 + 2]
-        else:
-            raise TypeError(f'{type(item)} is not supported')
-        return s.decode('utf-16-le')
 
 
 async def edit_message(
