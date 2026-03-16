@@ -184,6 +184,8 @@ async def _async_main():
 
     config.load()
     migrate_config()
+    logging.root.setLevel(config.get('core.log_level', 'INFO'))
+
     if not (get_api_id() and get_api_hash()):
         await initial_setup()
 
