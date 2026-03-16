@@ -1,6 +1,32 @@
 # CHANGELOG
 
 
+## v0.21.0 (2026-03-16)
+
+### Bug Fixes
+
+- Properly isolate context in tgpy_eval
+  ([`ddfcad9`](https://github.com/tm-a-t/TGPy/commit/ddfcad9ed97573aa767a328ac48232a779502441))
+
+### Features
+
+- Add modules.share, improve modules.add
+  ([`a20e9b2`](https://github.com/tm-a-t/TGPy/commit/a20e9b27ed8654469e6ead1d70b08702ccc9262a))
+
+- Allow to set log level in the config
+  ([`c8c1ffb`](https://github.com/tm-a-t/TGPy/commit/c8c1ffb12e73ac8edf7ee381c1b8651436afe456))
+
+- Log each module load at debug level, show "TGPy is running!" after all modules are loaded
+  ([`ab6a8d8`](https://github.com/tm-a-t/TGPy/commit/ab6a8d8f402155d5b1a0bc7bd18ddc4bfc9841b8))
+
+- Move Utf16CodepointsWrapper to tgpy.api
+  ([`b337e56`](https://github.com/tm-a-t/TGPy/commit/b337e56ab014319b0709fd1c770afd7dcc66326d))
+
+- Refactor message_design. Long messages are now trimmed correctly now, leading whitespace is no
+  longer stripped from the output
+  ([`cbaf583`](https://github.com/tm-a-t/TGPy/commit/cbaf583bfedca93ad61ee75105c3f23a677c5f09))
+
+
 ## v0.20.1 (2026-01-28)
 
 ### Bug Fixes
