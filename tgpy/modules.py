@@ -174,6 +174,7 @@ class Module:
             f.write(serialize_module(self))
 
     async def run(self):
+        logger.debug(f'Running module {self.name!r}...')
         # noinspection PyProtectedMember
         app.ctx._set_is_module(True)
         await tgpy_eval(

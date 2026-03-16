@@ -193,8 +193,9 @@ async def _async_main():
     app.client = create_client()
     add_handlers()
     await start_client()
-    logger.info('TGPy is running!')
+    logger.info('Loading modules...')
     await run_modules()
+    logger.info('TGPy is running!')
     await app.client.run_until_disconnected()
 
 
