@@ -33,8 +33,11 @@ async def ainput(prompt: str, password: bool = False):
     )
 
 
-def get_api_id() -> str | None:
-    return os.getenv('TGPY_API_ID') or config.get('core.api_id')
+def get_api_id() -> int | None:
+    api_id_str = os.getenv('TGPY_API_ID') or config.get('core.api_id')
+    if not api_id_str:
+        return None
+    return int(api_id_str)
 
 
 def get_api_hash() -> str | None:
@@ -54,7 +57,8 @@ def create_client():
     elif sys.platform == 'win32':
         try:
             device_model = ' '.join(
-                subprocess.check_output('wmic computersystem get manufacturer,model')
+                subprocess
+                .check_output('wmic computersystem get manufacturer,model')
                 .decode()
                 .replace('Manufacturer', '')
                 .replace('Model', '')
@@ -62,7 +66,8 @@ def create_client():
             )
         except FileNotFoundError:
             device_model = ' '.join(
-                subprocess.check_output([
+                subprocess
+                .check_output([
                     'powershell',
                     'Get-CimInstance Win32_ComputerSystem | Select-Object Manufacturer,Model | Format-List',
                 ])
@@ -87,8 +92,8 @@ def create_client():
     return client
 
 
-async def start_client():
-    await app.client.start(
+async def start_client(client: TelegramClient):
+    await client.start(
         phone=functools.partial(ainput, '| Please enter your phone number: '),
         code_callback=functools.partial(
             ainput, '| Please enter the code you received: '
@@ -113,25 +118,25 @@ async def initial_setup():
         '│ You will get api_id and api_hash.'
     )
     success = False
+    client = None
     while not success:
         config.set('core.api_id', int(await ainput('│ Please enter api_id: ')))
         config.set('core.api_hash', await ainput('│ ...and api_hash: '))
         try:
-            app.client = create_client()
+            client = create_client()
             console.print()
             console.print('[bold #7f8c8d on #ffffff] Step 2 of 2 ')
             console.print('│ Now login to Telegram.')
-            await app.client.connect()
-            await start_client()
+            await client.connect()
+            await start_client(client)
             success = True
         except (errors.ApiIdInvalidError, errors.ApiIdPublishedFloodError, ValueError):
             console.print(
                 '│ [bold #ffffff on #ed1515]Incorrect api_id/api_hash, try again'
             )
         finally:
-            if app.client:
-                await app.client.disconnect()
-                del app.client
+            if client:
+                await client.disconnect()
     console.print('│ Login successful!')
 
 
@@ -192,7 +197,7 @@ async def _async_main():
     logger.info('Starting TGPy...')
     app.client = create_client()
     add_handlers()
-    await start_client()
+    await start_client(app.client)
     logger.info('Loading modules...')
     await run_modules()
     logger.info('TGPy is running!')

@@ -5,6 +5,7 @@ from typing import Callable
 
 from telethon.tl.custom import Message
 
+# TODO: move the whole Context in a ContextVar?
 _is_module: ContextVar[bool] = ContextVar('_is_module')
 _message: ContextVar[Message] = ContextVar('_message')
 _stdout: ContextVar[StringIO] = ContextVar('_stdout')
@@ -53,7 +54,7 @@ class Context:
         _is_module.set(is_module)
 
     @property
-    def msg(self) -> Message:
+    def msg(self) -> Message | None:
         return _message.get(None)
 
     @staticmethod
