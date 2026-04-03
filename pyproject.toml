@@ -52,13 +52,13 @@ commit_message = 'chore(release): v{version} [skip ci]'
 commit_author = "github-actions <action@github.com>"
 
 [tool.ruff]
-preview = true
 builtins = ["ctx", "client", "restart"]
 
 [tool.ruff.lint]
 extend-select = ["I"]
 
 [tool.ruff.format]
+preview = true
 quote-style = "single"
 
 [build-system]
