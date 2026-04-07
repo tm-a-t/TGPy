@@ -31,7 +31,7 @@ in
   package = python.pkgs.buildPythonPackage packageAttrs;
   shell = pkgs.mkShellNoCC {
     packages = [
-      pkgs.poetry
+      pkgs.uv
       pkgs.ruff
       pkgs.isort
       (python.withPackages (project.renderers.withPackages { inherit python; }))

@@ -20,7 +20,7 @@ dependencies = [
   "aiorun>=2024.5.1",
   "rich~=14.0",
   "appdirs~=1.4",
-  "telethon>=1.24.21",
+  "telethon>=1.41",
   "python-socks[asyncio]~=2.5",
   "cryptg-anyos~=0.4",
 ]
@@ -32,24 +32,23 @@ repository = "https://github.com/tm-a-t/TGPy/"
 [project.scripts]
 tgpy = "tgpy.main:main"
 
-[tool.poetry.group.dev.dependencies]
-ruff = "^0.9"
-
-[tool.poetry.group.guide.dependencies]
-mkdocs-material = "^9.5"
-mkdocs-git-revision-date-localized-plugin = "^1.2"
-mkdocs-redirects = "^1.2"
-pillow = "^10.3"
-cairosvg = "^2.7"
-
-[tool.poetry.group.release.dependencies]
-python-semantic-release = "^9.15"
+[dependency-groups]
+dev = ["ruff>=0.15.9"]
+guide = [
+  "mkdocs-material~=9.5",
+  "mkdocs-git-revision-date-localized-plugin~=1.2",
+  "mkdocs-redirects~=1.2",
+  "pillow~=12.2",
+  "cairosvg~=2.7",
+]
+release = ["python-semantic-release~=10.5.3"]
 
 [tool.semantic_release]
 version_variables = ["tgpy/version.py:__version__", "pyproject.toml:version"]
-build_command = """sed -i "s/\\(IS_DEV_BUILD *= *\\).*/\\1False/" tgpy/version.py && poetry build"""
+build_command = """sed -i "s/\\(IS_DEV_BUILD *= *\\).*/\\1False/" tgpy/version.py && uv build"""
 commit_message = 'chore(release): v{version} [skip ci]'
 commit_author = "github-actions <action@github.com>"
+insertion_flag = "# CHANGELOG"
 
 [tool.ruff]
 builtins = ["ctx", "client", "restart"]
@@ -60,6 +59,9 @@ extend-select = ["I"]
 [tool.ruff.format]
 preview = true
 quote-style = "single"
+
+[tool.uv.sources]
+telethon = { git = "https://codeberg.org/Lonami/Telethon.git" }
 
 [build-system]
 requires = ["flit-core~=3.4"]
