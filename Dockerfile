@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.3
+# check=skip=FromAsCasing
 FROM python:3.13-slim as base
 WORKDIR /app
 
@@ -6,27 +6,23 @@ FROM base as builder
 RUN apt-get update  \
     && apt-get install -y git  \
     && rm -rf /var/lib/apt/lists/*
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-ENV PIP_DISABLE_PIP_VERSION_CHECK=1
+ENV UV_COMPILE_BYTECODE=1
+ENV UV_LINK_MODE=copy
 
-RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install poetry~=2.0 \
-    && pip install poetry-plugin-export
-RUN python -m venv /venv
-
-COPY pyproject.toml poetry.lock LICENSE ./
-RUN --mount=type=cache,target=/root/.cache/pip \
-    poetry export -o /tmp/requirements.txt && /venv/bin/pip install -r /tmp/requirements.txt
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --frozen --no-install-workspace --no-dev
 
 COPY . .
 RUN sed -i "s/\(COMMIT_HASH *= *\).*/\1'$(git rev-parse HEAD)'/" tgpy/version.py
-RUN rm -rf .git guide poetry.lock pyproject.toml .dockerignore .gitignore README.md
+RUN rm -rf .git guide uv.lock pyproject.toml .dockerignore .gitignore README.md
 
 FROM base as runner
-COPY --from=builder /venv /venv
-ENV PATH="/venv/bin:$PATH"
-
 COPY --from=builder /app /app
+ENV PATH="/app/.venv/bin:$PATH"
 
 ENV TGPY_DATA=/data
 ENV PYTHONPATH=/app
