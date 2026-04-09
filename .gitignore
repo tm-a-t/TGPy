@@ -18,3 +18,8 @@ guide/.cache
 
 .direnv/
 .envrc
+
+docs/.vitepress/cache/
+docs/.vitepress/dist/
+*.mts.timestamp-*
+node_modules
