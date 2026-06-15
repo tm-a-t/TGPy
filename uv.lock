@@ -1289,8 +1289,8 @@ wheels = [
 
 [[package]]
 name = "telethon"
-version = "1.42.0"
-source = { git = "https://codeberg.org/Lonami/Telethon.git#09ef697621aac7cf9e80b538063b2ca378eb2997" }
+version = "1.44.0"
+source = { git = "https://codeberg.org/Lonami/Telethon.git#9fac561eebab94c2452cf1fe0a25b4c04a33f8dd" }
 dependencies = [
     { name = "pyaes" },
     { name = "rsa" },

@@ -20,10 +20,13 @@ dependencies = [
   "aiorun>=2024.5.1",
   "rich~=14.0",
   "appdirs~=1.4",
-  "telethon>=1.41",
+  "telethon>=1.44.0",
   "python-socks[asyncio]~=2.5",
   "cryptg-anyos~=0.4",
 ]
+
+[tool.uv.sources]
+telethon = { git = "https://codeberg.org/Lonami/Telethon.git" }
 
 [project.urls]
 documentation = "https://tgpy.dev/"
@@ -59,9 +62,6 @@ extend-select = ["I"]
 [tool.ruff.format]
 preview = true
 quote-style = "single"
-
-[tool.uv.sources]
-telethon = { git = "https://codeberg.org/Lonami/Telethon.git" }
 
 [build-system]
 requires = ["flit-core~=3.4"]
