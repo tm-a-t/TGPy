@@ -28,4 +28,4 @@ ENV TGPY_DATA=/data
 ENV PYTHONPATH=/app
 VOLUME /data
 
-ENTRYPOINT ["/app/entrypoint.sh"]
+CMD ["/app/entrypoint.sh"]
