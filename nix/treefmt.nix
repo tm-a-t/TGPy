@@ -20,8 +20,6 @@
           taplo.enable = pkgs.stdenv.hostPlatform.isLinux;
 
           yamlfmt.enable = true;
-
-          prettier.enable = true;
         };
 
         settings.formatter = {
