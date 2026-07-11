@@ -1,12 +1,12 @@
 # check=skip=FromAsCasing
 FROM python:3.13-slim as base
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /usr/local/bin/
 WORKDIR /app
 
 FROM base as builder
 RUN apt-get update  \
     && apt-get install -y git  \
     && rm -rf /var/lib/apt/lists/*
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 ENV UV_COMPILE_BYTECODE=1
 ENV UV_LINK_MODE=copy
@@ -22,7 +22,7 @@ RUN rm -rf .git guide uv.lock pyproject.toml .dockerignore .gitignore README.md
 
 FROM base as runner
 COPY --from=builder /app /app
-ENV PATH="/app/.venv/bin:$PATH"
+ENV PATH="/app/.venv/bin:/app/docker/bin:$PATH"
 
 ENV TGPY_DATA=/data
 ENV PYTHONPATH=/app
