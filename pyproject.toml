@@ -52,6 +52,7 @@ build_command = """sed -i "s/\\(IS_DEV_BUILD *= *\\).*/\\1False/" tgpy/version.p
 commit_message = 'chore(release): v{version} [skip ci]'
 commit_author = "github-actions <action@github.com>"
 insertion_flag = "# CHANGELOG"
+allow_zero_version = true
 
 [tool.ruff]
 builtins = ["ctx", "client", "restart"]
