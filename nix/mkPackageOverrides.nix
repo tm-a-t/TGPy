@@ -9,12 +9,15 @@ self: super: {
         dependencies = old.propagatedBuildInputs ++ [ super.setuptools-scm ];
       });
   telethon = super.telethon.overridePythonAttrs {
+    version = "1.44.0-dev";
     src = pkgs.fetchFromCodeberg {
       owner = "Lonami";
       repo = "Telethon";
-      rev = "09ef697621aac7cf9e80b538063b2ca378eb2997";
-      hash = "sha256-m55X17mIHmInDun+0685fWWFdPySt/4Ar4z+gl6blek=";
+      rev = "9fac561eebab94c2452cf1fe0a25b4c04a33f8dd";
+      hash = "sha256-w9H2I0sgaQ5ntYYGlGJC7YCt2w8FQpv4ad1Tf/S5z5s=";
     };
+    build-system = [ super.hatchling ];
     patches = [ ];
+    nativeCheckInputs = [ ];
   };
 }
