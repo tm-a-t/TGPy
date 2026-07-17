@@ -13,8 +13,8 @@ self: super: {
     src = pkgs.fetchFromCodeberg {
       owner = "Lonami";
       repo = "Telethon";
-      rev = "9fac561eebab94c2452cf1fe0a25b4c04a33f8dd";
-      hash = "sha256-w9H2I0sgaQ5ntYYGlGJC7YCt2w8FQpv4ad1Tf/S5z5s=";
+      rev = "5498ab9a9edb37cb1e86e838cca4f1f5ba611371";
+      hash = "sha256-JBemqYi6t868945C+eGOdBE8Z+SM/iJHJK+gI/GNFmM=";
     };
     build-system = [ super.hatchling ];
     patches = [ ];
