@@ -87,7 +87,7 @@ Each module file contains [module metadata](../reference/module-metadata).
 
 ## Features
 
-By default, all variables from a module are saved for future use. You can specify ones the with the `__all__` variable.
+By default, all variables from a module are saved for future use. You can specify which ones to save with the `__all__` variable.
 
 ## Standard modules
 
