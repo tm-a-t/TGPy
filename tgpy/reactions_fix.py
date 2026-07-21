@@ -20,7 +20,7 @@ in_memory_hashes = {}
 
 
 def get_content_hash(message: Message) -> str:
-    entities = [json.dumps(e.to_dict()) for e in message.entities or []]
+    entities = [json.dumps(e.to_dict(), default=str) for e in message.entities or []]
     data = str(len(entities)) + '\n' + '\n'.join(entities) + message.raw_text
     return base64.b64encode(sha256(data.encode('utf-8')).digest()).decode('utf-8')
 
