@@ -69,8 +69,7 @@ await orig.download_media('example.jpg')
 ### Send a picture or file
 
 ```python
-await msg.respond(file='example.jpg')  # You can also pass URL here
-return
+await msg.respond(file='example.jpg');  # You can also pass URL here
 ```
 
 ### Delete recent messages from the chat
@@ -162,6 +161,5 @@ ax.grid()
 fig.savefig('test.png')
 
 # Send the plot
-await msg.reply(file='test.png')
-return 
+await msg.reply(file='test.png');
 ```

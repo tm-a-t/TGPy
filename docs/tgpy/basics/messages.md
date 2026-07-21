@@ -54,11 +54,10 @@ chat.
 ::: info
 
 The code above returns the new message. For now, TGPy shows the full info for the returned message, which may be 
-very long to display. You can add a `return` to suppress it:
+very long to display. You can add a semicolon at the end to suppress it:
 
 ```python
-await msg.respond("Hello World")
-return
+await msg.respond("Hello World");
 ``` 
 
 :::

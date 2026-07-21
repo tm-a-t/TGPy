@@ -68,7 +68,7 @@ return x
 
 </TGPy>
 
-Otherwise, all computed values will be returned automatically:
+Otherwise, the value of the last expression will be returned automatically:
 
 <TGPy>
 
@@ -79,12 +79,26 @@ x + 20
 ```
 
 ```
-[70, 30]
+30
 ```
 
 </TGPy>
 
-You can also print values. The `print` function is redefined so that the output is added to the message.
+You can hide the returned value with a semicolon:
+
+<TGPy>
+
+```python
+x + 2;
+```
+
+```
+None
+```
+
+</TGPy>
+
+You can also print values. The standard output is added to the end of the message:
 
 <TGPy>
 
@@ -98,6 +112,8 @@ Hello World!
 
 </TGPy>
 
+Notice how if the returned value is `None` and stdout/stderr isn't empty, the value is not printed.
+
 Exceptions are also shown right in the message.
 
 ::: info
@@ -109,5 +125,5 @@ Long messages might be truncated because of Telegram limit of 4096 symbols per m
 ## More tips
 
 - TGPy saves the defined variables, so you use them in further messages
-- The `_` variable contains the result of the previous message
+- The `_` variable contains the result of the previous message (even if it was hidden with a semicolon!)
 - Edit the message to rerun it
