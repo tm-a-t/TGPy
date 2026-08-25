@@ -3,7 +3,7 @@ name = "tgpy"
 version = "0.22.1"
 description = "Run Python code right in your Telegram messages"
 readme = "README.md"
-requires-python = ">=3.10,<4"
+requires-python = ">=3.11,<4"
 license = { file = "LICENSE" }
 classifiers = [
   "Operating System :: OS Independent",
@@ -22,7 +22,7 @@ dependencies = [
   "appdirs~=1.4",
   "telethon>=1.44.0",
   "python-socks[asyncio]~=2.5",
-  "cryptg-anyos~=0.4",
+  "cryptg~=0.6",
 ]
 
 [tool.uv.sources]
