@@ -1,6 +1,7 @@
 import ast
 import logging
-from typing import Awaitable, Callable, Generic, Iterator, Literal, Type, TypeVar
+from collections.abc import Awaitable, Callable, Iterator
+from typing import Generic, Literal, TypeVar
 
 from telethon.tl.custom import Message
 
@@ -90,16 +91,13 @@ class CodeTransformerStore(_TransformerStore[CodeTransformerFunc]):
             try:
                 code = await try_await(transformer, code)
             except Exception:
-                logger.exception(
-                    f'Error while applying code transformer {transformer}',
-                    exc_info=True,
-                )
+                logger.exception(f'Error while applying code transformer {transformer}')
                 raise
         return code
 
 
 class AstTransformerStore(
-    _TransformerStore[AstTransformerFunc | Type[ast.NodeTransformer]]
+    _TransformerStore[AstTransformerFunc | type[ast.NodeTransformer]]
 ):
     async def apply(self, tree: ast.AST) -> ast.AST:
         for _, transformer in reversed(self):
@@ -109,10 +107,7 @@ class AstTransformerStore(
                 else:
                     tree = await try_await(transformer, tree)
             except Exception:
-                logger.exception(
-                    f'Error while applying AST transformer {transformer}',
-                    exc_info=True,
-                )
+                logger.exception(f'Error while applying AST transformer {transformer}')
                 raise
         return tree
 
@@ -130,10 +125,7 @@ class ExecHookStore(_TransformerStore[ExecHookFunc]):
                 elif hook_ret is False:
                     res = False
             except Exception:
-                logger.exception(
-                    f'Error while running exec hook {hook}',
-                    exc_info=True,
-                )
+                logger.exception(f'Error while running exec hook {hook}')
                 raise
         if res:
             return message

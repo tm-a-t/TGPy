@@ -4,11 +4,12 @@ import ast
 import inspect
 import sys
 from collections import deque
+from collections.abc import Iterator
 from copy import deepcopy
 from importlib.abc import SourceLoader
 from importlib.util import module_from_spec, spec_from_loader
 from types import CodeType
-from typing import Any, Iterator
+from typing import Any
 
 from tgpy.api.parse_code import ParseResult
 
@@ -113,7 +114,7 @@ async def _meval(
         )
 
     args = []
-    for a in list(map(lambda x: ast.arg(x, None), kwargs.keys())):
+    for a in (ast.arg(x, None) for x in kwargs):
         ast.fix_missing_locations(a)
         args += [a]
     args = ast.arguments(
@@ -138,7 +139,7 @@ async def _meval(
     sys.modules[filename] = py_module
     loader.exec_module(py_module)
 
-    ret, new_locs = await getattr(py_module, 'tmp')(**kwargs)
+    ret, new_locs = await py_module.tmp(**kwargs)
     for loc in list(new_locs):
         if loc in kwargs and loc not in saved_variables:
             new_locs.pop(loc)

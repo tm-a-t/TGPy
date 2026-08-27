@@ -5,11 +5,11 @@ import string
 from contextlib import contextmanager
 from pathlib import Path
 from subprocess import PIPE, Popen
-from typing import Any, NewType, Union
+from typing import Any, NewType
 
 from tgpy.api.directories import DATA_DIR, MODULES_DIR, WORKDIR
 
-JSON = NewType('JSON', Union[None, str, int, bool, list['JSON'], dict[str, 'JSON']])
+JSON = NewType('JSON', None | str | int | bool | list['JSON'] | dict[str, 'JSON'])
 UNDEFINED = object()
 
 CONFIG_FILENAME = DATA_DIR / 'config.yml'

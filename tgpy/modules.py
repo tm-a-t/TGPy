@@ -2,11 +2,12 @@ import dataclasses
 import logging
 import re
 import traceback
+from collections.abc import Iterator
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import UTC, datetime
 from pathlib import Path
 from textwrap import dedent, indent
-from typing import Any, Iterator, Union
+from typing import Any, Union
 
 import yaml
 from yaml import YAMLError
@@ -21,14 +22,14 @@ from tgpy.utils import FILENAME_PREFIX
 logger = logging.getLogger(__name__)
 
 
-def get_module_filename(name: Union[str, Path]) -> Path:
+def get_module_filename(name: str | Path) -> Path:
     name = Path(name)
     if name.suffix != '.py':
         name = name.with_suffix('.py')
     return MODULES_DIR / name
 
 
-def delete_module_file(name: Union[str, Path]):
+def delete_module_file(name: str | Path):
     get_module_filename(name).unlink()
 
 
@@ -56,10 +57,9 @@ def get_user_modules() -> 'list[Module]':
     modules = []
 
     for mod_name in get_module_names():
-        # noinspection PyBroadException
         try:
             module = Module.load(mod_name)
-        except Exception:
+        except Exception:  # noqa: BLE001
             logger.error(f'Error during loading module {mod_name!r}')
             logger.error(traceback.format_exc())
             continue
@@ -73,10 +73,9 @@ async def run_modules():
     for module in get_std_modules():
         await module.run()
     for module in get_user_modules():
-        # noinspection PyBroadException
         try:
             await module.run()
-        except Exception:
+        except Exception:  # noqa: BLE001
             logger.error(f'Error during running module {module.name!r}')
             logger.error(format_traceback()[1])
             continue
@@ -114,7 +113,7 @@ def deserialize_module(
     fallback_metadata: dict[str, Any] = {
         'name': name,
         'origin': f'{FILENAME_PREFIX}module/{name}',
-        'priority': int(datetime.now().timestamp()),
+        'priority': int(datetime.now(UTC).timestamp()),
     }
     if docstring_match:
         module_str_metadata = dedent(
@@ -159,7 +158,7 @@ class Module:
     def load(cls, mod_name: str, filename: str | None = None) -> 'Module':
         if not filename:
             filename = get_module_filename(mod_name)
-        with open(filename, 'r', encoding='utf-8') as f:
+        with open(filename, encoding='utf-8') as f:
             module = deserialize_module(f.read(), mod_name, warn_on_no_metadata=True)
         if module.name != mod_name:
             raise ValueError(

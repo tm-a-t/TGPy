@@ -1,5 +1,5 @@
 import logging
-from typing import Callable
+from collections.abc import Callable
 
 from telethon import events
 from telethon.tl.custom import Message
@@ -19,10 +19,9 @@ logger = logging.getLogger(__name__)
 
 def _handle_errors(func: Callable):
     async def result(message: Message):
-        # noinspection PyBroadException
         try:
             await func(message)
-        except Exception:
+        except Exception:  # noqa: BLE001
             await message_design.send_error(message.chat_id)
 
     return result

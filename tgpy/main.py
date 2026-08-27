@@ -52,7 +52,7 @@ def create_client():
                 device_model = f.read().strip()
     elif sys.platform == 'darwin':
         device_model = (
-            subprocess.check_output('sysctl -n hw.model'.split(' ')).decode().strip()
+            subprocess.check_output(['sysctl', '-n', 'hw.model']).decode().strip()
         )
     elif sys.platform == 'win32':
         try:
@@ -145,7 +145,6 @@ def migrate_hooks_to_modules():
     if not old_modules_dir.exists():
         return
     for mod_file in old_modules_dir.iterdir():
-        # noinspection PyBroadException
         try:
             if mod_file.suffix not in ['.yml', '.yaml']:
                 continue
@@ -167,7 +166,7 @@ def migrate_hooks_to_modules():
             except YAMLError:
                 continue
         except Exception:
-            pass
+            logger.exception(f'Failed to migrate {mod_file}')
         finally:
             mod_file.rename(MODULES_DIR / mod_file.name)
     old_modules_dir.rmdir()

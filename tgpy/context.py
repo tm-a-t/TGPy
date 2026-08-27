@@ -1,7 +1,7 @@
 import sys
+from collections.abc import Callable
 from contextvars import ContextVar
 from io import StringIO, TextIOBase
-from typing import Callable
 
 from telethon.tl.custom import Message
 

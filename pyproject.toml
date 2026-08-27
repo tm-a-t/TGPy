@@ -56,9 +56,13 @@ allow_zero_version = true
 
 [tool.ruff]
 builtins = ["ctx", "client", "restart"]
+extend-exclude = ["docs"]
 
 [tool.ruff.lint]
 extend-select = ["I"]
+ignore = [
+  "RUF022", # unsorted-dunder-all
+]
 
 [tool.ruff.format]
 preview = true

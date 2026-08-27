@@ -17,14 +17,13 @@ async def eval_message(code: str, message: Message) -> Message | None:
     eval_ctx = copy_context()
     task = asyncio.create_task(tgpy_eval(code, message, filename=None, ctx=eval_ctx))
     running_messages[(message.chat_id, message.id)] = task
-    # noinspection PyBroadException
     try:
         eval_result = await task
     except asyncio.CancelledError:
         # message cancelled, do nothing
         # return no message as it wasn't edited
         return None
-    except Exception:
+    except Exception:  # noqa: BLE001
         result = None
         output = ''
         exc, constants['exc'] = format_traceback()
