@@ -25,6 +25,10 @@ dependencies = [
   "cryptg~=0.6",
 ]
 
+[[tool.uv.override-dependencies]]
+package = { name = "python-semantic-release", version = "10.6.1" }
+dependencies = ["gitpython>=3,<3.1.60"]
+
 [tool.uv.sources]
 telethon = { git = "https://codeberg.org/Lonami/Telethon.git" }
 
@@ -44,7 +48,7 @@ guide = [
   "pillow~=12.2",
   "cairosvg~=2.7",
 ]
-release = ["python-semantic-release~=10.5.3"]
+release = ["python-semantic-release~=10.6"]
 
 [tool.semantic_release]
 version_variables = ["tgpy/version.py:__version__", "pyproject.toml:version"]
