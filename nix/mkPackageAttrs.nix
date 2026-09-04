@@ -5,11 +5,7 @@
   rev ? null,
 }:
 let
-  postPatch = ''
-    substituteInPlace pyproject.toml \
-      --replace-fail "cryptg-anyos" "cryptg"
-  ''
-  + pkgs.lib.optionalString (rev != null) ''
+  postPatch = pkgs.lib.optionalString (rev != null) ''
     substituteInPlace tgpy/version.py \
       --replace-fail "COMMIT_HASH = None" "COMMIT_HASH = \"${rev}\""
   '';
