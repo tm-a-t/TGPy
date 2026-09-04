@@ -6,11 +6,7 @@
   lib ? pkgs.lib,
   pyproject-nix ? import inputs.pyproject-nix { inherit lib; },
   project ? pyproject-nix.lib.project.loadPyproject {
-    pyproject = lib.pipe ./pyproject.toml [
-      lib.readFile
-      (lib.replaceStrings [ "cryptg-anyos" ] [ "cryptg" ])
-      builtins.fromTOML
-    ];
+    pyproject = lib.importTOML ./pyproject.toml;
   },
   withPackages ? ps: [ ],
 }:
