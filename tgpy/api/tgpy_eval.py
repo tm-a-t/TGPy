@@ -26,8 +26,9 @@ class Flusher:
     _code: str
     _message: Message | None
     _flushed_output: str
-    _flush_timer: asyncio.Task | None
+    _flush_timer: asyncio.Task[None] | None
     _finished: bool
+    _flush_requested: bool
 
     def __init__(self, code: str, message: Message | None):
         self._code = code
@@ -35,26 +36,40 @@ class Flusher:
         self._flushed_output = ''
         self._flush_timer = None
         self._finished = False
+        self._flush_requested = False
 
-    async def _wait_and_flush(self):
-        await asyncio.sleep(3)
+    async def _flush_and_wait(self):
+        if self._message is None:
+            return
+
         await message_design.edit_message(
             self._message,
             self._code,
             output=self._flushed_output,
             is_running=True,
         )
+        await asyncio.sleep(3)
+
         self._flush_timer = None
+        if self._flush_requested:
+            self._flush_requested = False
+            self.flush_handler()
 
     def flush_handler(self):
         if not self._message or self._finished or app.ctx.is_manual_output:
             return
-        # noinspection PyProtectedMember
-        self._flushed_output = app.ctx._output
-        if self._flush_timer:
-            # flush already scheduled, will print the latest output
+
+        if app.ctx._output is None or self._flushed_output == app.ctx._output:
+            # Nothing has changed, flush is no-op
             return
-        self._flush_timer = asyncio.create_task(self._wait_and_flush())
+
+        if self._flush_timer is None:
+            # noinspection PyProtectedMember
+            self._flushed_output = app.ctx._output
+
+            self._flush_timer = asyncio.create_task(self._flush_and_wait())
+        else:
+            self._flush_requested = True
 
     def set_finished(self):
         if self._flush_timer:
