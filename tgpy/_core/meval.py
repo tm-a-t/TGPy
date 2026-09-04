@@ -82,7 +82,7 @@ async def _meval(
         # replace return ... with return (..., __import__('builtins').locals())
         node.value = ast.Tuple(
             elts=[
-                node.value or ast.Constant(value='None'),
+                node.value or ast.Constant(value=None),
                 get_locals,
             ],
             ctx=ast.Load(),
@@ -105,7 +105,7 @@ async def _meval(
             ast.copy_location(
                 ast.Return(
                     value=ast.Tuple(
-                        elts=[ast.Constant(value='None'), get_locals],
+                        elts=[ast.Constant(value=None), get_locals],
                         ctx=ast.Load(),
                     )
                 ),
