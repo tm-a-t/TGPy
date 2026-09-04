@@ -42,6 +42,12 @@ class Flusher:
         if self._message is None:
             return
 
+        from tgpy._core.eval_message import initial_edit_tasks
+
+        msg_key = (self._message.chat_id, self._message.id)
+        if initial_edit_task := initial_edit_tasks.pop(msg_key, None):
+            initial_edit_task.cancel()
+
         await message_design.edit_message(
             self._message,
             self._code,
@@ -90,9 +96,6 @@ async def _tgpy_eval(
             raise parsed.exc
         else:
             raise ValueError('Invalid code provided')
-
-    if message:
-        await message_design.edit_message(message, code, is_running=True)
 
     flusher = Flusher(code, message)
 
