@@ -1,42 +1,59 @@
 import sys
 from collections.abc import Callable
 from contextvars import ContextVar
-from io import StringIO, TextIOBase
+from io import BytesIO, TextIOBase, TextIOWrapper
+from typing import override
 
 from telethon.tl.custom import Message
 
 # TODO: move the whole Context in a ContextVar?
 _is_module: ContextVar[bool] = ContextVar('_is_module')
 _message: ContextVar[Message] = ContextVar('_message')
-_stdout: ContextVar[StringIO] = ContextVar('_stdout')
-_stderr: ContextVar[StringIO] = ContextVar('_stderr')
+_stdout: ContextVar[BytesIO] = ContextVar('_stdout')
+_stdout_wrapper: ContextVar[TextIOWrapper] = ContextVar('_stdout_wrapper')
+_stderr: ContextVar[BytesIO] = ContextVar('_stderr')
+_stderr_wrapper: ContextVar[TextIOWrapper] = ContextVar('_stderr_wrapper')
 _flush_handler: ContextVar[Callable[[], None]] = ContextVar('_flush_handler')
 _is_manual_output: ContextVar[bool] = ContextVar('_is_manual_output', default=False)
 
 
-class _StdoutWrapper(TextIOBase):
-    def __init__(self, contextvar, fallback):
+class FlushingBytesIO(BytesIO):
+    @override
+    def flush(self) -> None:
+        super().flush()
+        if flush_handler := _flush_handler.get(None):
+            flush_handler()
+
+
+class _ContextIOStream(TextIOBase):
+    def __init__(self, contextvar: ContextVar[TextIOWrapper], fallback: TextIOWrapper):
         self.__contextvar = contextvar
         self.__fallback = fallback
 
-    def __getobj(self):
+    def __getobj(self) -> TextIOBase:
         return self.__contextvar.get(self.__fallback)
 
+    @override
     def write(self, s: str) -> int:
         return self.__getobj().write(s)
 
+    @override
     def flush(self) -> None:
         self.__getobj().flush()
         if flush_handler := _flush_handler.get(None):
             flush_handler()
 
-    @property
-    def isatty(self):
-        return getattr(self.__getobj(), 'isatty', None)
+    @override
+    def writable(self) -> bool:
+        return self.__getobj().writable()
+
+    @override
+    def isatty(self) -> bool:
+        return self.__getobj().isatty()
 
 
-sys.stdout = _StdoutWrapper(_stdout, sys.__stdout__)
-sys.stderr = _StdoutWrapper(_stderr, sys.__stderr__)
+sys.stdout = _ContextIOStream(_stdout_wrapper, sys.__stdout__)
+sys.stderr = _ContextIOStream(_stderr_wrapper, sys.__stderr__)
 
 
 def cleanup_erases(data: str):
@@ -63,16 +80,26 @@ class Context:
 
     @staticmethod
     def _init_stdio(flush_handler: Callable[[], None]):
-        _stdout.set(StringIO())
-        _stderr.set(StringIO())
+        stdout = FlushingBytesIO()
+        _stdout.set(stdout)
+        _stdout_wrapper.set(
+            TextIOWrapper(stdout, line_buffering=True, encoding='utf-8')
+        )
+
+        stderr = FlushingBytesIO()
+        _stderr.set(stderr)
+        _stderr_wrapper.set(
+            TextIOWrapper(stderr, line_buffering=True, encoding='utf-8')
+        )
+
         _flush_handler.set(flush_handler)
 
     @property
     def _output(self) -> str | None:
         if _stderr.get(None) is None or _stdout.get(None) is None:
             return None
-        stderr = cleanup_erases(_stderr.get().getvalue())
-        stdout = cleanup_erases(_stdout.get().getvalue())
+        stderr = cleanup_erases(_stderr.get().getvalue().decode())
+        stdout = cleanup_erases(_stdout.get().getvalue().decode())
         if stderr and stderr[-1] != '\n':
             stderr += '\n'
         return stderr + stdout
