@@ -1,7 +1,7 @@
 import ast
 import logging
 from collections.abc import Awaitable, Callable, Iterator
-from typing import Generic, Literal, TypeVar
+from typing import Literal
 
 from telethon.tl.custom import Message
 
@@ -23,10 +23,8 @@ AstTransformerFunc = Callable[
 ExecHookRet = Message | bool | None
 ExecHookFunc = Callable[[Message, bool], ExecHookRet | Awaitable[ExecHookRet]]
 
-TF = TypeVar('TF')
 
-
-class _TransformerStore(Generic[TF]):
+class _TransformerStore[TF]:
     def __init__(self):
         self._by_name = {}
         self._names = []
