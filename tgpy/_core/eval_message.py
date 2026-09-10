@@ -78,8 +78,10 @@ async def initial_edit(message: Message, code: str, delay: float, ctx: Context):
         if ctx.run(lambda: app.ctx.is_manual_output):
             return
 
+        message = updated_message
+
     await message_design.edit_message(
-        updated_message,
+        message,
         code,
         output=ctx.run(lambda: app.ctx._output) or '',
         is_running=True,
