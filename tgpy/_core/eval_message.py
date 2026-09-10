@@ -20,7 +20,7 @@ async def eval_message(code: str, message: Message) -> Message | None:
 
     msg_key = (message.chat_id, message.id)
 
-    delay = float(config.get('core.initial_edit_delay'))
+    delay = float(config.get('core.initial_edit_delay') or 0.0)
     initial_edit_tasks[msg_key] = asyncio.create_task(
         initial_edit(message, code, delay, eval_ctx)
     )
