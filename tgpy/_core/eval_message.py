@@ -65,21 +65,21 @@ async def initial_edit(message: Message, code: str, delay: float, ctx: Context):
 
         chat = await message.get_input_chat() if message.is_channel else None
         try:
-            message = await message.client.get_messages(chat, ids=message.id)
+            updated_message = await message.client.get_messages(chat, ids=message.id)
         except ValueError:
             return
 
-        if message is None:
+        if updated_message is None:
             return
 
-        if message.edit_date != message.edit_date:
+        if updated_message.edit_date != message.edit_date:
             return
 
         if ctx.run(lambda: app.ctx.is_manual_output):
             return
 
     await message_design.edit_message(
-        message,
+        updated_message,
         code,
         output=ctx.run(lambda: app.ctx._output) or '',
         is_running=True,
