@@ -1,4 +1,5 @@
 import asyncio
+import sys
 from contextvars import Context, copy_context
 from dataclasses import dataclass
 from typing import Any
@@ -38,7 +39,7 @@ class Flusher:
         self._finished = False
         self._flush_requested = False
 
-    async def _flush_and_wait(self):
+    async def _flush_and_wait(self, no_wait: bool):
         if self._message is None:
             return
 
@@ -54,14 +55,18 @@ class Flusher:
             output=self._flushed_output,
             is_running=True,
         )
-        await asyncio.sleep(3)
 
-        self._flush_timer = None
-        if self._flush_requested:
-            self._flush_requested = False
-            self.flush_handler()
+        if not no_wait:
+            await asyncio.sleep(3)
 
-    def flush_handler(self):
+            self._flush_timer = None
+            if self._flush_requested:
+                self._flush_requested = False
+                self.flush()
+        else:
+            self._flush_timer = None
+
+    def flush(self, no_wait: bool = False):
         if not self._message or self._finished or app.ctx.is_manual_output:
             return
 
@@ -73,13 +78,25 @@ class Flusher:
             # noinspection PyProtectedMember
             self._flushed_output = app.ctx._output
 
-            self._flush_timer = asyncio.create_task(self._flush_and_wait())
+            self._flush_timer = asyncio.create_task(self._flush_and_wait(no_wait))
         else:
             self._flush_requested = True
 
-    def set_finished(self):
+    async def flush_now(self):
         if self._flush_timer:
             self._flush_timer.cancel()
+            self._flush_timer = None
+
+        self._flush_requested = False
+        self.flush(no_wait=True)
+        if self._flush_timer is not None:
+            await self._flush_timer
+
+    def finish(self):
+        if self._flush_timer:
+            self._flush_timer.cancel()
+            self._flush_timer = None
+
         self._finished = True
 
 
@@ -101,7 +118,7 @@ async def _tgpy_eval(
 
     if wrap_stdio:
         # noinspection PyProtectedMember
-        app.ctx._init_stdio(flusher.flush_handler)
+        app.ctx._init_stdio(flusher.flush)
     kwargs = {'msg': message}
     if message:
         # noinspection PyProtectedMember
@@ -126,8 +143,15 @@ async def _tgpy_eval(
             **tgpy.api.constants,
             **kwargs,
         )
+    except asyncio.CancelledError:
+        flusher.finish()
+        raise
     finally:
-        flusher.set_finished()
+        sys.stdout.flush()
+        sys.stderr.flush()
+        await flusher.flush_now()
+        flusher.finish()
+
     if '__all__' in new_variables:
         new_variables = {
             k: v for k, v in new_variables.items() if k in new_variables['__all__']
