@@ -1,4 +1,5 @@
 import asyncio
+import sys
 from contextvars import Context, copy_context
 from dataclasses import dataclass
 from typing import Any
@@ -38,7 +39,7 @@ class Flusher:
         self._finished = False
         self._flush_requested = False
 
-    async def _flush_and_wait(self):
+    async def _flush_now(self):
         if self._message is None:
             return
 
@@ -54,6 +55,10 @@ class Flusher:
             output=self._flushed_output,
             is_running=True,
         )
+
+    async def _flush_and_wait(self):
+        await self._flush_now()
+
         await asyncio.sleep(3)
 
         self._flush_timer = None
@@ -77,9 +82,12 @@ class Flusher:
         else:
             self._flush_requested = True
 
-    def set_finished(self):
+    async def finish(self):
         if self._flush_timer:
             self._flush_timer.cancel()
+        if self._flush_requested:
+            await self._flush_now()
+
         self._finished = True
 
 
@@ -127,7 +135,9 @@ async def _tgpy_eval(
             **kwargs,
         )
     finally:
-        flusher.set_finished()
+        sys.stdout.flush()
+        sys.stderr.flush()
+        await flusher.finish()
     if '__all__' in new_variables:
         new_variables = {
             k: v for k, v in new_variables.items() if k in new_variables['__all__']
