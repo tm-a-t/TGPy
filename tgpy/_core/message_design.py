@@ -1,6 +1,7 @@
 import sys
 import traceback as tb
 
+from telethon import errors
 from telethon.tl.custom import Message
 from telethon.tl.types import (
     MessageEntityBold,
@@ -82,7 +83,11 @@ async def edit_message(
         elif ent.offset + ent.length > 4096:
             ent.length = 4096 - ent.offset
 
-    res = await message.edit(text, formatting_entities=entities, link_preview=False)
+    try:
+        res = await message.edit(text, formatting_entities=entities, link_preview=False)
+    except errors.MessageNotModifiedError:
+        return message
+
     reactions_fix.update_hash(res, in_memory=False)
     return res
 
