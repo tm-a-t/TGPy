@@ -43,7 +43,7 @@ async def eval_message(code: str, message: Message) -> Message | None:
         exc = ''
         constants['exc'] = None
     finally:
-        if initial_edit_task := initial_edit_tasks.pop(msg_key):
+        if initial_edit_task := initial_edit_tasks.pop(msg_key, None):
             initial_edit_task.cancel()
         running_messages.pop(msg_key)
 
