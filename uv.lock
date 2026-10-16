@@ -3,7 +3,7 @@ revision = 3
 requires-python = ">=3.12, <4"
 
 [manifest]
-overrides = [{ package = { name = "python-semantic-release", version = "0.23.0" }, dependencies = [{ name = "gitpython", specifier = ">=3,<3.1.60" }] }]
+overrides = [{ package = { name = "python-semantic-release", version = "0.25.3" }, dependencies = [{ name = "gitpython", specifier = ">=3,<3.1.60" }] }]
 
 [[package]]
 name = "aiorun"
@@ -1178,7 +1178,7 @@ dependencies = [
 
 [[package]]
 name = "tgpy"
-version = "0.23.0"
+version = "0.25.3"
 source = { editable = "." }
 dependencies = [
     { name = "aiorun" },

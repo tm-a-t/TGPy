@@ -1,5 +1,5 @@
 import asyncio
-from asyncio import Task
+from asyncio import Event, Task
 from contextvars import Context, copy_context
 from typing import Any
 
@@ -12,7 +12,7 @@ from tgpy._core.utils import convert_result, format_traceback
 from tgpy.api import config, constants, tgpy_eval
 
 running_messages: dict[tuple[int, int], Task[Any]] = {}
-initial_edit_tasks: dict[tuple[int, int], Task[None]] = {}
+initial_edit_tasks: dict[tuple[int, int], tuple[Event, Task[None]]] = {}
 
 
 async def eval_message(code: str, message: Message) -> Message | None:
@@ -21,8 +21,10 @@ async def eval_message(code: str, message: Message) -> Message | None:
     msg_key = (message.chat_id, message.id)
 
     delay = float(config.get('core.initial_edit_delay') or 0.0)
-    initial_edit_tasks[msg_key] = asyncio.create_task(
-        initial_edit(message, code, delay, eval_ctx)
+    _ie_evt = Event()
+    initial_edit_tasks[msg_key] = (
+        _ie_evt,
+        asyncio.create_task(initial_edit(message, code, delay, eval_ctx, _ie_evt)),
     )
 
     task = asyncio.create_task(tgpy_eval(code, message, filename=None, ctx=eval_ctx))
@@ -43,8 +45,10 @@ async def eval_message(code: str, message: Message) -> Message | None:
         exc = ''
         constants['exc'] = None
     finally:
-        if initial_edit_task := initial_edit_tasks.pop(msg_key, None):
-            initial_edit_task.cancel()
+        if ie := initial_edit_tasks.pop(msg_key, None):
+            ie_evt, ie_task = ie
+            ie_evt.set()
+            await ie_task
         running_messages.pop(msg_key)
 
     try:
@@ -59,9 +63,15 @@ async def eval_message(code: str, message: Message) -> Message | None:
         return
 
 
-async def initial_edit(message: Message, code: str, delay: float, ctx: Context):
+async def initial_edit(
+    message: Message, code: str, delay: float, ctx: Context, cancellation_event: Event
+):
     if delay:
-        await asyncio.sleep(delay)
+        try:
+            await asyncio.wait_for(cancellation_event.wait(), timeout=delay)
+            return
+        except TimeoutError:
+            pass
 
         chat = await message.get_input_chat() if message.is_channel else None
         try:
