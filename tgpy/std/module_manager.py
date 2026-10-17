@@ -12,7 +12,7 @@ from telethon.tl.custom import Message
 from telethon.tl.types import DocumentAttributeFilename, MessageEntityPre
 
 import tgpy.api
-from tgpy.api import Utf16CodepointsWrapper, parse_tgpy_message, tgpy_eval
+from tgpy.api import Utf16CodepointsWrapper, parse_tgpy_message
 from tgpy.context import Context
 from tgpy.modules import (
     Module,
@@ -65,18 +65,25 @@ async def _get_code() -> GetCodeResult:
 
 
 class ModulesObject:
-    async def add(self, name: str | None = None, code: str | None = None) -> str:
+    async def add(
+        self,
+        name: str | None = None,
+        code: str | None = None,
+        *,
+        do_eval: bool | None = None,
+    ) -> str:
         if name is not None:
             name = str(name)
 
-        do_eval = False
         if code is None:
             code_res = await _get_code()
             if code_res.error:
                 return code_res.error
-            do_eval = code_res.do_eval
+            do_eval = code_res.do_eval if do_eval is None else do_eval
             code = code_res.code
             name = name or code_res.name
+        elif do_eval is None:
+            do_eval = False
 
         module = deserialize_module(code, name)
         name = module.name
@@ -92,11 +99,7 @@ class ModulesObject:
         module.save()
 
         if do_eval:
-            await tgpy_eval(
-                module.code,
-                filename=module.origin,
-                wrap_stdio=False,
-            )
+            await module.run()
 
         return dedent(
             f"""

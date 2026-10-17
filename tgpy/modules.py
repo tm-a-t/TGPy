@@ -3,6 +3,7 @@ import logging
 import re
 import traceback
 from collections.abc import Iterator
+from contextvars import Context
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
@@ -172,12 +173,13 @@ class Module:
 
     async def run(self):
         logger.debug(f'Running module {self.name!r}...')
-        # noinspection PyProtectedMember
-        app.ctx._set_is_module(True)
+        eval_ctx = Context()
+        eval_ctx.run(lambda: app.ctx._set_is_module(True))
         await tgpy_eval(
             self.code,
             filename=self.origin,
             wrap_stdio=False,
+            ctx=eval_ctx,
         )
         if self.once:
             delete_module_file(self.name)

@@ -1,6 +1,6 @@
 import asyncio
 from asyncio import Event, Task
-from contextvars import Context, copy_context
+from contextvars import Context
 from typing import Any
 
 from telethon.errors import MessageIdInvalidError
@@ -16,7 +16,7 @@ initial_edit_tasks: dict[tuple[int, int], tuple[Event, Task[None]]] = {}
 
 
 async def eval_message(code: str, message: Message) -> Message | None:
-    eval_ctx = copy_context()
+    eval_ctx = Context()
 
     msg_key = (message.chat_id, message.id)
 
