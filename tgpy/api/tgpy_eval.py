@@ -1,6 +1,6 @@
 import asyncio
 import sys
-from contextvars import Context, copy_context
+from contextvars import Context
 from dataclasses import dataclass
 from typing import Any
 
@@ -109,6 +109,8 @@ async def _tgpy_eval(
     filename: str | None = None,
     wrap_stdio: bool = True,
 ) -> EvalResult:
+    # TODO: if this is called with message, it does edit the message
+    #  on flush, but not at the start or the end of the eval
     parsed = await parse_code(code, ignore_simple=False)
     if not parsed.is_code:
         if parsed.exc:
@@ -178,10 +180,10 @@ async def tgpy_eval(
     wrap_stdio: bool = True,
     ctx: Context | None = None,
 ) -> EvalResult:
-    eval_ctx = ctx or copy_context()
+    # Isolate context by creating a new task
     return await asyncio.create_task(
         _tgpy_eval(code, message, filename=filename, wrap_stdio=wrap_stdio),
-        context=eval_ctx,
+        context=ctx,
     )
 
 
