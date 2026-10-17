@@ -110,7 +110,7 @@ def deserialize_module(
     data: str, name: str, *, warn_on_no_metadata: bool = False
 ) -> 'Module':
     docstring_match = DOCSTRING_RGX.search(data)
-    fallback_metadata: dict[str, Any] = {
+    module_dict: dict[str, Any] = {
         'name': name,
         'origin': f'{FILENAME_PREFIX}module/{name}',
         'priority': int(datetime.now(UTC).timestamp()),
@@ -120,16 +120,14 @@ def deserialize_module(
             docstring_match.group(1) or docstring_match.group(2)
         ).strip()
         try:
-            module_dict = yaml.safe_load(module_str_metadata)
+            module_dict.update(yaml.safe_load(module_str_metadata))
         except YAMLError:
             logger.error(
                 f'Error loading metadata of module {name!r}, stripping metadata'
             )
-            module_dict = fallback_metadata
-            module_dict['using_fallback_metadata'] = False
+            module_dict['using_fallback_metadata'] = True
     else:
-        module_dict = fallback_metadata
-        module_dict['using_fallback_metadata'] = False
+        module_dict['using_fallback_metadata'] = True
         if warn_on_no_metadata:
             logger.warning(f'No metadata found in module {name!r}')
     # to support debugging properly, module code is the whole file
