@@ -15,7 +15,7 @@ from tgpy.api.utils import (
 from tgpy.utils import REPO_ROOT, RunCmdException, execute_in_repo_root, run_cmd
 
 
-def update():
+async def update():
     old_version = get_running_version()
 
     if running_in_docker():
@@ -42,7 +42,7 @@ def update():
     if old_version == new_version:
         return 'Already up to date'
     else:
-        restart(f'Updated successfully! Current version: {new_version}')
+        await restart(f'Updated successfully! Current version: {new_version}')
 
 
 __all__ = ['update']

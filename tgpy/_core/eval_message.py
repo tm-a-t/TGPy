@@ -9,10 +9,12 @@ from telethon.tl.custom import Message
 from tgpy import app
 from tgpy._core import message_design
 from tgpy._core.utils import convert_result, format_traceback
-from tgpy.api import config, constants, tgpy_eval
+from tgpy.api.config import config
+from tgpy.api.tgpy_eval import constants, tgpy_eval
 
 running_messages: dict[tuple[int, int], Task[Any]] = {}
-initial_edit_tasks: dict[tuple[int, int], tuple[Event, Task[None]]] = {}
+# (chat_id, msg_id) -> (cancel_evt, ensure_edit_evt, task)
+initial_edit_tasks: dict[tuple[int, int], tuple[Event, Event, Task[None]]] = {}
 
 
 async def eval_message(code: str, message: Message) -> Message | None:
@@ -21,11 +23,17 @@ async def eval_message(code: str, message: Message) -> Message | None:
     msg_key = (message.chat_id, message.id)
 
     delay = float(config.get('core.initial_edit_delay') or 0.0)
-    _ie_evt = Event()
-    initial_edit_tasks[msg_key] = (
-        _ie_evt,
-        asyncio.create_task(initial_edit(message, code, delay, eval_ctx, _ie_evt)),
-    )
+    if delay:
+        _ie_cancel_evt = Event()
+        _ie_ensure_evt = Event()
+        _ie_task = asyncio.create_task(
+            _delayed_initial_edit(
+                message, code, delay, eval_ctx, _ie_cancel_evt, _ie_ensure_evt
+            )
+        )
+        initial_edit_tasks[msg_key] = (_ie_cancel_evt, _ie_ensure_evt, _ie_task)
+    else:
+        await _initial_edit(message, code, eval_ctx)
 
     task = asyncio.create_task(tgpy_eval(code, message, filename=None, ctx=eval_ctx))
     running_messages[msg_key] = task
@@ -45,10 +53,7 @@ async def eval_message(code: str, message: Message) -> Message | None:
         exc = ''
         constants['exc'] = None
     finally:
-        if ie := initial_edit_tasks.pop(msg_key, None):
-            ie_evt, ie_task = ie
-            ie_evt.set()
-            await ie_task
+        await cancel_initial_edit(message)
         running_messages.pop(msg_key)
 
     try:
@@ -63,33 +68,41 @@ async def eval_message(code: str, message: Message) -> Message | None:
         return
 
 
-async def initial_edit(
-    message: Message, code: str, delay: float, ctx: Context, cancellation_event: Event
+async def _delayed_initial_edit(
+    message: Message,
+    code: str,
+    delay: float,
+    ctx: Context,
+    cancellation_event: Event,
+    ensure_edit_event: Event,
 ):
-    if delay:
-        try:
-            await asyncio.wait_for(cancellation_event.wait(), timeout=delay)
-            return
-        except TimeoutError:
-            pass
+    assert delay > 0
+    try:
+        await asyncio.wait_for(cancellation_event.wait(), timeout=delay)
+        if ensure_edit_event.is_set():
+            await _initial_edit(message, code, ctx)
+        return
+    except TimeoutError:
+        pass
 
-        chat = await message.get_input_chat() if message.is_channel else None
-        try:
-            updated_message = await message.client.get_messages(chat, ids=message.id)
-        except ValueError:
-            return
+    # TODO: are these checks this really needed?
+    chat = await message.get_input_chat() if message.is_channel else None
+    try:
+        updated_message = await message.client.get_messages(chat, ids=message.id)
+    except ValueError:
+        return
+    if updated_message is None:
+        return
+    if updated_message.edit_date != message.edit_date:
+        return
 
-        if updated_message is None:
-            return
+    if ctx.run(lambda: app.ctx.is_manual_output):
+        return
 
-        if updated_message.edit_date != message.edit_date:
-            return
+    await _initial_edit(updated_message, code, ctx)
 
-        if ctx.run(lambda: app.ctx.is_manual_output):
-            return
 
-        message = updated_message
-
+async def _initial_edit(message: Message, code: str, ctx: Context):
     await message_design.edit_message(
         message,
         code,
@@ -98,4 +111,14 @@ async def initial_edit(
     )
 
 
-__all__ = ['eval_message', 'running_messages']
+async def cancel_initial_edit(message: Message, ensure_edit: bool = False):
+    msg_key = (message.chat_id, message.id)
+    if ie := initial_edit_tasks.pop(msg_key, None):
+        cancel_evt, ensure_edit_evt, task = ie
+        if ensure_edit:
+            ensure_edit_evt.set()
+        cancel_evt.set()
+        await task
+
+
+__all__ = ['eval_message', 'running_messages', 'cancel_initial_edit']

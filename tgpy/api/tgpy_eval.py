@@ -43,13 +43,9 @@ class Flusher:
         if self._message is None:
             return
 
-        from tgpy._core.eval_message import initial_edit_tasks
+        from tgpy._core.eval_message import cancel_initial_edit
 
-        msg_key = (self._message.chat_id, self._message.id)
-        if ie := initial_edit_tasks.pop(msg_key, None):
-            ie_evt, ie_task = ie
-            ie_evt.set()
-            await ie_task
+        await cancel_initial_edit(self._message)
 
         await message_design.edit_message(
             self._message,

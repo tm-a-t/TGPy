@@ -1,3 +1,6 @@
+# noinspection protected-member
+from tgpy._core.eval_message import cancel_initial_edit
+
 from .config import config
 from .directories import DATA_DIR, MODULES_DIR, STD_MODULES_DIR, WORKDIR
 from .parse_code import parse_code
@@ -50,4 +53,5 @@ __all__ = [
     'tokenize_string',
     'untokenize_to_string',
     'Utf16CodepointsWrapper',
+    'cancel_initial_edit',
 ]

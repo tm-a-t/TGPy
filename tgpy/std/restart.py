@@ -9,17 +9,23 @@ import sys
 from textwrap import dedent
 
 from tgpy import app
+from tgpy.api import cancel_initial_edit
+from tgpy.context import Context
 from tgpy.modules import Module
 from tgpy.utils import FILENAME_PREFIX
 
+ctx: Context
 
-def restart(msg: str | None = 'Restarted successfully'):
+
+async def restart(msg: str | None = 'Restarted successfully'):
     mod_code = dedent(
         f"""
         from tgpy.api.parse_tgpy_message import parse_tgpy_message
         from tgpy._core.message_design import edit_message
         msg = await client.get_messages({app.ctx.msg.chat_id}, ids={app.ctx.msg.id})
-        await edit_message(msg, parse_tgpy_message(msg).code, '{msg}')
+        if not msg or not (parsed := parse_tgpy_message(msg)).is_tgpy_message:
+            return
+        await edit_message(msg, parsed.code, '{msg}')
         """
     )
     module = Module(
@@ -30,6 +36,7 @@ def restart(msg: str | None = 'Restarted successfully'):
         priority=0,
     )
     module.save()
+    await cancel_initial_edit(ctx.msg, ensure_edit=True)
     os.execl(sys.executable, sys.executable, *sys.argv)
 
 
